@@ -13,7 +13,7 @@ typedef pair<pair<int, int>, int> pii;
 #define u first.second
 #define v second
 
-int V, M;
+int V, M, W;
 pii E[MAXV];
 int parent[MAXV], Rank[MAXV];
 
@@ -58,7 +58,10 @@ int main() {
 
     InitUnionFind();
     for (int i = 0; i < M; i++)
-        if (Union(E[i].u, E[i].v))
+        if (Union(E[i].u, E[i].v)) {
+            W += E[i].d;
             cout << "\n" << E[i].u << " " << E[i].v << " " << E[i].d;
+        }
+    cout << "\nTotal weight: " << W;
     return 0;
 }
