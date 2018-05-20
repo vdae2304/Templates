@@ -184,6 +184,11 @@ class RBTree {
         RBTree() {
             head = NULL;
         }
+            
+        /*Retorna el apuntador a la raiz*/
+        RBNode<T> *root() const {
+            return head;
+        }
         
         /*Devuelve el apuntador al elemento minimo del subarbol*/
         RBNode<T> *min_element(RBNode<T> *it) const {
