@@ -248,7 +248,7 @@ class RBTree {
             if (it != NULL) {
                 //Si tiene dos hijos, intercambia posicion con el sucesor
                 if (it->l != NULL && it->r != NULL) {
-                    RBNode<T> *aux = min_element(it->r);
+                    RBNode<T> *aux = next(it);
                     it->item = aux->item;
                     it = aux;
                 }
