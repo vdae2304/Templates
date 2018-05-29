@@ -213,7 +213,7 @@ class AVLTree {
                 //El nodo tiene a lo mas un hijo
                 AVLNode<T> *aux = (it->r == NULL) ? it->l : it->r;
                 swap(it, aux);
-                Balance(aux);
+                Balance(it);
                 delete it;
             }
         }
