@@ -10,7 +10,7 @@ class RBNode {
     private:
         T item;               //Item a guardar
         RBNode<T> *p, *l, *r; //Padre, hijo izquierdo, hijo derecho
-        bool red;             //Color, 1-rojo, 0-negro
+        int red;              //Color, 1-rojo, 0-negro
 
     public:
         /*Constructor*/
@@ -77,6 +77,12 @@ class RBTree {
         bool red(RBNode<T> *it) const {
             return it != NULL ? it->red : false;
         }
+    
+        /*Cambia el color del nodo*/
+        void setRed(RBNode<T> *it, int color) {
+            if (it != NULL)
+                it->red = color;
+        }
 
         /*Inserta un item al arbol y lo balancea*/
         void RBinsert(RBNode<T> *&it, T item, RBNode<T> *p, bool flag) {
@@ -127,55 +133,81 @@ class RBTree {
 
         /*Balancea el arbol antes de eliminar el nodo*/
         void RBerase(RBNode<T> *it) {
-            if (it != NULL && it->p != NULL) {
-                RBNode<T> *aux = (it == it->p->l) ? it->p->r : it->p->l;
-                if (red(aux)) {
-                    it->p->red = true;
-                    aux->red = false;
-                    if (it == it->p->l)
-                        left_rotate(it->p);
-                    else
-                        right_rotate(it->p);
-                }
+            if (red(it) || red(it->l) || red(it->r)) {
+                RBNode<T> *aux = (it->l != NULL) ? it->l : it->r;
+                swap(it, aux);
+                setRed(aux, false);
+            }
+            else {
+                RBNode<T> *aux = it;
+                aux->red = 2;
 
-                aux = (it == it->p->l) ? it->p->r : it->p->l;
-                if (!red(it->p) && !red(aux) && !red(aux->l) && !red(aux->r)) {
-                    aux->red = true;
-                    RBerase(it->p);
-                 }
-                 else {
-                    if (red(it->p) && !red(aux) && !red(aux->l) && !red(aux->r)) {
-                      aux->red = true;
-                      it->p->red = false;
+                while (aux != head && aux->red == 2) {
+                    RBNode<T> *p = aux->p;
+                    if (aux == p->l) {
+                        RBNode<T> *sib = p->r;
+                        if (red(sib)) {
+                            sib->red = false;
+                            p->red = true;
+                            left_rotate(p);
+                        }
+                        else if (sib != NULL) {
+                            if (!red(sib->l) && !red(sib->r)) {
+                                sib->red = true;
+                                if (p->red)
+                                    p->red = false;
+                                else
+                                    p->red = 2;
+                                aux = p;
+                            }
+                            else {
+                                if (red(sib->l)) {
+                                    sib->l->red = false;
+                                    sib->red = true;
+                                    right_rotate(sib);
+                                    sib = p->r;
+                                }
+                                setRed(sib, p->red);
+                                setRed(p, false);
+                                setRed(sib->r, false);
+                                left_rotate(p);
+                                break;
+                            }
+                        }
                     }
                     else {
-                        if (!red(aux)) {
-                            if (it == it->p->l && !red(aux->r) && red(aux->l)) {
-                                aux->red = true;
-                                aux->l->red = false;
-                                right_rotate(aux);
-                            }
-                            else if (it == it->p->r && !red(aux->l) && red(aux->r)) {
-                                aux->red = true;
-                                aux->r->red = false;
-                                left_rotate(aux);
-                            }
+                        RBNode<T> *sib = p->l;
+                        if (red(sib)) {
+                            sib->red = false;
+                            p->red = true;
+                            right_rotate(p);
                         }
-
-                        aux = (it == it->p->l) ? it->p->r : it->p->l;
-                        aux->red = it->p->red;
-                        it->p->red = false;
-
-                        if (it == it->p->l) {
-                            aux->r->red = false;
-                            left_rotate(it->p);
-                        }
-                        else {
-                            aux->l->red = false;
-                            right_rotate(it->p);
+                        else if (sib != NULL) {
+                            if (!red(sib->l) && !red(sib->r)) {
+                                sib->red = true;
+                                if (p->red)
+                                    p->red = false;
+                                else
+                                    p->red = 2;
+                                aux = p;
+                            }
+                            else {
+                                if (red(sib->r)) {
+                                    sib->r->red = false;
+                                    sib->red = true;
+                                    left_rotate(sib);
+                                    sib = p->l;
+                                }
+                                setRed(sib, p->red);
+                                setRed(p, false);
+                                setRed(sib->l, false);
+                                right_rotate(p);
+                                break;
+                            }
                         }
                     }
-                 }
+                }
+                swap(it, NULL);
             }
         }
 
@@ -253,15 +285,9 @@ class RBTree {
                     it = aux;
                 }
                 //El nodo tiene a lo mas un hijo
-                RBNode<T> *aux = (it->r == NULL) ? it->l : it->r;
-                swap(it, aux);
-                if (!it->red) {
-                    if (red(aux))
-                        aux->red = false;
-                    else
-                        RBerase(aux);
-                 }
-                 delete it;
+                RBerase(it);
+                head->red = false;
+                delete it;
             }
         }
 };
