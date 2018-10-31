@@ -106,6 +106,17 @@ pair<string, string> divide(const string &a, const string &b) {
     return res;
 }
 
+/*Retorna la potencia entre dos numeros (string ^ int)*/
+string power(const string &a, int b) {
+    if (b == 0)
+        return "1";
+    string p = power(a, b / 2);
+    p = multiply(p, p);
+    if (b % 2 == 1)
+        return multiply(a, p);
+    return p;
+}
+
 int main() {
     cout << sum("123", "5412") << endl; //5535
     cout << substract("155612", "2198") << endl; //153414
@@ -113,4 +124,5 @@ int main() {
     cout << multiply("57151290", "56186") << endl; //3211102379940
     cout << divide("158241", 821).first << " " << divide("158241", 821).second << endl; //192, 609
     cout << divide("591625125", "5125").first << " " << divide("591625125", "5125").second << endl; //115439, 250
+    cout << power("1252", 10) << endl; //9463314832177962530018006401024
 }
