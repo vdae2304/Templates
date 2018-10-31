@@ -63,6 +63,8 @@ string substract(const string &a, const string &b) {
 
 /*Retorna el producto de dos numeros (string x int)*/
 string multiply(const string &a, int b) {
+    if (b == 0)
+        return "0";
     string res;
     int d = 0;
     for (int i = 0; i < a.size(); i++, d /= 10) {

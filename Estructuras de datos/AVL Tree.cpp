@@ -36,7 +36,7 @@ int size(node *root) {
 }
 
 /*Retorna el nodo con el elemento o NULL si no existe*/
-node *find(node *root, T x) {
+node *find(node *root, const T &x) {
     if (root != NULL) {
         if (x < root->item)
             return find(root->l, x);
