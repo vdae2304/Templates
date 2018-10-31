@@ -121,6 +121,7 @@ node *Balance(node *p) {
             return left_rotate(p);
         }
     }
+    return p;
 }
 
 /*Inserta un nuevo elemento al arbol y lo balancea. Retorna la raiz*/
