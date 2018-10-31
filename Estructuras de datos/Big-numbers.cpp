@@ -1,3 +1,8 @@
+/*********************************************************************************
+* Big Numbers                                                                    *
+* Implementacion de operaciones aritmeticas para numeros arbitrariamente grandes *
+*********************************************************************************/
+
 #include <iostream>
 #include <algorithm>
 using namespace std;
