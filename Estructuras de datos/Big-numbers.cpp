@@ -125,4 +125,5 @@ int main() {
     cout << divide("158241", 821).first << " " << divide("158241", 821).second << endl; //192, 609
     cout << divide("591625125", "5125").first << " " << divide("591625125", "5125").second << endl; //115439, 250
     cout << power("1252", 10) << endl; //9463314832177962530018006401024
+    return 0;
 }
