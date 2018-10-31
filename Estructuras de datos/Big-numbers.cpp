@@ -9,6 +9,17 @@ int digit(const string &num, int i) {
     return 0;
 }
 
+/*Compara dos numeros y retorna 1 si el primero es mayor, 0 si son iguales y -1 si el segundo es mayor*/
+int compare_num(const string &a, const string &b) {
+    for (int i = max(a.size(), b.size()) - 1; i >= 0; i--) {
+        if (digit(a, i) > digit(b, i))
+            return 1;
+        if (digit(b, i) > digit(a, i))
+            return -1;
+    }
+    return 0;
+}
+
 /*Retorna la suma de dos numeros*/
 string sum(const string &a, const string &b) {
     string res;
@@ -25,7 +36,24 @@ string sum(const string &a, const string &b) {
 
 /*Retorna la diferencia (en valor absoluto) de dos numeros*/
 string substract(const string &a, const string &b) {
-    ;
+    if (compare_num(a, b) == -1)
+        return substract(b, a);
+    string res;
+    for (int i = 0, d = 0; i < a.size(); i++) {
+        d += digit(a, i) - digit(b, i);
+        if (d >= 0) {
+            res.push_back(d + '0');
+            d = 0;
+        }
+        else {
+            res.push_back(d + 10 + '0');
+            d = -1;
+        }
+    }
+    while (res.size() > 1 && res.back() == '0')
+        res.pop_back();
+    reverse(res.begin(), res.end());
+    return res;
 }
 
 /*Retorna el producto de dos numeros (string x int)*/
@@ -62,9 +90,27 @@ pair<string, int> divide(const string &a, int b) {
     return res;
 }
 
+/*Retorna el cociente y residuo de la division (string / string)*/
+pair<string, string> divide(const string &a, const string &b) {
+    pair<string, string> res;
+    for (int i = a.size() - 1; i >= 0; i--) {
+        res.second.push_back(digit(a, i) + '0');
+        int d;
+        for (d = 0; d < 10; d++)
+            if (compare_num(res.second, multiply(b, d + 1)) == -1)
+                break;
+        if (!res.first.empty() || d > 0 || i == 0)
+            res.first.push_back(d + '0');
+        res.second = substract(res.second, multiply(b, d));
+    }
+    return res;
+}
+
 int main() {
     cout << sum("123", "5412") << endl; //5535
+    cout << substract("155612", "2198") << endl; //153414
     cout << multiply("12425", 124) << endl; //1540700
     cout << multiply("57151290", "56186") << endl; //3211102379940
     cout << divide("158241", 821).first << " " << divide("158241", 821).second << endl; //192, 609
+    cout << divide("591625125", "5125").first << " " << divide("591625125", "5125").second << endl; //115439, 250
 }
