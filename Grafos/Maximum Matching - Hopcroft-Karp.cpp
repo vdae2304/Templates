@@ -4,9 +4,9 @@
 * Complejodad: O(sqrt(V)*E)                                                *
 ***************************************************************************/
 
-#include <iostream>
-#include <queue>
+#include <bits/stdc++.h>
 using namespace std;
+
 #define maxn 100000
 #define inf 1<<30
 
@@ -61,6 +61,8 @@ bool DFS(int u) {
 /*Busca el emparejamiento maximo y retorna su tamaño*/
 int HopcroftKarp() {
     int size = 0;
+    memset(pairU, 0, sizeof pairU);
+    memset(pairV, 0, sizeof pairV);
     while (BFS()) {
         for (int u = 1; u <= U; u++) {
             if (!pairU[u] && DFS(u))

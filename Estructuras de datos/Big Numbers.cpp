@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <utility>
 using namespace std;
 
 /*Retorna el i-esimo digito de derecha a izquierda de un numero dado*/
