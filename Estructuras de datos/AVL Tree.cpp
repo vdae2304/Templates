@@ -4,7 +4,6 @@
 *************************************************/
 
 #include <iostream>
-#include <cstdlib>
 using namespace std;
 
 typedef char T; //Tipo de dato del arbol
@@ -46,7 +45,7 @@ node *find(node *root, const T &x) {
     return root;
 }
 
-/*Retorna el k-esimo elemento del arbol*/
+/*Retorna el k-esimo elemento del arbol (indexeado en 0)*/
 node *kth_element(node *root, int k) {
     if (root != NULL) {
         if (k < size(root->l))
@@ -57,7 +56,7 @@ node *kth_element(node *root, int k) {
     return root;
 }
 
-/*Retorna el indice del elemento en el arbol*/
+/*Retorna el indice, o cual seria el indice, del elemento en el arbol (indexeado en 0)*/
 int index(node *root, const T &x) {
     if (root != NULL) {
         if (x < root->item)
@@ -178,20 +177,18 @@ void Debug(node *root, int h = 0) {
 int main() {
     node *arbol = NULL, *p;
     int op = 1, k;
-    char c;
+    T c;
+    cout << "1. Insertar\n2. Eliminar\n3. Buscar\n4. k elemento\n5. Indice\n6. Imprimir arbol\n0. Salir\n";
     while (op != 0) {
-        cout << "1. Insertar letra\n2. Eliminar letra\n3. Buscar letra\n4. Letra en posicion\n5. Posicion de letra\n6. Imprimir arbol\n0. Salir\n";
         cin >> op;
         switch (op) {
             case 1: cin >> c; arbol = insert(arbol, c); break;
             case 2: cin >> c; arbol = erase(arbol, c); break;
-            case 3: cin >> c; cout << (find(arbol, c) != NULL ? "Esta en el arbol\n" : "No esta en el arbol\n"); break;
+            case 3: cin >> c; cout << (find(arbol, c) != NULL ? "" : "No ") << "Esta en el arbol\n"; break;
             case 4: cin >> k; p = kth_element(arbol, k); cout << (p != NULL ? p->item : '*') << "\n"; break;
             case 5: cin >> c; cout << index(arbol, c) << "\n"; break;
             case 6: Debug(arbol);
         }
-        system("pause");
-        system("cls");
     }
     return 0;
 }

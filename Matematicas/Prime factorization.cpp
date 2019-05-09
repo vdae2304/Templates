@@ -1,16 +1,16 @@
+/************************************************************
+* Factorizacion en primos de un numero                      *
+* Complejidad: O(pi(sqrt(n))) (peor caso)                   *
+************************************************************/
+
 #include <iostream>
 #include <vector>
 using namespace std;
 
-/***********************************************
-* Prime factorization.                         *
-* Time complexity: O(pi(sqrt(n))) (worst case) *
-***********************************************/
-
 #define maxn 10000000
 vector<long long> primes;
 
-/*Use Erathostenes sieve to find all primes smaller than 10^7*/
+/*Encuentra con la Criba de Eratostenes los primos menores o iguales que 10^7*/
 void find_primes() {
 	vector<bool> sieve(maxn);
 	for (long long i = 2; i < maxn; i++)
@@ -21,20 +21,19 @@ void find_primes() {
 		}
 }
 
-/*Use the prime list to factor n by trial division*/
+/*Con ayuda de la lista de primos, encuentra los factores primos de n*/
 void prime_factor(long long n) {
 	for (int i = 0; i < primes.size() && primes[i] * primes[i] <= n; i++)
 		while (n % primes[i] == 0) {
 			cout << primes[i] << " ";
 			n /= primes[i];
 		}
-	if (n != 1)    //If n doesn't have prime divisors smaller than 10^7
-		cout << n; //we declare it as prime
+	if (n != 1)    
+		cout << n; 
 	cout << "\n";
 }
 
-int main() {
-	//Example
+int main() {	
 	long long n;
 	find_primes();
 	while (cin >> n) 

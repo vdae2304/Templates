@@ -126,12 +126,12 @@ string power(const string &a, int b) {
 }
 
 int main() {
-    cout << sum("123", "5412") << endl; //5535
-    cout << substract("155612", "2198") << endl; //153414
-    cout << multiply("12425", 124) << endl; //1540700
-    cout << multiply("57151290", "56186") << endl; //3211102379940
-    cout << divide("158241", 821).first << " " << divide("158241", 821).second << endl; //192, 609
-    cout << divide("591625125", "5125").first << " " << divide("591625125", "5125").second << endl; //115439, 250
-    cout << power("1252", 10) << endl; //9463314832177962530018006401024
+    cout << sum("923", "5412") << endl; //6335
+    cout << substract("1512", "218") << endl; //1294
+    cout << multiply("1245", 15) << endl; //18675
+    cout << multiply("5710", "186") << endl; //1062060
+    cout << divide("1541", 21).first << " " << divide("1541", 21).second << endl; //73, 8
+    cout << divide("5925", "51").first << " " << divide("5925", "51").second << endl; //116, 9
+    cout << power("125", 3) << endl; //1953125
     return 0;
 }
