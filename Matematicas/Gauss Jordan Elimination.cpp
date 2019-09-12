@@ -53,8 +53,8 @@ double EliminacionGaussiana(int n, int m, double AugMatrix[][maxn]) {
 int main() {
 	const int n = 3;
 	double MatInversa[n][maxn] = {{ 2,  1, -1,  1, 0, 0},
-					 			  {-3, -1,  2,  0, 1, 0},
-						  		  {-2,  1,  2,  0, 0, 1}};
+				      {-3, -1,  2,  0, 1, 0},
+				      {-2,  1,  2,  0, 0, 1}};
 	cout << EliminacionGaussiana(n, n, MatInversa) << '\n';
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++)
