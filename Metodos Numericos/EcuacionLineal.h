@@ -5,7 +5,9 @@
 #include <algorithm>
 
 //Precision
+#ifndef epsilon 
 #define epsilon 1e-9
+#endif
 
 /* Resuelve la ecuacion lineal Lx = b, donde L es una matriz triangular inferior
 Recibe:
@@ -83,10 +85,10 @@ bool FactorizacionLU(int n, double **A, double **L, double **U, int *P) {
 		//Intercambio de renglones
 		if (r != k) {
 			for (int j = 0; j < k; j++)
-				swap(L[k][j], L[r][j]);
+				std::swap(L[k][j], L[r][j]);
 			for (int j = k; j < n; j++)
-				swap(U[k][j], U[r][j]);
-			swap(P[k], P[r]);
+				std::swap(U[k][j], U[r][j]);
+			std::swap(P[k], P[r]);
 		}
 		
 		//Eliminacion gaussiana

@@ -4,7 +4,9 @@
 #include <cmath>
 
 //Precision
+#ifndef epsilon 
 #define epsilon 1e-9
+#endif
 
 /* Metodo iterativo de Jacobi para calcular los eigenvalores y eigenvectores de una matriz simetrica.
 Recibe: 
@@ -18,7 +20,7 @@ void MetodoJacobi(int n, double **A, int M, double **V, double **D) {
 	matrizIdentidad(n, V);
 	copiarMatriz(n, n, A, D);
 
-	for (k = 0; k < M; k++) {
+	for (int k = 0; k < M; k++) {
 		//Mayor elemento fuera de la diagonal
 		int i = 1, j = 0;
 		for (int r = 0; r < n; r++)

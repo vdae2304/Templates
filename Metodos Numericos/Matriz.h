@@ -32,7 +32,7 @@ void matrizCero(int n, int m, double **A) {
 
 /* Inicializa una matriz I de n x n como la matriz identidad */
 void matrizIdentidad(int n, double **I) {
-	MatrizCero(n, n, I);
+	matrizCero(n, n, I);
 	for (int i = 0; i < n; i++)
 		I[i][i] = 1;
 }
