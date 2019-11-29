@@ -37,14 +37,25 @@ void matrizIdentidad(int n, double **I) {
 		I[i][i] = 1;
 }
 
-/* Devuelve la transpuesta de una matriz A de n x m */
+/* Devuelve la matriz transpuesta de una matriz A de n x m */
 void transpuesta(int n, int m, double **A, double **AT) {
 	for (int i = 0; i < n; i++)
 		for (int j = 0; j < m; j++)
 			AT[j][i] = A[i][j];
 }
 
-/* Regresa el producto de dos matrices A de n x m y B de m x l */
+/* Devuelve el producto de una matriz A de n x m con un vector b de dimension m */
+double *producto(int n, int m, double **A, double *b) {
+	double *Ab = new double[n];
+	for (int i = 0; i < n; i++) {
+		Ab[i] = 0;
+		for (int j = 0; j < m; j++)
+			Ab[i] += A[i][j] * b[j];
+	}
+	return Ab;
+}
+
+/* Devuelve el producto de dos matrices A de n x m y B de m x l */
 void producto(int n, int m, int l, double **A, double **B, double **AB) {
 	matrizCero(n, l, AB);
 	for (int i = 0; i < n; i++)
@@ -52,6 +63,5 @@ void producto(int n, int m, int l, double **A, double **B, double **AB) {
 			for (int k = 0; k < m; k++)
 				AB[i][j] += A[i][k] * B[k][j];
 }
-
 
 #endif // MATRIZ_H_INCLUDED

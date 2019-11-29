@@ -12,7 +12,7 @@ Recibe:
    xk   - Un valor inicial
    maxk - El maximo numero de iteraciones
 Si el algoritmo converge, devuelve una aproximacion a la raiz */
-void NewtonRaphson(double (*f)(double), double (*df)(double), double xk, int maxk) {
+double NewtonRaphson(double (*f)(double), double (*df)(double), double xk, int maxk) {
 	for (int k = 0; k < maxk; k++) {
 		if (fabs(f(xk)) < epsilon) 
 			break;
@@ -24,11 +24,12 @@ void NewtonRaphson(double (*f)(double), double (*df)(double), double xk, int max
 
 /* Metodo de la secante para resolver la ecuacion f(x) = 0
 Recibe:
-   f         - Un apuntador de una funcion
-   xk, x_nxt - Valores iniciales
-   maxk      - El maximo numero de iteraciones
+   f     - Un apuntador de una funcion
+   xk    - Un valores inicial
+   x_nxt - Un valor inicial cercano al primero
+   maxk  - El maximo numero de iteraciones
 Si el algoritmo converge, devuelve una aproximacion a la raiz */
-void MetodoSecante(double (*f)(double), double xk, double x_nxt, int maxk) {	
+double MetodoSecante(double (*f)(double), double xk, double x_nxt, int maxk) {	
 	for (int k = 0; k < maxk; k++) {
 		if (fabs(f(xk)) < epsilon) 
 			break;

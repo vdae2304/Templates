@@ -57,9 +57,10 @@ double *SustitucionHaciaAtras(int n, double **U, double *b) {
 Recibe:
    n - Las dimensiones de la matriz
    A - Los datos de la matriz
-   L - Donde se almacenara la matriz inferior L
-   U - Donde se almacenara la matriz superior U
-   P - Donde se almacenara los renglones que fueron permutados
+Regresa:   
+   L - Los datos la matriz inferior L
+   U - Los datos la matriz superior U
+   P - El vector de permutacion
 Si la factorizacion existe, devuelve true
 En caso contrario, devuelve false */
 bool FactorizacionLU(int n, double **A, double **L, double **U, int *P) {
@@ -69,14 +70,17 @@ bool FactorizacionLU(int n, double **A, double **L, double **U, int *P) {
 		P[i] = i;
 	
 	for (int k = 0; k < n; k++) {
+		//Pivoteo
 		int r = k;
 		for (int i = k + 1; i < n; i++)
 			if (fabs(U[i][k]) > fabs(U[r][k]))
 				r = i;
 		
+		//No existe la factorizacion
 		if (fabs(U[r][k]) < epsilon)
 			return false;
 		
+		//Intercambio de renglones
 		if (r != k) {
 			for (int j = 0; j < k; j++)
 				swap(L[k][j], L[r][j]);
@@ -85,6 +89,7 @@ bool FactorizacionLU(int n, double **A, double **L, double **U, int *P) {
 			swap(P[k], P[r]);
 		}
 		
+		//Eliminacion gaussiana
 		for (int i = k + 1; i < n; i++) {
 			L[i][k] = U[i][k] / U[k][k];
 			U[i][k] = 0;
