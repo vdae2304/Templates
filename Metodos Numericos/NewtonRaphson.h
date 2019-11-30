@@ -3,8 +3,8 @@
 #include <cmath>
 
 //Precision
-#ifndef epsilon 
-#define epsilon 1e-9
+#ifndef tolerance 
+#define tolerance 1e-9
 #endif
 
 /* Metodo de Newton-Raphson para resolver la ecuacion f(x) = 0
@@ -16,7 +16,7 @@ Recibe:
 Si el algoritmo converge, devuelve una aproximacion a la raiz */
 double NewtonRaphson(double (*f)(double), double (*df)(double), double xk, int maxk) {
 	for (int k = 0; k < maxk; k++) {
-		if (fabs(f(xk)) < epsilon)
+		if (fabs(f(xk)) < tolerance)
 			break;
 		
 		xk -= f(xk) / df(xk);
@@ -33,7 +33,7 @@ Recibe:
 Si el algoritmo converge, devuelve una aproximacion a la raiz */
 double MetodoSecante(double (*f)(double), double xk, double x_nxt, int maxk) {	
 	for (int k = 0; k < maxk; k++) {
-		if (fabs(f(xk)) < epsilon) 
+		if (fabs(f(xk)) < tolerance)
 			break;
 		
 		double x = x_nxt - (x_nxt - xk)/(f(x_nxt) - f(xk)) * f(x_nxt);

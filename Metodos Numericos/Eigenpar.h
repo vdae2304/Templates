@@ -4,17 +4,9 @@
 #include <cmath>
 
 //Precision
-#ifndef epsilon 
-#define epsilon 1e-9
+#ifndef tolerance 
+#define tolerance 1e-9
 #endif
-
-/*
-3
-100
-1 2 3
-2 5 6
-3 6 9
-*/
 
 /* Metodo iterativo de Jacobi para calcular los eigenvalores y eigenvectores de una matriz simetrica.
 Recibe: 
@@ -43,7 +35,7 @@ void MetodoJacobi(int n, double **A, int M, double **V, double **D) {
 		double dij = D[i][j];
 
 		//La matriz ya es diagonal
-		if (fabs(dij) < epsilon)
+		if (fabs(dij) < tolerance)
 			break;
 		
 		//Rotacion de Givens
