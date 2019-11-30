@@ -67,7 +67,7 @@ Si la factorizacion existe, devuelve true
 En caso contrario, devuelve false */
 bool FactorizacionLU(int n, double **A, double **L, double **U, int *P) {
 	matrizIdentidad(n, L);
-	copiarMatriz(n, A, U);
+	copiarMatriz(n, n, A, U);
 	for (int i = 0; i < n; i++) 
 		P[i] = i;
 	

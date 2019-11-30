@@ -3,7 +3,9 @@
 #include <cmath>
 
 //Precision
-#define epsilon 1e-9;
+#ifndef epsilon 
+#define epsilon 1e-9
+#endif
 
 /* Metodo de Newton-Raphson para resolver la ecuacion f(x) = 0
 Recibe:
@@ -14,7 +16,7 @@ Recibe:
 Si el algoritmo converge, devuelve una aproximacion a la raiz */
 double NewtonRaphson(double (*f)(double), double (*df)(double), double xk, int maxk) {
 	for (int k = 0; k < maxk; k++) {
-		if (fabs(f(xk)) < epsilon) 
+		if (fabs(f(xk)) < epsilon)
 			break;
 		
 		xk -= f(xk) / df(xk);

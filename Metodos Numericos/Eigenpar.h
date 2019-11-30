@@ -8,13 +8,21 @@
 #define epsilon 1e-9
 #endif
 
+/*
+3
+100
+1 2 3
+2 5 6
+3 6 9
+*/
+
 /* Metodo iterativo de Jacobi para calcular los eigenvalores y eigenvectores de una matriz simetrica.
 Recibe: 
    n - Las dimensiones de la matriz
    A - Los datos de la matriz
-   M - el numero maximo de iteraciones
+   M - El numero maximo de iteraciones
 Regresa: 
-   V - La matriz de los eigenvectores en las columnas
+   V - La matriz con los eigenvectores en las columnas
    D - La matriz con los eigenvalores en la diagonal */
 void MetodoJacobi(int n, double **A, int M, double **V, double **D) {
 	matrizIdentidad(n, V);
@@ -25,7 +33,7 @@ void MetodoJacobi(int n, double **A, int M, double **V, double **D) {
 		int i = 1, j = 0;
 		for (int r = 0; r < n; r++)
 			for (int c = 0; c < r; c++)
-				if (fabs(A[r][c]) > fabs(A[i][j])) {
+				if (fabs(D[r][c]) > fabs(D[i][j])) {
 					i = r;
 					j = c;
 				}
