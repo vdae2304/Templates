@@ -5,8 +5,8 @@
 #include <algorithm>
 
 //Precision
-#ifndef tolerance 
-#define tolerance 1e-9
+#ifndef tolerancia 
+#define tolerancia 1e-9
 #endif
 
 /* Resuelve la ecuacion lineal Lx = b, donde L es una matriz triangular inferior
@@ -19,7 +19,7 @@ De lo contrario, devuelve NULL */
 double *SustitucionHaciaAdelante(int n, double **L, double *b) {	
 	double *x = new double[n];
 	for (int i = 0; i < n; i++) {
-		if (fabs(L[i][i]) < tolerance) {
+		if (fabs(L[i][i]) < tolerancia) {
 			delete[] x;
 			return NULL;
 		}
@@ -42,7 +42,7 @@ De lo contrario, devuelve NULL */
 double *SustitucionHaciaAtras(int n, double **U, double *b) {
 	double *x = new double[n];
 	for (int i = n - 1; i >= 0; i--) {
-		if (fabs(U[i][i]) < tolerance) {
+		if (fabs(U[i][i]) < tolerancia) {
 			delete[] x;
 			return NULL;
 		}
@@ -79,7 +79,7 @@ bool FactorizacionLU(int n, double **A, double **L, double **U, int *P) {
 				r = i;
 		
 		//No existe la factorizacion
-		if (fabs(U[r][k]) < tolerance)
+		if (fabs(U[r][k]) < tolerancia)
 			return false;
 		
 		//Intercambio de renglones
