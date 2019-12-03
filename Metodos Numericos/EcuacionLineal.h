@@ -2,7 +2,6 @@
 #define ECUACIONLINEAL_H_INCLUDED
 
 #include "Matriz.h"
-#include "MatrizFactorizacion.h"
 #include <cmath>
 
 //Precision

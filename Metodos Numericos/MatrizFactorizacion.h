@@ -1,5 +1,5 @@
-#ifndef QR_H_INCLUDED
-#define QR_H_INCLUDED
+#ifndef MATRIZFACTORIZACION_H_INCLUDED
+#define MATRIZFACTORIZACION_H_INCLUDED
 
 #include "Matriz.h"
 #include <cmath>
@@ -17,9 +17,9 @@ Recibe:
    A - Los datos de la matriz.
 Regresa:
    P - El vector de permutacion.
-   L - Los datos la matriz inferior.
-   U - Los datos la matriz superior.
-Si la factorizacion existe, devuelve true. En caso contrario, devuelve false */
+   L - Los datos la matriz triangular inferior.
+   U - Los datos la matriz triangular superior.
+Si la factorizacion existe, devuelve true. En caso contrario, devuelve false. */
 bool FactorizacionLU(int n, Matriz A, int *P, Matriz L, Matriz U) {
 	matrizIdentidad(n, L);
 	copiarMatriz(n, n, A, U);
@@ -63,8 +63,8 @@ Recibe:
    n - Las dimensiones de la matriz.
    A - Los datos de la matriz.
 Regresa:
-   L - Los datos la matriz inferior.
-Si la factorizacion existe, devuelve true. En caso contrario, devuelve false */
+   L - Los datos la matriz triangular inferior.
+Si la factorizacion existe, devuelve true. En caso contrario, devuelve false. */
 bool FactorizacionCholesky(int n, Matriz A, Matriz L) {
 	for (int j = 0; j < n; j++) {
 		L[j][j] = A[j][j];
@@ -91,21 +91,22 @@ bool FactorizacionCholesky(int n, Matriz A, Matriz L) {
 	return true;
 }
 
-/* Proceso de Ortogonalizacion de Gram-Schmidt para calcular la factorizacion A = QR de una matriz.
+/* Calcula mediante el Proceso de Ortogonalizacion de Gram-Schmidt la factorizacion A = QR
+donde A es una matriz cuadrada, Q es una matriz ortonormal y R es una matriz triangular superior.
 Recibe: 
-   n, m - Las dimensiones de la matriz   
-   A    - Los datos de la matriz
+   m, n - Las dimensiones de la matriz   .
+   A    - Los datos de la matriz.
 Regresa: 
-   Q - Una matriz ortonormal
-   R - Una matriz triangular superior
-Devuelve true si la factorizacion existe y false en caso contrario*/
-bool GramSchmidt(int n, int m, Matriz A, Matriz Q, Matriz R) {
-	copiarMatriz(n, m, A, Q);
-	matrizCero(m, m, R);
+   Q - Los datos de la matriz ortonormal.
+   R - Los datos de la matriz triangular superior.
+Si la factorizacion existe, devuelve true. En caso contrario, devuelve false. */
+bool GramSchmidt(int m, int n, Matriz A, Matriz Q, Matriz R) {
+	copiarMatriz(m, n, A, Q);
+	matrizCero(n, n, R);
 
-	for (int i = 0; i < m; i++) {
+	for (int i = 0; i < n; i++) {
 		//Norma de la i-esima columna
-		for (int k = 0; k < n; k++)
+		for (int k = 0; k < m; k++)
 			R[i][i] += Q[k][i] * Q[k][i];
 		R[i][i] = sqrt(R[i][i]);
 		
@@ -114,13 +115,13 @@ bool GramSchmidt(int n, int m, Matriz A, Matriz Q, Matriz R) {
 			return false;
 
 		//Actualiza Q y R
-		for (int k = 0; k < n; k++)
+		for (int k = 0; k < m; k++)
 			Q[k][i] /= R[i][i];
 
-		for (int j = i + 1; j < m; j++) {
-			for (int k = 0; k < n; k++)
+		for (int j = i + 1; j < n; j++) {
+			for (int k = 0; k < m; k++)
 				R[i][j] += Q[k][i] * Q[k][j];
-			for (int k = 0; k < n; k++)
+			for (int k = 0; k < m; k++)
 				Q[k][j] -= R[i][j] * Q[k][i];
 		}
 	}
@@ -128,4 +129,4 @@ bool GramSchmidt(int n, int m, Matriz A, Matriz Q, Matriz R) {
 	return true;
 }
 
-#endif // QR_H_INCLUDED
+#endif // MATRIZFACTORIZACION_H_INCLUDED

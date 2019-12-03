@@ -1,7 +1,8 @@
-#ifndef EIGENPAR_H_INCLUDED
-#define EIGENPAR_H_INCLUDED
+#ifndef MATRIZEIGENPAR_H_INCLUDED
+#define MATRIZEIGENPAR_H_INCLUDED
+
 #include "Matriz.h"
-#include "QR.h"
+#include "MatrizFactorizacion.h"
 #include <cmath>
 
 //Precision
@@ -120,4 +121,4 @@ int MetodoQR(int n, double **A, int M, double **V, double **D) {
 	return M;
 }
 
-#endif // EIGENPAR_H_INCLUDED
+#endif // MATRIZEIGENPAR_H_INCLUDED
