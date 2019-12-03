@@ -9,9 +9,9 @@ Recibe:
    x  - La discretizacion del intervalo de solucion
    f  - La funcion que define la ecuacion 
    y0 - La condicion inicial   
-Devuelve un apuntador con los valores de la solucion en los puntos de la discretizacion */
-double *RungeKutta(int n, double *x, double (*f)(double, double), double y0) {
-	double *y = new double[n];
+Devuelve un vector con los valores de la solucion en los puntos de la discretizacion */
+Vector RungeKutta(int n, Vector x, double (*f)(double, double), double y0) {
+	Vector y = crearVector(n);
 	
 	y[0] = y0;
 	for (int i = 1; i < n; i++) {
@@ -29,42 +29,41 @@ double *RungeKutta(int n, double *x, double (*f)(double, double), double y0) {
 }
 
 /* Metodo de Runge-Kutta de orden 4 para resolver el sistema de ecuaciones diferenciales
-   yi'(x) = fi(x, y1(x),...,yn(x)),    yi(x0) = yi0       i = 0,...,n-1
+   y'(x) = f(n, x, y(x)),    y(x0) = y0
+donde y es un vector de tamaño n y f es una funcion vectorial.
 Recibe:
-   n  - El numero de ecuaciones
    m  - El tamaño de la particion
    x  - La discretizacion del intervalo de solucion
-   f  - Las funciones que definen la ecuacion
-   y0 - Las condiciones iniciales
-Devuelve una matriz donde cada renglon contiene los valores de la solucion correspondiente evaluada
+   n  - El numero de ecuaciones
+   f  - La funcion que define la ecuacion
+   y0 - La condicion inicial
+Devuelve una matriz donde cada columna contiene los valores de la solucion correspondiente evaluada
 en los puntos de la discretizacion */
-double **SistemaRungeKutta(int n, int m, double *x, double (**f)(double, double *), double *y0) {
-	double **y = crearMatriz(n, m);
+Matriz SistemaRungeKutta(int m, Vector x, int n, Vector (*f)(int, double, Vector), Vector y0) {
+	Matriz y = crearMatriz(m, n);
 
-	for (int i = 0; i < n; i++)
-		y[i][0] = y0[i];
+	for (int j = 0; j < n; j++)
+		y[0][j] = y0[j];
 
-	double *ytemp = new double[n];
-	double *K     = new double[n];
-	double c[8]   = {0, 0.5, 0.5, 1, 1.0/6, 1.0/3, 1.0/3, 1.0/6};
-	
-	for (int j = 1; j < m; j++) {
-		double h = x[j] - x[j - 1];
-		for (int i = 0; i < n; i++)
-			y[i][j] = y[i][j - 1];
+	Vector ytemp = crearVector(n);
+	for (int i = 1; i < m; i++) {
+		double h = x[i] - x[i - 1];
 
-		for (int k = 0; k < 4; k++) {
-			for (int i = 0; i < n; i++)
-				ytemp[i] = y[i][j - 1] + c[k]*K[i];
-			for (int i = 0; i < n; i++) {
-				K[i]     = h*f[i](x[j - 1] + c[k]*h, ytemp);
-				y[i][j] += c[k + 4]*K[i];
-			}
-		}
+		Vector K1 = f(n, x[i - 1], y[i - 1]);
+		combinacionLineal(n, 1, y[i - 1], h/2, K1, ytemp);
+		Vector K2 = f(n, x[i - 1] + h/2, ytemp);
+		combinacionLineal(n, 1, y[i - 1], h/2, K2, ytemp);
+		Vector K3 = f(n, x[i - 1] + h/2, ytemp);
+		combinacionLineal(n, 1, y[i - 1], h, K3, ytemp);
+		Vector K4 = f(n, x[i - 1] + h, ytemp);
+
+		combinacionLineal(n, 1, y[i - 1], h/6, K1, y[i]);
+		combinacionLineal(n, 1, y[i], h/3, K2, y[i]);
+		combinacionLineal(n, 1, y[i], h/3, K3, y[i]);
+		combinacionLineal(n, 1, y[i], h/6, K4, y[i]);
 	}
 
-	delete[] ytemp;
-	delete[] K;
+	borrarVector(ytemp);
 	return y;
 }
 
