@@ -41,5 +41,6 @@ void constructSA() {
 }
 
 int main() {
+	string s;
 	return 0;
 }
