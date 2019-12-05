@@ -169,7 +169,6 @@ int GaussSeidel(int n, Matriz A, Vector b, int M, Vector x) {
 
 		for (int i = 0; i < n; i++) {
 			double Error_i = -b[i];
-
 			for (int j = 0; j < n; j++)
 				Error_i += A[i][j] * x[j];
 			Error += Error_i * Error_i;
