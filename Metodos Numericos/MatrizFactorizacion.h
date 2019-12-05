@@ -92,9 +92,9 @@ bool FactorizacionCholesky(int n, Matriz A, Matriz L) {
 }
 
 /* Calcula mediante el Proceso de Ortogonalizacion de Gram-Schmidt la factorizacion A = QR
-donde A es una matriz cuadrada, Q es una matriz ortonormal y R es una matriz triangular superior.
+donde A es una matriz, Q es una matriz ortonormal y R es una matriz triangular superior.
 Recibe: 
-   m, n - Las dimensiones de la matriz   .
+   m, n - Las dimensiones de la matriz (m >= n).
    A    - Los datos de la matriz.
 Regresa: 
    Q - Los datos de la matriz ortonormal.

@@ -10,6 +10,46 @@
 #define tolerancia 1e-9
 #endif
 
+/* Metodo de la potencia para calcular el eigenpar asociado al eigenvalor mas grande en valor
+absoluto de una matriz.
+Recibe: 
+   n - Las dimensiones de la matriz.
+   A - Los datos de la matriz.
+   M - El numero maximo de iteraciones.
+   v - Un vector inicial.
+Regresa: 
+   v - El eigenvector.
+   c - El eigenvalor.
+Devuelve el numero de iteraciones realizadas. */
+int MetodoPotencia(int n, Matriz A, int M, Vector v, double &c) {
+	Vector Av = crearVector(n);
+	productoMatrizVector(n, n, A, v, Av);
+
+	for (int k = 0; k < M; k++) {
+		//Calculo del error
+		double Error = 0;
+		for (int i = 0; i < n; i++)
+			Error += (Av[i] - c*v[i]) * (Av[i] - c*v[i]);
+		Error = sqrt(Error) / n;
+
+		//Eigenpar encontrado
+		if (Error < tolerancia) {
+			borrarVector(Av);
+			return k;
+		}
+
+		//Iteracion del metodo
+		double Avnorma = sqrt(productoPunto(n, Av, Av));
+		for (int i = 0; i < n; i++)
+			v[i] = Av[i] / Avnorma;
+		productoMatrizVector(n, n, A, v, Av);
+		c = productoPunto(n, v, Av);
+	}
+
+	borrarVector(Av);
+	return M;
+}
+
 /* Calcula mediante el Metodo Iterativo de Jacobi la descomposicion espectral A = VDV^T donde A es 
 una matriz simetrica, V es una matriz ortonormal cuyas columnas son los eigenvectores de A y D es 
 una matriz diagonal cuyos elementos en la diagonal son los eigenvalores de A.
@@ -138,12 +178,12 @@ Regresa:
    S    - Los datos de la matriz diagonal.
 Devuelve el numero de iteraciones realizadas. */
 int FactorizacionSVD(int n, Matriz A, int M, Matriz U, Matriz S, Matriz V) {
-	Matriz AT = crearMatriz(n, n);
-	Matriz B  = crearMatriz(n, n);
+	Matriz AT  = crearMatriz(n, n);
+	Matriz ATA = crearMatriz(n, n);
 	matrizTranspuesta(n, n, A, AT);
-	productoMatriz(n, n, n, AT, A, B);
+	productoMatriz(n, n, n, AT, A, ATA);
 
-	int k = MetodoJacobi(n, B, M, V, S);
+	int k = MetodoJacobi(n, ATA, M, V, S);
 	for (int i = 0; i < n; i++)
 		S[i][i] = sqrt(S[i][i]);
 	productoMatriz(n, n, n, A, V, U);
@@ -158,7 +198,7 @@ int FactorizacionSVD(int n, Matriz A, int M, Matriz U, Matriz S, Matriz V) {
 	}
 
 	borrarMatriz(AT);
-	borrarMatriz(B);
+	borrarMatriz(ATA);
 	return k;
 }
 

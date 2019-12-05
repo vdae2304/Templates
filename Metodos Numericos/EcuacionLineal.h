@@ -130,6 +130,7 @@ Vector ResolverEcuacionTridiagonal(int n, Matriz A, Vector b) {
 	Atemp[0][0] = b[0];
 	Atemp[1][0] = A[1][0];
 	Atemp[2][0] = A[2][0];
+	
 	for  (int i = 1; i < n; i++) {
 		Atemp[0][i] = Atemp[1][i - 1]*b[i]    - A[0][i - 1]*Atemp[0][i - 1];
 		Atemp[1][i] = Atemp[1][i - 1]*A[1][i] - A[0][i - 1]*Atemp[2][i - 1];
