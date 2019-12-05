@@ -58,9 +58,13 @@ Matriz SistemaRungeKutta(int m, Vector x, int n, Vector (*f)(int, double, Vector
 		Vector K4 = f(n, x[i - 1] + h, ytemp);
 
 		combinacionLineal(n, 1, y[i - 1], h/6, K1, y[i]);
+		borrarVector(K1);
 		combinacionLineal(n, 1, y[i], h/3, K2, y[i]);
+		borrarVector(K2);
 		combinacionLineal(n, 1, y[i], h/3, K3, y[i]);
+		borrarVector(K3);
 		combinacionLineal(n, 1, y[i], h/6, K4, y[i]);
+		borrarVector(K4);
 	}
 
 	borrarVector(ytemp);

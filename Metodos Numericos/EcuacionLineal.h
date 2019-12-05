@@ -112,7 +112,46 @@ Vector ResolverEcuacionQR(int n, Matriz Q, Matriz R, Vector b) {
 	return x;
 }
 
+/* Resuelve la ecuacion lineal Ax = b donde A es una matriz tridiagonal.
+Recibe:
+   n - Las dimensiones de la matriz.
+   A - Los datos de la matriz ordenados de la siguiente manera:
+       En el primer renglon los elementos de la subdiagonal.
+       En el segundo renglon los elementos de la diagonal.
+       En el tercer renglon los elementos de la supdiagonal.
+   b - El vector de terminos independientes.
+Devuelve un vector con la solucion del sistema o NULL si no existe. */
+Vector ResolverEcuacionTridiagonal(int n, Matriz A, Vector b) {
+	if (fabs(A[1][0]) < tolerancia)
+		return NULL;
+	Matriz Atemp = crearMatriz(3, n);
+	Vector x     = crearVector(n);
+
+	Atemp[0][0] = b[0];
+	Atemp[1][0] = A[1][0];
+	Atemp[2][0] = A[2][0];
+	for  (int i = 1; i < n; i++) {
+		Atemp[0][i] = Atemp[1][i - 1]*b[i]    - A[0][i - 1]*Atemp[0][i - 1];
+		Atemp[1][i] = Atemp[1][i - 1]*A[1][i] - A[0][i - 1]*Atemp[2][i - 1];
+		Atemp[2][i] = Atemp[1][i - 1]*A[2][i];
+
+		if (fabs(Atemp[1][i]) < tolerancia) {
+			borrarMatriz(Atemp);
+			return NULL;
+		}
+	}
+
+	x[n - 1] = Atemp[0][n - 1] / Atemp[1][n - 1];
+	for (int i = n - 2; i >= 0; i--)
+		x[i] = (Atemp[0][i] - Atemp[2][i]*x[i + 1]) / Atemp[1][i];
+	borrarMatriz(Atemp);
+
+	return x;
+}
+
 /* Resuelve la ecuacion lineal Ax = b a traves del Metodo Iterativo de Gauss-Seidel.
+Comentarios: El algoritmo puede no converger. Cuando la matriz es diagonal dominante, el algoritmo 
+converge para cualquier condicion inicial.
 Recibe:
    n - Las dimensiones de la matriz.
    A - Los datos de la matriz.

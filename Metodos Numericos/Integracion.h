@@ -4,7 +4,7 @@
 
 /* Metodo de Romberg para calcular la integral de f sobre una particion de tamaño 2^n del intervalo [a, b] */
 double MetodoRomberg(double (*f)(double), double a, double b, int n) {	
-	double **R = crearMatriz(n + 1, n + 1);
+	Matriz R = crearMatriz(n + 1, n + 1);
 	matrizCero(n + 1, n + 1, R);
 
 	//Regla del trapecio
