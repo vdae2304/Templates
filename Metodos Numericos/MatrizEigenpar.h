@@ -90,7 +90,7 @@ Devuelve el numero de iteraciones realizadas. */
 int MetodoQR(int n, Matriz A, int M, Matriz V, Matriz U) {
 	Matriz Q     = crearMatriz(n, n);
 	Matriz R     = crearMatriz(n, n);
-	Matriz tempV = crearMatriz(n, n)
+	Matriz tempV = crearMatriz(n, n);
 	matrizIdentidad(n, V);
 	copiarMatriz(n, n, A, U);
 
@@ -99,8 +99,8 @@ int MetodoQR(int n, Matriz A, int M, Matriz V, Matriz U) {
 		double umax = 0;
 		for (int r = 0; r < n; r++)
 			for (int c = 0; c < r; c++)
-				if (fabs(D[r][c]) > umax)
-					umax = D[r][c];
+				if (fabs(U[r][c]) > umax)
+					umax = U[r][c];
 
 		//La matriz es diagonal
 		if (fabs(umax) < tolerancia) {
@@ -116,14 +116,50 @@ int MetodoQR(int n, Matriz A, int M, Matriz V, Matriz U) {
 
 		//Actualiza las matrices V y U
 		copiarMatriz(n, n, V, tempV);
-		producto(n, n, n, tempV, Q, V);
-		producto(n, n, n, R, Q, U);
+		productoMatriz(n, n, n, tempV, Q, V);
+		productoMatriz(n, n, n, R, Q, U);
 	}
 
 	borrarMatriz(Q);
 	borrarMatriz(R);
 	borrarMatriz(tempV);
 	return M;
+}
+
+/* Calcula la descomposicion en valores singulares A = USV^T donde A es una matriz cuadrada, 
+U y V son matrices ortonormales, y S es una matriz diagonal cuyos elementos en la diagonal son los 
+valores singulares de A.
+Recibe: 
+   n - Las dimensiones de la matriz.
+   A - Los datos de la matriz.
+   M - El numero maximo de iteraciones.
+Regresa: 
+   U, V - Los datos de las matrices ortonormales.
+   S    - Los datos de la matriz diagonal.
+Devuelve el numero de iteraciones realizadas. */
+int FactorizacionSVD(int n, Matriz A, int M, Matriz U, Matriz S, Matriz V) {
+	Matriz AT = crearMatriz(n, n);
+	Matriz B  = crearMatriz(n, n);
+	matrizTranspuesta(n, n, A, AT);
+	productoMatriz(n, n, n, AT, A, B);
+
+	int k = MetodoJacobi(n, B, M, V, S);
+	for (int i = 0; i < n; i++)
+		S[i][i] = sqrt(S[i][i]);
+	productoMatriz(n, n, n, A, V, U);
+
+	for (int j = 0; j < n; j++) {
+		double Uj = 0;
+		for (int i = 0; i < n; i++)
+			Uj += U[i][j] * U[i][j];
+		Uj = sqrt(Uj);
+		for (int i = 0; i < n; i++)
+			U[i][j] /= Uj;
+	}
+
+	borrarMatriz(AT);
+	borrarMatriz(B);
+	return k;
 }
 
 #endif // MATRIZEIGENPAR_H_INCLUDED
