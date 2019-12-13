@@ -1,6 +1,6 @@
 /*********************************************************************************
 * Algoritmo de Edmonds-Karp para encontrar el maximo flujo en un grafo dirigido. *
-* Complejidad: O(V * E^2) y O(E * maxflujo)                                      *
+* Complejidad: O(V * E^2)                                                        *
 *********************************************************************************/
 
 #include <iostream>
@@ -13,20 +13,21 @@ using namespace std;
 typedef int T;      //Tipo de dato del flujo.
 
 struct edge {
-	int to;           //Destino.
-	T capacity, flow; //Capacidad, flujo.
-	edge *rev;        //Arista invertida.
+    int to;           //Destino.
+    T capacity, flow; //Capacidad, flujo.
+    edge *rev;        //Arista invertida.
 
-	edge(int _to, T _capacity, T _flow, edge *_rev) {
-		to = _to; capacity = _capacity; flow = _flow; rev = _rev;
-	}
+    edge(int _to, T _capacity, T _flow, edge *_rev) {
+        to = _to; capacity = _capacity; flow = _flow; rev = _rev;
+    }
 };
 
 int V, E;                  //Numero de vertices y aristas.
+int s, t;                  //Fuente y sumidero.
 vector<edge*> graph[maxn]; //Aristas.
 
 //Calcula el flujo maximo de s a t. 
-T EdmondsKarp(int s, int t) {
+T EdmondsKarp() {
     T flow = 0;
     edge *pred[maxn];
 
@@ -34,7 +35,7 @@ T EdmondsKarp(int s, int t) {
     	//Realiza una BFS desde s hasta t.
         queue<int> Q;
         Q.push(s);
-        fill(pred, pred + V, nullptr);
+        fill_n(pred, V, nullptr);
 
         while (!Q.empty()) {
             int curr = Q.front();
@@ -68,25 +69,26 @@ int main() {
     cin >> V >> E;
 
     //Lee la informacion de las aristas.
-    for (int i = 0; i < E; i++) {
-    	int from, to; 
-    	T capacity;
-    	cin >> from >> to >> capacity;
+    for (int i = 0; i < E; ++i) {
+        int from, to; 
+        T capacity;
+        cin >> from >> to >> capacity;
 
-    	graph[from].push_back(new edge(to, capacity, 0, nullptr));
-    	graph[to].push_back(new edge(from, 0, 0, graph[from].back()));
-    	graph[from].back()->rev = graph[to].back();
+        graph[from].push_back(new edge(to, capacity, 0, nullptr));
+        graph[to].push_back(new edge(from, 0, 0, graph[from].back()));
+        graph[from].back()->rev = graph[to].back();
     }
 
-    cout << "Flujo maximo: " << EdmondsKarp(0, V - 1) << '\n';
+    cin >> s >> t;
+    cout << "Flujo maximo: " << EdmondsKarp() << '\n';
 
     //Imprime la configuracion del flujo.
-    for (int i = 0; i < V; i++)
-    	for (edge *e : graph[i]) {
-    		if (e->capacity > 0)
-    			cout << i << ' ' << e->to << ": " << e->flow << '/' << e->capacity <<'\n';
-    		delete e;
-    	}
+    for (int i = 0; i < V; ++i)
+        for (edge *e : graph[i]) {
+            if (e->capacity > 0)
+                cout << i << ' ' << e->to << ": " << e->flow << '/' << e->capacity <<'\n';
+            delete e;
+        }
 
     return 0;
 }
