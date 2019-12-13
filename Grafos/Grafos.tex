@@ -71,6 +71,39 @@ Complejidad: $O((|E| + |V|) \log|V|)$.
 
 \newpage
 
+\section{Árbol de expansión mínima.}
+
+Consideremos un grafo $G = (V, E)$ donde cada arista $(u, v)$ tiene un peso $w(u,v)$. Un árbol de expansión mínima es un subgrafo de $G$ que es árbol y minimiza la suma de los pesos.
+
+\subsection{Algoritmo de Kruskal}
+
+Complejidad: $O(|E| \log|V|)$.
+
+\lstinputlisting[firstline = 6]{Kruskal.cpp} \medskip
+
+\begin{tabular}{|p{7cm}|p{7cm}|}
+\hline
+\textbf{Entrada} & \textbf{Salida}\\ \hline
+6 8    & Peso total: 18\\
+0 1 2  & 0 3 1\\
+0 3 1  & 3 5 1\\
+3 1 9  & 0 1 2\\
+4 1 10 & 3 4 3\\
+3 4 3  & 2 0 11\\
+2 0 11 & \\
+2 5 20 & \\
+3 5 1  & \\ \hline
+\end{tabular}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.35\textwidth]{MST.png}
+
+\caption{Ejemplo.}
+\end{figure}
+
+\newpage
+
 \section{Máximo flujo.}
 
 Consideremos un grafo dirigido $G = (V, E)$ donde cada arista $(u, v)$ tiene asociada una capacidad $c(u,v) > 0$. Un flujo de $s$ a $t$ es una función que a cada arista le asigna un número $f(u,v)$ que satisface
@@ -140,5 +173,7 @@ Complejidad: $O(|E|\sqrt{|V|})$.
 
 \caption{Ejemplo.}
 \end{figure}
+
+\newpage
 
 \end{document}

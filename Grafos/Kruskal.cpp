@@ -12,15 +12,16 @@ using namespace std;
 #define maxn 100000 //Maximo numero de vertices.
 
 typedef pair<int, pair<int, int> > edge;
-#define weight first.first
-#define from   first.second
-#define to     second
+#define weight first
+#define from   second.first
+#define to     second.second
 
-int V, M, W;
-pii E[MAXV];
-int parent[MAXV], Rank[MAXV];
+int V, E;         //Numero de vertices y aristas.
+edge graph[maxn]; //Aristas.
 
-//Union-Find by Rank and Path Compression
+int parent[maxn], Rank[maxn]; //Union-Find por rango y compresion de camino.
+vector<int> MST;              //Arbol de expansion minima.
+
 int Find(int x) {
     if (parent[x] != x)
         parent[x] = Find(parent[x]);
@@ -32,39 +33,45 @@ bool Union(int x, int y) {
     if (a == b)
         return false;
     else {
-        if (Rank[b] < Rank[a])
-            parent[b] = a;
-        else if (Rank[a] < Rank[b])
+        if (Rank[a] < Rank[b])
             parent[a] = b;
         else {
             parent[b] = a;
-            Rank[a]++;
+            if (Rank[a] == Rank[b])
+                Rank[a]++;
         }
         return true;
     }
 }
 
-void InitUnionFind() {
-    for (int i = 0; i < V; i++) {
+//Encuentra el arbol de expansion minima.
+int Kruskal() {
+    int W = 0;
+    for (int i = 0; i < V; ++i) {
         parent[i] = i;
         Rank[i] = 0;
     }
+
+    sort(graph, graph + E);
+    for (int i = 0; i < E; ++i)
+        if (Union(graph[i].from, graph[i].to)) {
+            W += graph[i].weight;
+            MST.push_back(i);
+        }
+    return W;
 }
 
 int main() {
     ios_base::sync_with_stdio(0); cin.tie();
-    cin >> V >> M;
+    cin >> V >> E;
 
-    for (int i = 0; i < M; i++)
-        cin >> E[i].u >> E[i].v >> E[i].d;
-    sort(E, E + M);
+    //Lee la informacion de las aristas.
+    for (int i = 0; i < E; ++i)
+        cin >> graph[i].from >> graph[i].to >> graph[i].weight;
 
-    InitUnionFind();
-    for (int i = 0; i < M; i++)
-        if (Union(E[i].u, E[i].v)) {
-            W += E[i].d;
-            cout << "\n" << E[i].u << " " << E[i].v << " " << E[i].d;
-        }
-    cout << "\nTotal weight: " << W;
+    //Imprime la configuracion del arbol de expansion minima.
+    cout << "Peso total: " << Kruskal() << '\n';
+    for (int i : MST)
+        cout << graph[i].from << ' ' << graph[i].to << ' ' << graph[i].weight << '\n';
     return 0;
 }
