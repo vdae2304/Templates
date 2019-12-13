@@ -40,12 +40,7 @@
 
 \section{Caminos más cortos.}
 
-Consideremos un grafo $G = (V, E)$ donde cada arista $(u, v)$ tiene una longitud $d(u,v) > 0$. El camino más corto entre dos vértices minimiza la longitud total del camino.
-
-%$$-\dfrac{\frac{2\sin\left(\frac{{\pi}}{9}\right)\left(\sin\left(\frac{{\pi}}{9}\right)x-6\right)-2\sin\left(\frac{{\pi}}{9}\right)\left(31-\sin\left(\frac{{\pi}}{9}\right)x\right)+4\cos\left(\frac{{\pi}}{9}\right)\left(\cos\left(\frac{{\pi}}{9}\right)x+9\right)}{2\sqrt{\left(31-\sin\left(\frac{{\pi}}{9}\right)x\right)^2+\left(\cos\left(\frac{{\pi}}{9}\right)+9\right)^2}\sqrt{\left(\sin\left(\frac{{\pi}}{9}\right)x-6\right)^2+\left(\cos\left(\frac{{\pi}}{9}\right)+9\right)^2}}+\frac{\sin\left(\frac{{\pi}}{9}\right)\left(31-\sin\left(\frac{{\pi}}{9}\right)x\right)\left(\left(\sin\left(\frac{{\pi}}{9}\right)x-6\right)^2+\left(31-\sin\left(\frac{{\pi}}{9}\right)x\right)^2+2\left(\cos\left(\frac{{\pi}}{9}\right)x+9\right)^2\right)}{2\left(\left(31-\sin\left(\frac{{\pi}}{9}\right)x\right)^2+\left(\cos\left(\frac{{\pi}}{9}\right)+9\right)^2\right)^\frac{3}{2}\sqrt{\left(\sin\left(\frac{{\pi}}{9}\right)x-6\right)^2+\left(\cos\left(\frac{{\pi}}{9}\right)+9\right)^2}}-\frac{\sin\left(\frac{{\pi}}{9}\right)\left(\sin\left(\frac{{\pi}}{9}\right)x-6\right)\left(\left(\sin\left(\frac{{\pi}}{9}\right)x-6\right)^2+\left(31-\sin\left(\frac{{\pi}}{9}\right)x\right)^2+2\left(\cos\left(\frac{{\pi}}{9}\right)x+9\right)^2\right)}{2\sqrt{\left(31-\sin\left(\frac{{\pi}}{9}\right)x\right)^2+\left(\cos\left(\frac{{\pi}}{9}\right)+9\right)^2}\left(\left(\sin\left(\frac{{\pi}}{9}\right)x-6\right)^2+\left(\cos\left(\frac{{\pi}}{9}\right)+9\right)^2\right)^\frac{3}{2}}}{\sqrt{1-\frac{\left(\left(\sin\left(\frac{{\pi}}{9}\right)x-6\right)^2+\left(31-\sin\left(\frac{{\pi}}{9}\right)x\right)^2+2\left(\cos\left(\frac{{\pi}}{9}\right)x+9\right)^2\right)^2}{4\left(\left(31-\sin\left(\frac{{\pi}}{9}\right)x\right)^2+\left(\cos\left(\frac{{\pi}}{9}\right)+9\right)^2\right)\left(\left(\sin\left(\frac{{\pi}}{9}\right)x-6\right)^2+\left(\cos\left(\frac{{\pi}}{9}\right)+9\right)^2\right)}}}$$
-%\begin{center}
-%\includegraphics[width = 0.45\textwidth]{MaxFlow.png}	
-%\end{center}
+Consideremos un grafo $G = (V, E)$ donde cada arista $(u, v)$ tiene una longitud $d(u,v) > 0$. El camino más corto entre dos vértices es aquel que minimiza la longitud total del camino.
 
 \subsection{Algoritmo de Dijkstra}
 
@@ -54,19 +49,25 @@ Complejidad: $O((|E| + |V|) \log|V|)$.
 \lstinputlisting[firstline = 6]{Dijkstra.cpp} \medskip
 
 \begin{tabular}{|p{7cm}|p{7cm}|}
-	\hline
-	\textbf{Entrada} & \textbf{Salida}\\ \hline
-	6 8 & Flujo maximo: 23\\
-	0 1 11 & 0 1: 11/11\\
-	0 2 12 & 0 2: 12/12\\
-	1 3 12 & 1 3: 12/12\\
-	2 1 1  & 2 1: 1/1\\
-	2 4 11 & 2 4: 11/11\\
-	4 3 7  & 3 5: 18/19\\
-	3 5 19 & 4 3: 6/7\\
-	4 5 5 & 4 5: 5/5\\ 
-	0 5 & \\ \hline
+\hline
+\textbf{Entrada} & \textbf{Salida}\\ \hline
+6 7    & 0: -1 0\\
+0 1 4  & 1: 0 4\\
+1 3 10 & 2: 0 2\\
+3 5 11 & 3: 4 9\\
+1 2 5  & 4: 2 5\\
+2 0 2  & 5: 3 20\\
+2 4 3  & \\
+4 3 4  & \\
+0      & \\ \hline
 \end{tabular}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.45\textwidth]{ShortestPath.png}
+
+\caption{Ejemplo.}
+\end{figure}
 
 \newpage
 
@@ -78,10 +79,6 @@ Consideremos un grafo dirigido $G = (V, E)$ donde cada arista $(u, v)$ tiene aso
 \item Para cualquier vértice $v \neq s, t$, el flujo que entra es igual al flujo que sale; $s$ solo tiene flujo saliente y $t$ solo tiene flujo entrante.
 \end{itemize}
 El flujo total es el flujo que sale de $s$.
-
-%\begin{center}
-%\includegraphics[width = 0.45\textwidth]{MaxFlow.png}	
-%\end{center}
 
 \subsection{Algoritmo de Edmonds-Karp}
 
@@ -104,15 +101,18 @@ Complejidad: $O(|V||E|^2)$.
 0 5 & \\ \hline
 \end{tabular}
 
+\begin{figure}[h]
+\centering
+\includegraphics[width = 0.45\textwidth]{MaxFlow.png}
+
+\caption{Ejemplo.}
+\end{figure}
+
 \newpage
 
 \section{Emparejamiento máximo.}
 
 Consideremos un grafo bipartito $G = (U \cup V, E)$. Un emparejamiento de $G$ es un subgrafo en donde cada vértice pertenece a lo más a una arista.
-
-%\begin{center}
-%\includegraphics[height = 0.3\textheight]{MaxMatching.png}	
-%\end{center}
 
 \subsection{Algoritmo de Hopcroft-Karp}
 
@@ -133,5 +133,12 @@ Complejidad: $O(|E|\sqrt{|V|})$.
 4 3   & \\
 5 3   & \\ \hline
 \end{tabular}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[height = 0.3\textheight]{MaxMatching.png}	
+
+\caption{Ejemplo.}
+\end{figure}
 
 \end{document}

@@ -12,7 +12,7 @@ using namespace std;
 
 #define maxn 100000 //Maximo numero de vertices.
 
-int U, V, E;             //Numero de vertices en cada lado y numero de aristas.
+int U, V, E;             //Numero de vertices en cada lado y de aristas.
 vector<int> graph[maxn]; //Aristas que van de U a V.
 
 int pairU[maxn], pairV[maxn], dist[maxn]; //Pares de vertices en el emparejamiento.

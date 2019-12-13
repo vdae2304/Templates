@@ -1,17 +1,20 @@
-#include <bits/stdc++.h>
+/*********************************************************************************
+* Algoritmo de Kruskal para encontrar el arbol de expansion minima.              *
+* Complejidad: O(E log V)                                                        *
+*********************************************************************************/
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <utility>
 using namespace std;
 
-/*************************************************
-* Kruskal's algorithm for minimal spanning tree  *
-* Time Complexity: O(E log V)                    *
-*************************************************/
+#define maxn 100000 //Maximo numero de vertices.
 
-#define MAXV 100000
-typedef pair<pair<int, int>, int> pii;
-
-#define d first.first
-#define u first.second
-#define v second
+typedef pair<int, pair<int, int> > edge;
+#define weight first.first
+#define from   first.second
+#define to     second
 
 int V, M, W;
 pii E[MAXV];

@@ -1,6 +1,6 @@
 /*********************************************************************************
 * Algoritmo de Dijktra para encontrar el camino mas corto.                       *
-* Complejidad: O((E + V)log V)                                                        *
+* Complejidad: O((E + V)log V)                                                   *
 *********************************************************************************/
 
 #include <iostream>
@@ -20,13 +20,13 @@ int V, E;                 //Numero de vertices y aristas.
 vector<edge> graph[maxn]; //Aristas.
 
 int s;                      //Vertice inicial.
-int dist[maxn], prevv[maxn]; //Distancia desde s y antecesor en el camino.
+int dist[maxn], pred[maxn]; //Distancia desde s y predecesor en el camino.
 bool vis[maxn];             //Visitado.
 
 //Encuentra el camino mas corto desde un vertice a todos los demas.
 void Dijkstra() {   
     fill_n(dist, V, 1e9);
-    fill_n(prevv, V, -1);
+    fill_n(pred, V, -1);
     fill_n(vis, V, false);
     dist[s] = 0;
 
@@ -41,7 +41,7 @@ void Dijkstra() {
         for (edge e : graph[curr]) 
             if (!vis[e.to] && dist[curr] + e.length < dist[e.to]) {
                 dist[e.to] = dist[curr] + e.length;
-                prevv[e.to] = curr;
+                pred[e.to] = curr;
                 pq.push(edge(-dist[e.to], e.to));
             }
     }
@@ -63,7 +63,7 @@ int main() {
     cin >> s;
     Dijkstra();
     for (int i = 0; i < V; ++i)
-        cout << i << ": " << prevv[i] << ' ' << dist[i] << '\n';
+        cout << i << ": " << pred[i] << ' ' << dist[i] << '\n';
 
     return 0;
 }
