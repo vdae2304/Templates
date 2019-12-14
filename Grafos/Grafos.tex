@@ -146,6 +146,40 @@ Complejidad: $O(|V| + |E|)$.
 
 \newpage
 
+\section{Componentes fuertemente conexa.}
+
+Consideremos un grafo dirigido $G = (V, E)$. Decimos que $G$ es fuertemente conexo si existe un camino entre cualesquiera par de vértices.
+
+\subsection{Algoritmo de Tarjan}
+
+Complejidad: $O(|V| + |E|)$.
+
+\lstinputlisting[firstline = 6]{Tarjan.cpp} \medskip
+
+%\begin{tabular}{|p{7cm}|p{7cm}|}
+%\hline
+%\textbf{Entrada} & \textbf{Salida}\\ \hline
+%7 9 & 6 0 1 2 5 4 3\\
+%6 1 & \\
+%6 5 & \\
+%0 1 & \\
+%1 5 & \\
+%0 2 & \\
+%1 2 & \\
+%2 3 & \\
+%5 3 & \\ 
+%5 4 & \\ \hline
+%\end{tabular}
+%
+%\begin{figure}[h]
+%\centering
+%\includegraphics[width = 0.6\textwidth]{TopoSort.png}
+%
+%\caption{Ejemplo.}
+%\end{figure}
+
+\newpage
+
 \section{Máximo flujo.}
 
 Consideremos un grafo dirigido $G = (V, E)$ donde cada arista $(u, v)$ tiene asociada una capacidad $c(u,v) > 0$. Un flujo de $s$ a $t$ es una función que a cada arista le asigna un número $f(u,v)$ que satisface
