@@ -43,6 +43,7 @@ void StrongConnect(int u) {
             SCC.back().push_back(S.top());
             S.pop();
         }
+
         onStack[u] = false;
         SCC.back().push_back(u);
         S.pop();

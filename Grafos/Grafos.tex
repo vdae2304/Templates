@@ -70,12 +70,9 @@ Complejidad: $O((|E| + |V|) \log|V|)$.
 0      & \\ \hline
 \end{tabular}
 
-\begin{figure}[h]
-\centering
+\begin{center}
 \includegraphics[width = 0.45\textwidth]{ShortestPath.png}
-
-\caption{Ejemplo.}
-\end{figure}
+\end{center}
 
 \newpage
 
@@ -103,12 +100,9 @@ Complejidad: $O(|E| \log|V|)$.
 3 5 1  & \\ \hline
 \end{tabular}
 
-\begin{figure}[h]
-\centering
-\includegraphics[width = 0.35\textwidth]{MST.png}
-
-\caption{Ejemplo.}
-\end{figure}
+\begin{center}
+\includegraphics[width = 0.37\textwidth]{MST.png}
+\end{center}
 
 \newpage
 
@@ -137,16 +131,13 @@ Complejidad: $O(|V| + |E|)$.
 5 4 & \\ \hline
 \end{tabular}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[width = 0.6\textwidth]{TopoSort.png}
-	
-	\caption{Ejemplo.}
-\end{figure}
+\begin{center}
+\includegraphics[width = 0.6\textwidth]{TopoSort.png}
+\end{center}
 
 \newpage
 
-\section{Componentes fuertemente conexa.}
+\section{Componentes fuertemente conexas.}
 
 Consideremos un grafo dirigido $G = (V, E)$. Decimos que $G$ es fuertemente conexo si existe un camino entre cualesquiera par de vértices.
 
@@ -156,27 +147,23 @@ Complejidad: $O(|V| + |E|)$.
 
 \lstinputlisting[firstline = 6]{Tarjan.cpp} \medskip
 
-%\begin{tabular}{|p{7cm}|p{7cm}|}
-%\hline
-%\textbf{Entrada} & \textbf{Salida}\\ \hline
-%7 9 & 6 0 1 2 5 4 3\\
-%6 1 & \\
-%6 5 & \\
-%0 1 & \\
-%1 5 & \\
-%0 2 & \\
-%1 2 & \\
-%2 3 & \\
-%5 3 & \\ 
-%5 4 & \\ \hline
-%\end{tabular}
-%
-%\begin{figure}[h]
-%\centering
-%\includegraphics[width = 0.6\textwidth]{TopoSort.png}
-%
-%\caption{Ejemplo.}
-%\end{figure}
+\begin{tabular}{|p{7cm}|p{7cm}|}
+\hline
+\textbf{Entrada} & \textbf{Salida}\\ \hline
+6 8 & 4 5\\
+0 1 & 2\\
+1 2 & 3 1 0\\
+1 4 & \\ 
+1 3 & \\
+3 0 & \\
+2 5 & \\
+4 5 & \\
+5 4 & \\ \hline
+\end{tabular}
+
+\begin{center}
+\includegraphics[width = 0.37\textwidth]{StronglyConnected.png}
+\end{center}
 
 \newpage
 
@@ -210,12 +197,9 @@ Complejidad: $O(|V||E|^2)$.
 0 5 & \\ \hline
 \end{tabular}
 
-\begin{figure}[h]
-\centering
+\begin{center}
 \includegraphics[width = 0.45\textwidth]{MaxFlow.png}
-
-\caption{Ejemplo.}
-\end{figure}
+\end{center}
 
 \newpage
 
@@ -241,14 +225,11 @@ Complejidad: $O(|E|\sqrt{|V|})$.
 3 4   & \\
 4 3   & \\
 5 3   & \\ \hline
-\end{tabular}
+\end{tabular} \newpage
 
-\begin{figure}[ht]
-\centering
+\begin{center}
 \includegraphics[height = 0.3\textheight]{MaxMatching.png}	
-
-\caption{Ejemplo.}
-\end{figure}
+\end{center}
 
 \newpage
 
