@@ -1,6 +1,6 @@
 /*********************************************************************************
-* Algoritmo para encontrar un ordenamiendo topologico de un DAG.                 *
-* Complejidad: O(V + E)                                                   *
+* Algoritmo basado en DFS para encontrar un ordenamiendo topologico de un DAG.   *
+* Complejidad: O(V + E)                                                          *
 *********************************************************************************/
 
 #include <iostream>
@@ -35,8 +35,7 @@ void DFS(int u) {
 //Encuentra el orden topologico.
 void ToopologicalSort() {
     for (int u = 0; u < V; ++u)
-        if (!vis[u])
-            DFS(u);
+        DFS(u);
     reverse(sorted.begin(), sorted.end());
 }
 

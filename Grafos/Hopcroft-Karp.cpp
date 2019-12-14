@@ -62,8 +62,6 @@ bool DFS(int u) {
 //Busca un emparejamiento maximo.
 int HopcroftKarp() {
     int size = 0;
-    fill_n(pairU, U, 0);
-    fill_n(pairV, V, 0);
     while (BFS()) 
         for (int u = 1; u <= U; ++u) 
             if (!pairU[u] && DFS(u))

@@ -4,7 +4,9 @@
 \usepackage{amsmath, amsfonts, amssymb, amsthm}
 \usepackage[left = 2cm, right = 2cm, top = 2cm, bottom = 2cm]{geometry}
 
-\title{Grafos}
+\title{Grafos.\\Material de referencia.}
+\author{}
+\date{} 
 
 %Estilo de la página
 \usepackage{fancybox, fancyhdr}
@@ -37,6 +39,12 @@
 
 %Documento
 \begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
 
 \section{Caminos más cortos.}
 
@@ -108,7 +116,7 @@ Complejidad: $O(|E| \log|V|)$.
 
 Consideremos un grafo dirigido acíclico $G = (V, E)$. Un orden topológico es un ordenamiento lineal de los vértices en donde las aristas conectan solamente con vértices posteriores.
 
-\subsection{Algoritmo}
+\subsection{Algoritmo basado en DFS}
 
 Complejidad: $O(|V| + |E|)$.
 

@@ -27,7 +27,6 @@ bool vis[maxn];             //Visitado.
 void Dijkstra() {   
     fill_n(dist, V, 1e9);
     fill_n(pred, V, -1);
-    fill_n(vis, V, false);
     dist[s] = 0;
 
     priority_queue<edge> pq;
