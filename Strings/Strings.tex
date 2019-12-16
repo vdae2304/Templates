@@ -1,0 +1,73 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage[left = 2cm, right = 2cm, top = 2cm, bottom = 2cm]{geometry}
+
+\title{Strings.\\
+	  \large Material de referencia.}
+\author{}
+\date{} 
+
+%Estilo de la página
+\usepackage{fancybox, fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small{\leftmark}}
+\fancyfoot[CE,CO]{\thepage}
+\renewcommand{\headrulewidth}{2 pt}
+
+%Imagenes
+\usepackage{graphicx}
+\graphicspath{{Imagenes/}}
+
+%Estilo del codigo
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\lstset{  
+	language         = C++, 
+	xleftmargin      = 1 cm,
+	numbers          = left,
+	numberstyle      = \tiny\textbf,	
+	basicstyle       = \footnotesize,
+	keywordstyle     = \color{blue},
+	directivestyle   = \color{Green},
+	commentstyle     = \color{purple},
+	stringstyle      = \color{blue},
+	showstringspaces = false,
+	breaklines       = true,
+}
+
+%Documento
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{Arreglo de sufijos.}
+
+Consideremos un string $s$. Un arreglo de sufijos de $s$ es un arreglo de enteros que guarda las posiciones iniciales de los sufijos de $s$ en orden lexicográfico.
+
+\subsection{Implementación}
+
+Complejidad: $O(|s|\log |s|)$.
+
+\lstinputlisting[firstline = 6]{Suffix-Array.cpp} \medskip
+
+\begin{tabular}{|p{7cm}|p{7cm}|}
+\hline
+\textbf{Entrada} & \textbf{Salida}\\ \hline
+banana & 5 a\\
+       & 3 ana\\
+       & 1 anana\\
+       & 0 banana\\
+       & 4 na\\
+       & 2 nana\\ \hline
+\end{tabular}
+
+\newpage
+
+\end{document}
