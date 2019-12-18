@@ -1,22 +1,22 @@
-/************************************************************************
-* Algoritmo de Aho Corasick para encontrar todas las ocurrencias de una *
-* lista de palabras en un texto.                                        *
-* Complejidad: O(len(palabaras) + len(texto) + num ocurrencias)         *
-************************************************************************/
+/*********************************************************************************
+* Algoritmo de Aho Corasick para encontrar todas las ocurrencias de una lista de *
+* palabras en un texto.                                                          *
+* Complejidad: O(len(palabaras) + len(texto) + num ocurrencias)                  *
+*********************************************************************************/
 
 #include <iostream>
 #include <cstring>
 #include <queue>
 using namespace std;
 
-#define maxc 26     //Longitud del alfabeto
-#define maxn 100    //Maximo numero de palabras
-#define maxs 100000 //Maximo numero de estados
+#define maxc 26     //Longitud del alfabeto.
+#define maxn 100    //Maximo numero de palabras.
+#define maxs 100000 //Maximo numero de estados.
 
-int go[maxs][maxc], nxt[maxs]; //Nodos siguientes en el Trie
-bool isEnd[maxs][maxn];        //Guarda si la palabra i termina en el estado s
+int go[maxs][maxc], nxt[maxs]; //Nodos siguientes en el Trie.
+bool isEnd[maxs][maxn];        //Guarda si la palabra i termina en el estado s.
 
-/*Retorna el siguiente estado*/
+//Retorna el siguiente estado.
 int nextState(int currState, int c) {
     while (go[currState][c] == -1)
         currState = nxt[currState];

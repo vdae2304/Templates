@@ -47,9 +47,31 @@
 
 \newpage
 
+\section{Arreglo Z.}
+
+Consideremos un string $s$. El arreglo Z de $s$ es un arreglo de enteros que guarda la longitud del substring más largo que empieza en la posición $i$ y es prefijo de $s$. 
+
+En particular, podemos encontrar todas las ocurrencias de un patrón $P$ en un texto $T$ calculando el arreglo Z del string $P + \diamond + T$, donde $\diamond$ es algún carácter que no aparece ni en $P$ ni en $T$.
+
+\subsection{Implementación}
+
+Complejidad: $O(|s|)$.
+
+\lstinputlisting[firstline = 6]{Z-Array.cpp} \medskip
+
+\begin{tabular}{|p{7cm}|p{7cm}|}
+\hline
+\textbf{Entrada} & \textbf{Salida}\\ \hline
+AABAACAADAABAABA & Patron encontrado en la posicion 0\\
+AABA             & Patron encontrado en la posicion 9\\
+                 & Patron encontrado en la posicion 12\\ \hline
+\end{tabular}
+
+\newpage
+
 \section{Arreglo de sufijos.}
 
-Consideremos un string $s$. Un arreglo de sufijos de $s$ es un arreglo de enteros que guarda las posiciones iniciales de los sufijos de $s$ en orden lexicográfico.
+Consideremos un string $s$. El arreglo de sufijos de $s$ es un arreglo de enteros que guarda las posiciones iniciales de los sufijos de $s$ en orden lexicográfico.
 
 \subsection{Implementación}
 
