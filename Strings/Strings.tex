@@ -55,7 +55,7 @@ En particular, podemos encontrar todas las ocurrencias de un patrón $P$ en un t
 
 \subsection{Implementación}
 
-Complejidad: $O(|s|)$.
+Complejidad: $O(|P| + |T|)$.
 
 \lstinputlisting[firstline = 6]{Z-Array.cpp} \medskip
 
@@ -88,6 +88,31 @@ banana & 5 a\\
        & 0 banana\\
        & 4 na\\
        & 2 nana\\ \hline
+\end{tabular}
+
+\newpage
+
+\section{Aho Corasick.}
+
+Consideremos un texto $T$ y una lista de patrones $P_1, \ldots, P_n$. Queremos encontrar todas las ocurrencias de estos patrones en el texto.
+
+El algoritmo de Aho Corasick resuelve este problema implementando un Trie sobre los patrones. Adicionalmente, cada vértice posee una nueva arista que representa el sufijo más largo del camino actual que es prefijo de algún patrón.
+
+\subsection{Implementación}
+
+Complejidad: $O(|T| + |P_1| + \ldots + |P_n| + \#Ocurrencias)$.
+
+\lstinputlisting[firstline = 6]{Aho-Corasick.cpp} \medskip
+
+\begin{tabular}{|p{7cm}|p{7cm}|}
+\hline
+\textbf{Entrada} & \textbf{Salida}\\ \hline
+abcdabccabbacefdabc & abc aparece en la posicion 0\\
+4                   & bcd aparece en la posicion 1\\
+abc                 & abc aparece en la posicion 4\\
+ca                  & ca aparece en la posicion 7\\
+bcd                 & ef aparece en la posicion 13\\
+ef                  & abc aparece en la posicion 16\\ \hline
 \end{tabular}
 
 \newpage

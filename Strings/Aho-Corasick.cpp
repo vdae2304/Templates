@@ -1,91 +1,82 @@
 /*********************************************************************************
 * Algoritmo de Aho Corasick para encontrar todas las ocurrencias de una lista de *
-* palabras en un texto.                                                          *
-* Complejidad: O(len(palabaras) + len(texto) + num ocurrencias)                  *
+* patrones en un texto.                                                          *
+* Complejidad: O(len(texto) + len(patrones) + num ocurrencias)                   *
 *********************************************************************************/
 
 #include <iostream>
-#include <cstring>
-#include <queue>
 using namespace std;
 
 #define maxc 26     //Longitud del alfabeto.
-#define maxn 100    //Maximo numero de palabras.
-#define maxs 100000 //Maximo numero de estados.
+#define maxn 100    //Maximo numero de patrones.
+#define maxs 100000 //Maximo numero de nodos.
 
-int go[maxs][maxc], nxt[maxs]; //Nodos siguientes en el Trie.
-bool isEnd[maxs][maxn];        //Guarda si la palabra i termina en el estado s.
+int n;                      //Numero de patrones.
+string text, pattern[maxn]; //Texto y lista de patrones.
 
-//Retorna el siguiente estado.
-int nextState(int currState, int c) {
-    while (go[currState][c] == -1)
-        currState = nxt[currState];
-    return go[currState][c];
+int nnodes;           //Numero de nodos.
+struct node {
+    node *nxt[maxc];  //Nodo siguiente en el Trie.
+    node *link;       //Sufijo propio mas largo que es prefijo de un patron.
+    bool isEnd[maxn]; //Es nodo terminal de algun patron.
+} Trie[maxs];
+
+//Retorna el nodo siguiente.
+node *nextNode(node *curr, char c) {
+    if (curr == NULL)
+        return Trie;
+    if (curr->nxt[c] == NULL)
+        return nextNode(curr->link, c);
+    return curr->nxt[c];
 }
 
-/*Construye la "maquina" de patrones basada en un Trie extendido*/
-void build(int n, string p[]) {
-    int states = 1;
-    memset(go, -1, sizeof go);
-    memset(isEnd, 0, sizeof isEnd);
-
-    /*Construye el Trie*/
-    for (int i = 0; i < n; i++) {
-        int currState = 0;
-        for (int j = 0; j < p[i].size(); j++) {
-            char c = p[i][j] - 'a';
-            if (go[currState][c] == -1)
-                go[currState][c] = states++;
-            currState = go[currState][c];
+//Construye los links de cada nodo.
+void buildLink(node *curr) {
+    for (char c = 0; c < maxc; ++c) {
+        node *nxt = curr->nxt[c];
+        if (nxt != NULL) {
+            nxt->link = nextNode(curr->link, c);
+            for (int i = 0; i < n; ++i)
+                if (nxt->link->isEnd[i])
+                    nxt->isEnd[i] = true;
+            buildLink(nxt);
         }
-        isEnd[currState][i] = true;
-    }
-
-    for (int c = 0; c < maxc; c++)
-        if (go[0][c] == -1)
-            go[0][c] = 0;
-
-    /*Calcula las aristas siguientes cuando no estan en el Trie*/
-    queue<int> Q;
-    memset(nxt, -1, sizeof nxt);
-
-    for (int c = 0; c < maxc; c++)
-        if (go[0][c]) {
-            nxt[go[0][c]] = 0;
-            Q.push(go[0][c]);
-        }
-
-    while (!Q.empty()) {
-        int state = Q.front();
-        Q.pop();
-        for (int c = 0; c < maxc; c++)
-            if (go[state][c] != -1) {
-                int id = nextState(nxt[state], c);
-                nxt[go[state][c]] = id;
-                for (int i = 0; i < n; i++)
-                    if (isEnd[id][i])
-                        isEnd[go[state][c]][i] = true;
-                Q.push(go[state][c]);
-            }
     }
 }
 
-/*Imprime las ocurrencias de las palabras en el texto*/
-void searchWords(int n, string p[], string text) {
-    build(n, p);
-    int currState = 0;
-    for (int i = 0; i < text.size(); i++) {
-        currState = nextState(currState, text[i] - 'a');
-        for (int j = 0; j < n; j++)
-            if (isEnd[currState][j])
-                cout << p[j] << " aparece de " << i - p[j].size() + 1 << " a " << i << "\n";
+//Construye el Trie de patrones.
+void buildTrie() {
+    for (int i = 0; i < n; ++i) {
+        node *curr = Trie;
+        for (int j = 0; j < pattern[i].size(); ++j) {
+            char c = pattern[i][j] - 'a';
+            if (curr->nxt[c] == NULL)
+                curr->nxt[c] = Trie + (++nnodes);
+            curr = curr->nxt[c];
+        }
+        curr->isEnd[i] = true;
     }
+    buildLink(Trie);
 }
 
 int main() {
-    string s = "abcdabccabbacefdabc";
-    string p[] = {"abc", "db", "ca", "bcd", "ef"};
-    cout << s << "\n";
-    searchWords(5, p, s);
+    ios_base::sync_with_stdio(0); cin.tie();
+    
+    //Lee el texto y los patrones.
+    getline(cin, text);
+    cin >> n;
+    for (int i = 0; i < n; ++i)
+        cin >> pattern[i];
+    buildTrie();
+
+    //Imprime todas las ocurrencias.
+    node *curr = Trie;
+    for (int i = 0; i < text.size(); ++i) { 
+        curr = nextNode(curr, text[i] - 'a');
+        for (int j = 0; j < n; ++j)
+            if (curr->isEnd[j])
+                cout << pattern[j] << " aparece en la posicion " << i - pattern[j].size() + 1 << '\n';
+    }
+
     return 0;
 }
