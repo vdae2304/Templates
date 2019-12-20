@@ -69,29 +69,6 @@ AABA             & Patron encontrado en la posicion 9\\
 
 \newpage
 
-\section{Arreglo de sufijos.}
-
-Consideremos un string $s$. El arreglo de sufijos de $s$ es un arreglo de enteros que guarda las posiciones iniciales de los sufijos de $s$ en orden lexicográfico.
-
-\subsection{Implementación}
-
-Complejidad: $O(|s|\log |s|)$.
-
-\lstinputlisting[firstline = 6]{Suffix-Array.cpp} \medskip
-
-\begin{tabular}{|p{7cm}|p{7cm}|}
-\hline
-\textbf{Entrada} & \textbf{Salida}\\ \hline
-banana & 5 a\\
-       & 3 ana\\
-       & 1 anana\\
-       & 0 banana\\
-       & 4 na\\
-       & 2 nana\\ \hline
-\end{tabular}
-
-\newpage
-
 \section{Aho Corasick.}
 
 Consideremos un texto $T$ y una lista de patrones $P_1, \ldots, P_n$. Queremos encontrar todas las ocurrencias de estos patrones en el texto.
@@ -113,6 +90,29 @@ abc                 & abc aparece en la posicion 4\\
 ca                  & ca aparece en la posicion 7\\
 bcd                 & ef aparece en la posicion 13\\
 ef                  & abc aparece en la posicion 16\\ \hline
+\end{tabular}
+
+\newpage
+
+\section{Arreglo de sufijos.}
+
+Consideremos un string $s$. El arreglo de sufijos de $s$ es un arreglo de enteros que guarda las posiciones iniciales de los sufijos de $s$ en orden lexicográfico.
+
+\subsection{Implementación}
+
+Complejidad: $O(|s|\log |s|)$.
+
+\lstinputlisting[firstline = 6]{Suffix-Array.cpp} \medskip
+
+\begin{tabular}{|p{7cm}|p{7cm}|}
+\hline
+\textbf{Entrada} & \textbf{Salida}\\ \hline
+banana & 5 a\\
+       & 3 ana\\
+       & 1 anana\\
+       & 0 banana\\
+       & 4 na\\
+       & 2 nana\\ \hline
 \end{tabular}
 
 \newpage
