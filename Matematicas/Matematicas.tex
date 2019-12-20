@@ -1,0 +1,67 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage[left = 2cm, right = 2cm, top = 2cm, bottom = 2cm]{geometry}
+
+\title{Matemáticas.\\
+	  \large Material de referencia.}
+\author{}
+\date{} 
+
+%Estilo de la página
+\usepackage{fancybox, fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small{\leftmark}}
+\fancyfoot[CE,CO]{\thepage}
+\renewcommand{\headrulewidth}{2 pt}
+
+%Imagenes
+\usepackage{graphicx}
+\graphicspath{{Imagenes/}}
+
+%Estilo del codigo
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\lstset{  
+	language         = C++, 
+	xleftmargin      = 1 cm,
+	numbers          = left,
+	numberstyle      = \tiny\textbf,	
+	basicstyle       = \footnotesize,
+	keywordstyle     = \color{blue},
+	directivestyle   = \color{Green},
+	commentstyle     = \color{purple},
+	stringstyle      = \color{blue},
+	showstringspaces = false,
+	breaklines       = true,
+}
+
+%Documento
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{Big Numbers.}
+
+\subsection{Implementación}
+
+\lstinputlisting[firstline = 6]{BigNumbers.cpp} \medskip
+
+\begin{tabular}{|p{7cm}|p{7cm}|}
+\hline
+\textbf{Entrada} & \textbf{Salida}\\ \hline
+1894821 & 1894821 + 589613 = 2484434\\
+589613  & 1894821 - 589613 = 1305208\\ 
+        & 1894821 * 589613 = 1117211094273\\ 
+        & 1894821 = 589613 * 3 + 125982\\ \hline
+\end{tabular}
+
+\newpage
+
+\end{document}
