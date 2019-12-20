@@ -14,12 +14,14 @@ using namespace std;
 int n;                      //Numero de patrones.
 string text, pattern[maxn]; //Texto y lista de patrones.
 
-int nnodes;           //Numero de nodos.
 struct node {
     node *nxt[maxc];  //Nodo siguiente en el Trie.
     node *link;       //Sufijo propio mas largo que es prefijo de un patron.
     bool isEnd[maxn]; //Es nodo terminal de algun patron.
-} Trie[maxs];
+};
+
+int nnodes;      //Numero de nodos.
+node Trie[maxs]; //Nodos del Trie.
 
 //Retorna el nodo siguiente.
 node *nextNode(node *curr, char c) {
@@ -63,8 +65,7 @@ int main() {
     ios_base::sync_with_stdio(0); cin.tie();
     
     //Lee el texto y los patrones.
-    getline(cin, text);
-    cin >> n;
+    cin >> text >> n;
     for (int i = 0; i < n; ++i)
         cin >> pattern[i];
     buildTrie();

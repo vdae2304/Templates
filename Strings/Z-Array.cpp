@@ -30,8 +30,8 @@ void buildZ() {
 
 int main() {
     ios_base::sync_with_stdio(0); cin.tie();
-    getline(cin, text);
-    cin >> pattern;
+    //Lee el texto y los patrones.
+    cin >> text >> pattern;
     str = pattern + '$' + text;
     
     //Imprime todas las ocurrencias.
