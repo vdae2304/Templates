@@ -27,10 +27,9 @@ int level[maxn], ptr[maxn]; //Distancia a s y numero de aristas visitadas.
 //Verifica si se puede enviar flujo de s a t.
 bool BFS() {
     queue<int> Q;
-    Q.push(s);
-
     fill_n(level, V, -1);
     level[s] = 0;
+    Q.push(s);
 
     while (!Q.empty()) {
         int curr = Q.front();
