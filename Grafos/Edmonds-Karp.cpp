@@ -66,7 +66,7 @@ T EdmondsKarp() {
 
 int main() {
     ios_base::sync_with_stdio(0); cin.tie();
-    cin >> V >> E;
+    cin >> V >> E >> s >> t;
 
     //Lee la informacion de las aristas.
     for (int i = 0; i < E; ++i) {
@@ -79,14 +79,12 @@ int main() {
         graph[from].back()->rev = graph[to].back();
     }
 
-    cin >> s >> t;
-    cout << "Flujo maximo: " << EdmondsKarp() << '\n';
-
     //Imprime la configuracion del flujo.
+    cout << "Flujo maximo: " << EdmondsKarp() << '\n';
     for (int i = 0; i < V; ++i)
         for (edge *e : graph[i]) {
             if (e->capacity > 0)
-                cout << i << ' ' << e->to << ": " << e->flow << '/' << e->capacity <<'\n';
+                cout << i << ' ' << e->to << ": " << e->flow << '/' << e->capacity << '\n';
             delete e;
         }
 

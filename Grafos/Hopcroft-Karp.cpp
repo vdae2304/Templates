@@ -45,7 +45,7 @@ bool BFS() {
 
 //Verifica si existe un camino de aumento que comience en u.
 bool DFS(int u) {
-    if (u) {
+    if (u != 0) {
         for (int v : graph[u]) 
             if (dist[pairV[v]] == dist[u] + 1 && DFS(pairV[v])) {
                 pairV[v] = u;
@@ -65,7 +65,7 @@ int HopcroftKarp() {
     while (BFS()) 
         for (int u = 1; u <= U; ++u) 
             if (!pairU[u] && DFS(u))
-                size++;
+                ++size;
     return size;
 }
 
