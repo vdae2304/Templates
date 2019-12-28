@@ -47,6 +47,42 @@
 
 \newpage
 
+\section{Fórmulas importantes.}
+
+\subsection{Desarreglos}
+
+Un desarreglo es una permutación donde ningún elemento aparece en su posición original. El número de desarreglos está dado por la fórmula recursiva 
+$$!n = (n - 1)(!(n - 1) + !(n - 2)), \qquad !0 = 1, \, !1 = 0$$ 
+y por la fórmula cerrada
+$$!n = n! \sum_{k=0}^n \frac{(-1)^k}{k!}.$$
+
+\subsection{Números de Catalán}
+
+Los números de Catalán cuentan: el número de expresiones con $n$ pares de paréntesis correctamente balanceados; el número de caminos distintos sobre una cuadrícula de $n \times n$ que empiezan en la esquina inferior izquierda y terminan en la esquina superior derecha, constan solamente de movimientos hacia arriba y hacia la derecha, y nunca cruzan la diagonal; el número de triangulaciones de un polígono convexo de $n + 2$ lados; entre otras cosas. Están dados por la fórmula recursiva
+$$C_{n+1} = \sum_{i=0}^n C_iC_{n-i}, \qquad C_0 = 1$$
+y por la fórmula cerrada
+$$C_n = \frac{1}{n + 1}\binom{2n}{n}.$$
+
+\subsection{Números de Stirling}
+
+Los números de Stirling de primer tipo cuentan el número de permutaciones con exactamente $k$ ciclos disjuntos. Están dados por la fórmula recursiva
+$$c(n + 1, k) = nc(n, k) + c(n, k - 1), \qquad c(n, 0) =  0, \, c(n, n) = 1.$$
+
+Los números de Stirling de segundo tipo cuentan el número de particiones de un conjunto de tamaño $n$ en $k$ subconjuntos no vacíos. Están dados por la fórmula recursiva
+$$S(n + 1, k) = kS(n, k) + S(n, k - 1), \qquad S(n, 0) =  0, \, S(n, n) = 1$$
+y por la fórmula cerrada
+$$S(n, k) = \frac{1}{k!} \sum_{i=0}^k (-1)^i \binom{k}{i}(k - i)^n.$$
+
+\subsection{Números de Grundy}
+
+Un juego por turnos entre dos jugadores es \textit{normal} si el jugador que no pueda mover pierde, y es \textit{imparcial} si en todo momento ambos jugadores disponen del mismo conjunto de movimientos.
+
+El juego de \textit{Nim} es un juego normal e imparcial en donde cada jugador debe escoger una pila y eliminar al menos un objeto de esa pila. Sean $P_1, \ldots, P_n$ los tamaños de cada pila. El jugador en turno tiene estrategia ganadora si y sólo si $P_1 \text{ xor } \ldots \text{ xor } P_n \neq 0$.
+
+El \textbf{Teorema de Sprague-Grundy} afirma que todo juego normal e imparcial es equivalente a un juego de Nim.
+
+\newpage
+
 \section{Big Numbers.}
 
 \subsection{Implementación}
