@@ -64,6 +64,45 @@
 
 \newpage
 
+\section{Test de Primalidad.}
+
+Decimos que un entero positivo $p$ es primo si tiene exactamente dos divisores distintos: $1$ y $p$.
+
+\subsection{Algoritmo de Miller-Rabin.}
+
+\lstinputlisting[firstline = 6]{Miller-Rabin.cpp} \medskip
+
+\begin{tabular}{|p{7cm}|p{7cm}|}
+\hline
+\textbf{Entrada} & \textbf{Salida}\\ \hline
+1000000007 & Probablemente es primo.\\
+123456789  & No es primo.\\
+104729     & Probablemente es primo.\\ \hline
+\end{tabular}
+
+\newpage
+
+\section{Factorización en primos.}
+
+Sea $n$ un entero mayor que $1$, el Teorema Fundamental de la Aritmética afirma que $n$ tiene una única factorización en primos.
+
+\subsection{Algoritmo de prueba por división.}
+
+Complejidad: $O\left(\pi\left(\sqrt{n}\right)\right)$ donde $\pi(x)$ es el número de primos menores o iguales que $x$.
+
+\lstinputlisting[firstline = 6]{Trial-Division.cpp} \medskip
+
+\begin{tabular}{|p{7cm}|p{7cm}|}
+\hline
+\textbf{Entrada} & \textbf{Salida}\\ \hline
+180   & 2 2 3 3 5\\
+3500  & 2 2 5 5 5 7\\ 
+123456789 & 3 3 3607 3803\\
+104729 & 104729\\ \hline
+\end{tabular}
+
+\newpage
+
 \section{Sistema de Ecuaciones Lineales.}
 
 Consideremos un sistema de ecuaciones lineales dado por la matriz \textbf{A} de $n \times n$ y el vector \textbf{b} de dimensión $n$. Decimos que \textbf{x} es solución si $\textbf{Ax} = \textbf{b}$.
@@ -83,6 +122,31 @@ Complejidad $O(n^3)$.
 2 -3 2 -1 17 & -2\\ 
 1 1 -3 -2 -7 & 3\\ 
              & -1\\ \hline
+\end{tabular}
+
+\newpage
+
+\section{Sistema de Congruencias Lineales.}
+
+Consideremos el sistema de congruencias
+\begin{align*}
+x &\equiv a_1 \pmod{m_1}\\
+&\vdots\\
+x &\equiv a_n \pmod{m_n}
+\end{align*}
+con $m_1, \ldots, m_n$ primos relativos por parejas. El Teorema Chino del Residuo afirma que existe una única solución módulo $m_1\cdots m_n$.
+
+\subsection{Teorema Chino del Residuo.}
+
+\lstinputlisting[firstline = 6]{ChineseRemainder.cpp} \medskip
+
+\begin{tabular}{|p{7cm}|p{7cm}|}
+\hline
+\textbf{Entrada} & \textbf{Salida}\\ \hline
+3   & x = 66 (mod 180)\\
+2 4 & \\ 
+3 9 & \\ 
+1 5 & \\ \hline
 \end{tabular}
 
 \newpage

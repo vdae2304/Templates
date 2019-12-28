@@ -1,6 +1,6 @@
-/************************************************************
-* Implementacion de funciones geometricas elementales       *
-************************************************************/
+/*********************************************************************************
+* Implementacion de funciones geometricas elementales                            *
+*********************************************************************************/
 #include <iostream>
 #include <cmath>
 using namespace std;

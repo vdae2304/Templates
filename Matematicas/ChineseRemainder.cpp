@@ -1,42 +1,42 @@
 /*********************************************************************************
 * Teorema Chino del Residuo para resolver sistemas lineales de congruencias.     *
-* Complejidad: O(n)                                                              *
+* Algoritmo Extendido de Euclides para encontrar el maximo comun divisor.        *
 *********************************************************************************/
 
 #include <iostream>
-#include <algorithm>
 using namespace std;
 
 #define maxn 100000    //Maximo numero de ecuaciones.
-typedef long long lld;
 
-int n;                          //Numero de ecuaciones.
-lld MOD, coef[maxn], mod[maxn]; //Ecuaciones.
+int n;                                //Numero de ecuaciones.
+long long MOD, coef[maxn], mod[maxn]; //Datos de las ecuaciones.
 
 //Algoritmo extendido de Euclides.
-lld extendedEuclid(lld a, lld b, lld &x, lld &y) {
+long long extendedEuclid(long long a, long long b, long long &x, long long &y) {
     if (b == 0) {
-        x = 1; y = 0; 
+        x = 1; 
+        y = 0; 
         return a;
     }
     else {
-        lld gcd = extendedEuclid(b, a % b, y, x, gcd);
+        long long gcd = extendedEuclid(b, a % b, y, x);
         y -= (a / b) * x;
         return gcd;
     }
 }
 
 //Teorema Chino del Residuo.
-lld ChineseRemainder() {
+long long ChineseRemainder() {
     MOD = 1;
     for (int i = 0; i < n; ++i)
         MOD *= mod[i];
 
-    lld x = 0;
+    long long x = 0;
     for (int i = 0; i < n; ++i) {
-        lld N = MOD / mod[i], invN, invmod;
-        extendedEuclid(N, mod[i], invN, invmod);
-        x += coef[i] * invN * N;
+        long long N = MOD / mod[i], invN, invM;
+        extendedEuclid(N, mod[i], invN, invM);
+        x = (x + coef[i] * N * invN) % MOD;
+        x = (x + MOD) % MOD;
     }
 
     return x;
@@ -49,6 +49,6 @@ int main() {
     for (int i = 0; i < n; ++i)
         cin >> coef[i] >> mod[i];
 
-    cout << "x = " << ChineseRemainder() << " mod " << MOD << '\n';
+    cout << "x = " << ChineseRemainder() << " (mod " << MOD << ")\n";
     return 0;
 }
