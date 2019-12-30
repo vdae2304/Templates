@@ -1,0 +1,107 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage[left = 2cm, right = 2cm, top = 2cm, bottom = 2cm]{geometry}
+
+\title{Estructuras de datos.\\
+	  \large Material de referencia.}
+\author{}
+\date{} 
+
+%Estilo de la página
+\usepackage{fancybox, fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small{\leftmark}}
+\fancyfoot[CE,CO]{\thepage}
+\renewcommand{\headrulewidth}{2 pt}
+
+%Imagenes
+\usepackage{graphicx}
+\graphicspath{{Imagenes/}}
+
+%Estilo del codigo
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\lstset{  
+	language         = C++, 
+	xleftmargin      = 1 cm,
+	numbers          = left,
+	numberstyle      = \tiny\textbf,	
+	basicstyle       = \footnotesize,
+	keywordstyle     = \color{blue},
+	directivestyle   = \color{Green},
+	commentstyle     = \color{purple},
+	stringstyle      = \color{blue},
+	showstringspaces = false,
+	breaklines       = true,
+}
+
+%Documento
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{Policy based data structures.}
+
+La STL de GNU C++ implementa algunas estructuras de datos adicionales.
+
+\subsection{Contenedores basados en árboles.}
+
+Probablemente la más interesante de todas, es el árbol. Para poder utilizarlo debemos añadir antes las siguientes librerías:
+
+\begin{lstlisting}
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+\end{lstlisting}
+
+Los contenedores basados en árboles tienen la siguiente declaración:
+
+\begin{lstlisting}
+tree<Key, Mapped, Cmp_Fn = std::less<Key>, Tag = rb_tree_tag, node_update = null_node_update, Allocator = std::allocator<char> >
+\end{lstlisting}
+
+donde
+\begin{itemize}
+\item \texttt{Key} es el tipo de las llaves.
+
+\item \texttt{Mapped} es el tipo de los datos mapeados. Esto se asemeja bastante a un \texttt{map<key, T>}. Si en su lugar lo llenamos con \texttt{null\_type}, obtenemos un contenedor similar a un \texttt{set<T>}.
+
+\item \texttt{Cmp\_Fn} es una función de comparación de llaves.
+
+\item \texttt{Tag} especifica la estructura de datos a utilizar. Debe ser alguno de \texttt{rb\_tree\_tag} (red-black tree), \texttt{splay\_tree\_tag} (splay tree) o \texttt{ov\_tree\_tag} (ordered-vector tree).
+
+\item \texttt{node\_update} especifica como actualizar los invariantes de cada nodo. Por defecto este campo está lleno con \texttt{null\_node\_update}, es decir, no hay información adicional para los vértices.
+\end{itemize}
+
+Los contenedores basados en árboles soportan las mismas funciones que \texttt{set} y \texttt{map}. Además, soportan dos funciones adicionales: 
+
+\begin{lstlisting}
+A.split(T key, tree B);
+A.join(tree B);
+\end{lstlisting}
+
+La función \texttt{split} mueve todos los nodos con llaves mayores que \texttt{key} del árbol \texttt{A} al árbol \texttt{B}. La función \texttt{join}, por el contrario, mueve todos los nodos del árbol \texttt{B} al árbol \texttt{A}, siempre y cuando los rangos no se traslapen. Ambas funciones tienen complejidad poli-logarítmica en el caso de árboles rojo-negro.
+
+Además de los iteradores convencionales de \texttt{set} y \texttt{map}, los contenedores basados en árboles implementan dos tipos de iteradores adicionales, \texttt{const\_node\_iterator} y \texttt{node\_iterator}, con los cuales podemos recorrer el árbol. 
+
+%\lstinputlisting[firstline = 6]{ChineseRemainder.cpp} \medskip
+
+%\begin{tabular}{|p{7cm}|p{7cm}|}
+%\hline
+%\textbf{Entrada} & \textbf{Salida}\\ \hline
+%3   & x = 66 (mod 180)\\
+%2 4 & \\ 
+%3 9 & \\ 
+%1 5 & \\ \hline
+%\end{tabular}
+
+\newpage
+
+\end{document}
