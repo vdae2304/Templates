@@ -94,7 +94,7 @@ Además de los iteradores convencionales de \texttt{set} y \texttt{map}, los con
 Tree::node_iterator root = A.node_begin();
 Tree::node_iterator nil = A.node_end();
 \end{lstlisting}
-regresan un iterador de nodo correspondiente a la raíz y nodos nulos del árbol. Cada iterador de nodo incluye dos funciones miembro \texttt{get\_l\_child()} y \texttt{get\_r\_child()}, que regresan los iteradores de nodos correspondientes a los hijos izquierdo y derecho.
+regresan un iterador de nodo correspondiente a la raíz y nodos nulos del árbol. Cada iterador de nodo incluye dos funciones miembro \texttt{get\_l\_child()} y \texttt{get\_r\_child()} que regresan los iteradores de nodos correspondientes a los hijos izquierdo y derecho.
 
 Podemos hacer la conversión entre iteradores convencionales e iteradores de nodo de la siguiente manera:
 \begin{lstlisting}
@@ -105,42 +105,40 @@ La primera línea regresa el \texttt{iterator} correspondiente a un \texttt{node
 
 \textbf{Actualización de nodos}
 
-Por otro lado, recordemos que \texttt{node\_update} especifica la información adicional que guardará cada nodo así como la forma en que se actualiza. Este debe ser declarado en forma de \texttt{struct}, el cual debe definir en su interior el tipo de dato adicional como \texttt{metadata\_type}, y sobrecargar el operador \texttt{()} especificando cómo se actualizará esta información. 
+Por otro lado, recordemos que \texttt{node\_update} especifica la información adicional que guardará cada nodo así como la forma en que se actualiza. Este debe ser declarado en forma de \texttt{struct}, el cual debe definir en su interior el tipo del dato adicional como \texttt{metadata\_type}, y sobrecargar el operador \texttt{()} especificando cómo se actualizará cada nodo. 
 
-El operador \texttt{()} será llamado internamente cada que sea necesario, recibiendo como parámetros el nodo a actualizar y el nodo nulo. Las llamadas siempre se realizarán de abajo hacia arriba. De esta manera, al actualizar la información de un nodo, se presupone que la información de sus hijos ya está actualizada.
+El operador \texttt{()} será llamado internamente cada vez que sea necesario, recibiendo como parámetros el nodo a actualizar y el nodo nulo. Las llamadas siempre se realizarán desde las hojas hasta la raíz. De esta manera, al actualizar la información de un nodo, se presupone que la información de sus hijos ya está actualizada.
 
-Para acceder a la información adicional de un nodo, simplemente llamamos la función miembro \texttt{get\_metadata()}. Sin embargo, al ser una variable constante, para modificarlo tenemos que hacerle antes un \texttt{const\_cast<metadata\_type \&>}.
+Finalmente, cada iterador de nodo tiene una función miembro \texttt{get\_metadata()} que regresa una referencia al dato adicional de ese nodo. Sin embargo, al ser una variable constante, debemos hacerle antes un \texttt{const\_cast<metadata\_type \&>} para modificarlo.
 
 Por ejemplo, si queremos que cada nodo guarde el tamaño del sub-árbol correspondiente, podemos definir la etiqueta \texttt{size\_node\_update} de la siguiente manera:
 
 \begin{lstlisting}
-template<typename node_const_iterator, typename node_iterator, typename Cmp_Fn, typename Allocator_>
+template<typename node_const_iterator, typename node_iterator, typename Cmp_Fn, typename Allocator>
 struct size_node_update {
     typedef int metadata_type;
 
-    void operator() (node_iterator it, node_const_iterator nil) {
+    void operator() (node_iterator nd_it, node_const_iterator nil) {
         int lsize = 0, rsize = 0;
-        if (it.get_l_child() != nil)
-            lsize = it.get_l_child().get_metadata();
-        if (it.get_r_child() != nil)
-            rsize = it.get_r_child().get_metadata();
-        const_cast<int &>(it.get_metadata()) = lsize + rsize + 1;
+        if (nd_it.get_l_child() != nil)
+            lsize = nd_it.get_l_child().get_metadata();
+        if (nd_it.get_r_child() != nil)
+            rsize = nd_it.get_r_child().get_metadata();
+        const_cast<int &>(nd_it.get_metadata()) = lsize + rsize + 1;
     }
 };
 \end{lstlisting}
 
 \textbf{Árbol de Estadísticos de Orden}
 
-%\lstinputlisting[firstline = 6]{ChineseRemainder.cpp} \medskip
+La STL incluye una etiqueta \texttt{tree\_order\_statistics\_node\_update}, que le indica a cada nodo que guarde el tamaño del sub-árbol correspondiente. Esta etiqueta incorpora dos funciones nuevas:
+\begin{lstlisting}
+A.find_by_order(unsigned int k);
+A.order_of_key(T key);
+\end{lstlisting}
+La función \texttt{find\_by\_order} regresa un iterador convencional que corresponde al $k$-ésimo elemento de \texttt{A} (indexados en 0). La función \texttt{order\_of\_key}, por su parte, regresa un entero no negativo que representa el número de elementos menores que \texttt{key}.
 
-%\begin{tabular}{|p{7cm}|p{7cm}|}
-%\hline
-%\textbf{Entrada} & \textbf{Salida}\\ \hline
-%3   & x = 66 (mod 180)\\
-%2 4 & \\ 
-%3 9 & \\ 
-%1 5 & \\ \hline
-%\end{tabular}
+\lstinputlisting[firstline = 6]{PolicyBased.cpp} \medskip
 
 \newpage
 
