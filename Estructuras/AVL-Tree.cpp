@@ -1,22 +1,22 @@
 /*********************************************************************************
 * Arbol AVL                                                                      *
-* Implementacion de un arbol AVL autobalanceable.                                *
+* Implementacion de un arbol binario de busqueda autobalanceable.                *
 *********************************************************************************/
 
 #include <iostream>
 #include <algorithm>
 using namespace std;
 
-typedef char T; //Tipo de dato del arbol
+typedef char T; //Tipo de dato del arbol.
 
 struct node {
-    T item;      //Valor del nodo
-    int h, sz;   //Altura, Tamaño del subarbol
-    node *l, *r; //Hijos izquierdo y derecho
+    T item;      //Valor del nodo.
+    int h, sz;   //Altura, Tamaño del subarbol.
+    node *l, *r; //Hijos izquierdo y derecho.
 
     node(const T &x) {
         item = x;
-        h = 0; sz = 1;
+        h = 1; sz = 1;
         l = NULL; r = NULL;
     }
 };
@@ -57,7 +57,7 @@ node *kth_element(node *root, int k) {
     return root;
 }
 
-//Regresa el indice, o cual seria el indice, del elemento en el arbol (indexado en 0).
+//Regresa el numero de elementos menores en el arbol.
 int index(node *root, const T &x) {
     if (root != NULL) {
         if (x < root->item)
@@ -103,7 +103,7 @@ int getBalance(node *p) {
     return 0;
 }
 
-//Balancea el subarbol de ser necesario.
+//Balancea el subarbol en caso de ser necesario.
 node *Balance(node *p) {
     if (getBalance(p) > 1) {
         if (getBalance(p->l) >= 0)
@@ -124,7 +124,7 @@ node *Balance(node *p) {
     return p;
 }
 
-//Inserta un nuevo elemento al arbol (sin duplicados) y lo balancea. Regresa la nueva raiz.
+//Inserta un nuevo elemento no duplicado al arbol. Regresa la nueva raiz.
 node *insert(node *root, const T &x) {
     if (root == NULL)
         return new node(x);

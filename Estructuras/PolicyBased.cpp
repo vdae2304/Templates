@@ -25,7 +25,7 @@ void print_tree(pnode it, pnode nil, int indent = 0) {
 }
 
 int main() {
-	//Datos de ejemplo.
+    //Datos de ejemplo.
     int n = 10;
     int arr[] = {20, 15, 50, 30, 25, 36, 10, 35, 40, 21};
 
