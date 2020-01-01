@@ -46,7 +46,7 @@ int main() {
     
     //Imprime el indice de 35.
     cout << v.order_of_key(35) << '\n';
-    //Imprime el 7-esima valor.
+    //Imprime el 7-esimo elemento.
     cout << *v.find_by_order(7) << '\n';
 
     return 0;
