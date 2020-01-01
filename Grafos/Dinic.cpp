@@ -1,5 +1,5 @@
 /*********************************************************************************
-* Algoritmo de Dinic para encontrar el maximo flujo en un grafo dirigido.        *
+* Algoritmo de Dinic para encontrar el flujo maximo en un grafo dirigido.        *
 * Complejidad: O(E * V^2)                                                        *
 *********************************************************************************/
 
@@ -10,12 +10,11 @@
 using namespace std;
 
 #define maxn 100000 //Maximo numero de vertices.
-typedef int T;      //Tipo de dato del flujo.
 
 struct edge {
-    int to;           //Destino.
-    T capacity, flow; //Capacidad, flujo.
-    int rev;          //Arista invertida.
+    int to;             //Destino.
+    int capacity, flow; //Capacidad, flujo.
+    int rev;            //Arista invertida.
 };
 
 int V, E;                 //Numero de vertices y aristas.
@@ -45,15 +44,14 @@ bool BFS() {
 }
 
 //Envia flujo de s a t.
-T DFS(int curr, T flow) {
+int DFS(int curr, int flow) {
     if (curr == t)
         return flow;
 
     for (; ptr[curr] < graph[curr].size(); ++ptr[curr]) {
         edge &e = graph[curr][ptr[curr]];
-
         if (level[e.to] == level[curr] + 1 && e.flow < e.capacity) {
-            T currflow = DFS(e.to, min(flow, e.capacity - e.flow));
+            int currflow = DFS(e.to, min(flow, e.capacity - e.flow));
             if (currflow > 0) {
                 e.flow += currflow;
                 graph[e.to][e.rev].flow -= currflow;
@@ -65,9 +63,9 @@ T DFS(int curr, T flow) {
     return 0;
 }
 
-//Calcula el maximo flujo de s a t. 
-T Dinic() {
-    T flow = 0, currflow;
+//Calcula el flujo maximo de s a t.
+int Dinic() {
+    int flow = 0, currflow;
     while (BFS()) {
         fill_n(ptr, V, 0);
         do {
@@ -86,7 +84,7 @@ int main() {
     //Lee la informacion de las aristas.
     for (int i = 0; i < E; ++i) {
         int from, to; 
-        T capacity;
+        int capacity;
         cin >> from >> to >> capacity;
 
         graph[from].push_back(edge {to, capacity, 0, (int)graph[to].size()});

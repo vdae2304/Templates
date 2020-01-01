@@ -19,10 +19,8 @@ int vis[maxn];      //Visitado.
 
 //Encuentra el orden topologico iniciando en un vertice dado.
 void DFS(int u) {
-    if (vis[u] == 1) {
+    if (vis[u] == 1)
         cycle = true;
-        return;
-    }
     else if (!vis[u]) {
         vis[u] = 1;
         for (int v : graph[u])
