@@ -5,6 +5,7 @@
 *********************************************************************************/
 
 #include <iostream>
+#include <queue>
 using namespace std;
 
 #define maxc 26     //Longitud del alfabeto.
@@ -33,15 +34,21 @@ node *nextNode(node *curr, char c) {
 }
 
 //Construye los links de cada nodo.
-void buildLink(node *curr) {
-    for (char c = 0; c < maxc; ++c) {
-        node *nxt = curr->nxt[c];
-        if (nxt != NULL) {
-            nxt->link = nextNode(curr->link, c);
-            for (int i = 0; i < n; ++i)
-                if (nxt->link->isEnd[i])
-                    nxt->isEnd[i] = true;
-            buildLink(nxt);
+void buildLink() {
+    queue<node*> Q;
+    Q.push(Trie);
+    while (!Q.empty()) {
+        node *curr = Q.front();
+        Q.pop();
+        for (char c = 0; c < maxc; ++c) {
+            node *nxt = curr->nxt[c];
+            if (nxt != NULL) {
+                nxt->link = nextNode(curr->link, c);
+                for (int i = 0; i < n; ++i)
+                    if (nxt->link->isEnd[i])
+                        nxt->isEnd[i] = true;
+                Q.push(nxt);
+            }
         }
     }
 }
@@ -58,7 +65,7 @@ void buildTrie() {
         }
         curr->isEnd[i] = true;
     }
-    buildLink(Trie);
+    buildLink();
 }
 
 int main() {
