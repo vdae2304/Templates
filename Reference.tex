@@ -1,0 +1,145 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage[left = 2cm, right = 2cm, top = 2cm, bottom = 2cm]{geometry}
+
+\title{Material de referencia para la ICPC.}
+\author{}
+\date{} 
+
+%Estilo de la página
+\usepackage{fancybox, fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small{\leftmark}}
+\fancyfoot[CE,CO]{\thepage}
+\renewcommand{\headrulewidth}{2 pt}
+
+%Imagenes
+\usepackage{graphicx}
+
+%Estilo del codigo
+\usepackage{listings}
+\usepackage[dvipsnames]{xcolor}
+\lstset{  
+	language         = C++, 
+	xleftmargin      = 1 cm,
+	numbers          = left,
+	numberstyle      = \tiny\textbf,	
+	basicstyle       = \footnotesize,
+	keywordstyle     = \color{blue},
+	directivestyle   = \color{Green},
+	commentstyle     = \color{purple},
+	stringstyle      = \color{blue},
+	showstringspaces = false,
+	breaklines       = true,
+}
+
+%Documento
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{Estructuras de datos.}
+
+\subsection{Policy Based Data Structures.}
+
+La STL de GNU C++ implementa algunas estructuras de datos adicionales. Probablemente la más interesante de todas, es el árbol. Para poder utilizarlo debemos añadir antes las siguientes librerías:
+
+\begin{lstlisting}
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+\end{lstlisting}
+
+Los contenedores basados en árboles tienen la siguiente declaración:
+
+\begin{lstlisting}
+tree<Key, Mapped, Cmp_Fn = std::less<Key>, Tag = rb_tree_tag, node_update = null_node_update, Allocator = std::allocator<char> >
+\end{lstlisting}
+
+donde
+\begin{itemize}
+\item \texttt{Key} es el tipo de las llaves.
+
+\item \texttt{Mapped} es el tipo de los datos mapeados. Esto se asemeja bastante a un \texttt{map}. Si en cambio lo llenamos con \texttt{null\_type}, obtenemos un contenedor similar a un \texttt{set}.
+
+\item \texttt{Cmp\_Fn} es una función de comparación de llaves. Debe declararse en forma de \texttt{struct} con el operador \texttt{()} sobrecargado.
+
+\item \texttt{Tag} especifica la estructura de datos a utilizar. Debe ser alguno de \texttt{rb\_tree\_tag} (red-black tree), \texttt{splay\_tree\_tag} (splay tree) o \texttt{ov\_tree\_tag} (ordered-vector tree).
+
+\item \texttt{node\_update} especifica como actualizar los invariantes de cada nodo. El valor por defecto, \texttt{null\_node\_update}, indica que los nodos no guardan información adicional.
+\end{itemize}
+
+\textbf{Split y join}
+
+Los contenedores basados en árboles soportan las mismas funciones que \texttt{set} y \texttt{map}, junto con dos funciones adicionales: 
+
+\begin{lstlisting}
+A.split(T key, Tree B);
+A.join(Tree B);
+\end{lstlisting}
+
+La función \texttt{split} mueve todos los nodos con llaves mayores que \texttt{key} del árbol \texttt{A} al árbol \texttt{B}. La función \texttt{join}, por el contrario, mueve todos los nodos del árbol \texttt{B} al árbol \texttt{A}, siempre y cuando los rangos no se traslapen. En el caso de árboles rojo-negro, ambas funciones tienen complejidad poli-logarítmica.\medskip
+
+\textbf{Iteradores de nodo}
+
+Además de los iteradores convencionales de \texttt{set} y \texttt{map}, los contenedores basados en árboles implementan un tipo de iterador adicional, \texttt{node\_iterator}, el cual nos permite recorrer el árbol. Así por ejemplo, las funciones
+\begin{lstlisting}
+Tree::node_iterator root = A.node_begin();
+Tree::node_iterator nil = A.node_end();
+\end{lstlisting}
+regresan un iterador de nodo correspondiente a la raíz y nodos nulos del árbol. Cada iterador de nodo incluye dos funciones miembro \texttt{get\_l\_child()} y \texttt{get\_r\_child()} que regresan los iteradores de nodos correspondientes a los hijos izquierdo y derecho.
+
+Podemos hacer la conversión entre iteradores convencionales e iteradores de nodo de la siguiente manera:
+\begin{lstlisting}
+it = *nd_it;
+nd_it = it.m_p_nd;
+\end{lstlisting}
+La primera línea regresa el \texttt{iterator} correspondiente a un \texttt{node\_iterator} mientras que la segunda realiza justamente lo contrario.\medskip
+
+\textbf{Actualización de nodos}
+
+Por otro lado, recordemos que \texttt{node\_update} especifica la información adicional que guardará cada nodo así como la forma en que se actualiza. Este debe ser declarado en forma de \texttt{struct}, el cual debe definir en su interior el tipo del dato adicional como \texttt{metadata\_type}, y sobrecargar el operador \texttt{()} especificando cómo se actualizará cada nodo. 
+
+El operador \texttt{()} será llamado internamente cada vez que sea necesario, recibiendo como parámetros el nodo a actualizar y el nodo nulo. Las llamadas siempre se realizarán desde las hojas hasta la raíz. De esta manera, al actualizar la información de un nodo, se presupone que la información de sus hijos ya está actualizada.
+
+Finalmente, cada iterador de nodo tiene una función miembro \texttt{get\_metadata()} que regresa una referencia al dato adicional de ese nodo. Sin embargo, al ser una variable constante, debemos hacerle antes un \texttt{const\_cast<metadata\_type \&>} para modificarlo.
+
+Por ejemplo, si queremos que cada nodo guarde el tamaño del sub-árbol correspondiente, podemos definir la etiqueta \texttt{size\_node\_update} de la siguiente manera:
+
+\begin{lstlisting}
+template<typename node_const_iterator, typename node_iterator, typename Cmp_Fn, typename Allocator>
+struct size_node_update {
+    typedef int metadata_type;
+
+    void operator() (node_iterator nd_it, node_const_iterator nil) {
+        int lsize = 0, rsize = 0;
+        if (nd_it.get_l_child() != nil)
+            lsize = nd_it.get_l_child().get_metadata();
+        if (nd_it.get_r_child() != nil)
+            rsize = nd_it.get_r_child().get_metadata();
+        const_cast<int &>(nd_it.get_metadata()) = lsize + rsize + 1;
+    }
+};
+\end{lstlisting}
+
+\textbf{Árbol de Estadísticos de Orden}
+
+La STL incluye una etiqueta \texttt{tree\_order\_statistics\_node\_update}, que le indica a cada nodo que guarde el tamaño del sub-árbol correspondiente. Esta etiqueta incorpora dos funciones nuevas:
+\begin{lstlisting}
+A.find_by_order(unsigned int k);
+A.order_of_key(T key);
+\end{lstlisting}
+La función \texttt{find\_by\_order} regresa un iterador convencional que corresponde al $k$-ésimo elemento de \texttt{A} (indexados en 0). La función \texttt{order\_of\_key}, por su parte, regresa un entero no negativo que representa el número de elementos menores que \texttt{key}. Ambas funciones tienen complejidad logarítmica.
+
+\lstinputlisting[firstline = 6]{Estructuras/PolicyBased.cpp} \medskip
+
+\newpage
+
+\end{document}
