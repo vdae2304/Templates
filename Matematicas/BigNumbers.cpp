@@ -8,17 +8,17 @@
 #include <utility>
 using namespace std;
 
-typedef string BigInteger;
+typedef string BigInt;
 
 //Regresa el i-esimo digito de derecha a izquierda de un numero.
-int digit(const BigInteger &num, int i) {
+int digit(const BigInt &num, int i) {
     if (i < num.size())
         return num[num.size() - 1 - i] - '0';
     return 0;
 }
 
 //Compara dos numeros y regresa: 1 si el primero es mayor; 0 si son iguales; -1 si el segundo es mayor.
-int compareTo(const BigInteger &a, const BigInteger &b) {
+int compareTo(const BigInt &a, const BigInt &b) {
     for (int i = max(a.size(), b.size()) - 1; i >= 0; --i) {
         if (digit(a, i) > digit(b, i))
             return 1;
@@ -29,8 +29,8 @@ int compareTo(const BigInteger &a, const BigInteger &b) {
 }
 
 //Regresa la suma de dos numeros.
-BigInteger sum(const BigInteger &a, const BigInteger &b) {
-    BigInteger ans;
+BigInt sum(const BigInt &a, const BigInt &b) {
+    BigInt ans;
     int carry = 0;
     for (int i = 0; i < max(a.size(), b.size()); ++i) {
         carry += digit(a, i) + digit(b, i);
@@ -44,8 +44,8 @@ BigInteger sum(const BigInteger &a, const BigInteger &b) {
 }
 
 //Regresa la diferencia de dos numeros. El primer numero debe ser mayor o igual que el segundo.
-BigInteger substract(const BigInteger &a, const BigInteger &b) {
-    BigInteger ans;
+BigInt substract(const BigInt &a, const BigInt &b) {
+    BigInt ans;
     int carry = 0;
     for (int i = 0; i < a.size(); ++i) {
         carry += digit(a, i) - digit(b, i);
@@ -64,11 +64,11 @@ BigInteger substract(const BigInteger &a, const BigInteger &b) {
     return ans;
 }
 
-//Regresa el producto de dos numeros (BigInteger x int).
-BigInteger multiply(const BigInteger &a, int b) {
+//Regresa el producto de dos numeros (BigInt x int).
+BigInt multiply(const BigInt &a, int b) {
     if (b == 0)
         return "0";
-    BigInteger ans;
+    BigInt ans;
     int carry = 0;
     for (int i = 0; i < a.size(); ++i) {
         carry += digit(a, i) * b;
@@ -83,17 +83,17 @@ BigInteger multiply(const BigInteger &a, int b) {
     return ans;
 }
 
-//Regresa el producto de dos numeros (BigInteger x BigInteger).
-BigInteger multiply(const BigInteger &a, const BigInteger &b) {
-    BigInteger ans;
+//Regresa el producto de dos numeros (BigInt x BigInt).
+BigInt multiply(const BigInt &a, const BigInt &b) {
+    BigInt ans;
     for (int i = 0; i < b.size(); ++i)
         ans = sum(ans, multiply(a, digit(b, i)).append(i, '0'));
     return ans;
 }
 
-//Regresa el cociente y el residuo de la division (BigInteger / int).
-pair<BigInteger, int> divide(const BigInteger &a, int b) {
-    pair<BigInteger, int> ans;
+//Regresa el cociente y el residuo de la division (BigInt / int).
+pair<BigInt, int> divide(const BigInt &a, int b) {
+    pair<BigInt, int> ans;
     for (int i = a.size() - 1; i >= 0; --i) {
         ans.second = 10*ans.second + digit(a, i);
         if (!ans.first.empty() || ans.second >= b || i == 0)
@@ -103,10 +103,10 @@ pair<BigInteger, int> divide(const BigInteger &a, int b) {
     return ans;
 }
 
-//Regresa el cociente y el residuo de la division (BigInteger / BigInteger).
-pair<BigInteger, BigInteger> divide(const BigInteger &a, const BigInteger &b) {
-    pair<BigInteger, BigInteger> ans;
-    BigInteger table[10];
+//Regresa el cociente y el residuo de la division (BigInt / BigInt).
+pair<BigInt, BigInt> divide(const BigInt &a, const BigInt &b) {
+    pair<BigInt, BigInt> ans;
+    BigInt table[10];
     for (int i = 0; i < 10; ++i)
         table[i] = multiply(b, i);
     for (int i = a.size() - 1; i >= 0; --i) {
@@ -122,7 +122,7 @@ pair<BigInteger, BigInteger> divide(const BigInteger &a, const BigInteger &b) {
 }
 
 int main() {
-    BigInteger a, b;
+    BigInt a, b;
     cin >> a >> b;
 
     cout << a << " + " << b << " = " << sum(a, b) << '\n';
