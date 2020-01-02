@@ -27,7 +27,7 @@ void DFS(int u, int pred) {
 
     for (int v : graph[u]) {
         if(!idx[v]) {
-            ++children;
+            children++;
             DFS(v, u);
             low[u] = min(low[u], low[v]);
 
