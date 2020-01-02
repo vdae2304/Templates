@@ -48,7 +48,7 @@ void Dijkstra() {
 
 int main() {
     ios_base::sync_with_stdio(0); cin.tie();
-    cin >> V >> E;
+    cin >> V >> E >> s;
 
     //Lee la informacion de las aristas.
     for (int i = 0; i < E; ++i) {
@@ -59,7 +59,6 @@ int main() {
     }
 
     //Imprime la configuracion.
-    cin >> s;
     Dijkstra();
     for (int i = 0; i < V; ++i)
         cout << i << ": " << pred[i] << ' ' << dist[i] << '\n';

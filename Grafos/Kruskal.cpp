@@ -9,9 +9,9 @@
 #include <utility>
 using namespace std;
 
-#define maxn 100000 //Maximo numero de vertices.
+#define maxn 100000 //Maximo numero de vertices y aristas.
 
-typedef pair<int, pair<int, int> > edge;
+typedef pair<int, pair<int, int>> edge;
 #define weight first
 #define from   second.first
 #define to     second.second
