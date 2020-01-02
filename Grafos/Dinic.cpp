@@ -83,10 +83,8 @@ int main() {
 
     //Lee la informacion de las aristas.
     for (int i = 0; i < E; ++i) {
-        int from, to; 
-        int capacity;
+        int from, to, capacity;
         cin >> from >> to >> capacity;
-
         graph[from].push_back(edge {to, capacity, 0, (int)graph[to].size()});
         graph[to].push_back(edge {from, 0, 0, (int)graph[from].size() - 1});
     }
