@@ -12,7 +12,7 @@ using namespace std;
 
 #define maxn 100000 //Maximo numero de vertices.
 
-int U, V, E;             //Numero de vertices en cada lado y de aristas.
+int U, V, E;             //Numero de vertices en cada lado y numero de aristas.
 vector<int> graph[maxn]; //Aristas que van de U a V.
 
 int pairU[maxn], pairV[maxn], dist[maxn]; //Pares de vertices en el emparejamiento.
@@ -40,23 +40,21 @@ bool BFS() {
                     Q.push(pairV[v]);
                 }
     }
-    return (dist[0] != 1e9);
+    return dist[0] != 1e9;
 }
 
 //Verifica si existe un camino de aumento que comience en u.
 bool DFS(int u) {
-    if (u != 0) {
-        for (int v : graph[u]) 
-            if (dist[pairV[v]] == dist[u] + 1 && DFS(pairV[v])) {
-                pairV[v] = u;
-                pairU[u] = v;
-                return true;
-            }
-
-        dist[u] = 1e9;
-        return false;
-    }
-    return true;
+    if (u == 0) 
+        return true;
+    for (int v : graph[u]) 
+        if (dist[pairV[v]] == dist[u] + 1 && DFS(pairV[v])) {
+            pairV[v] = u;
+            pairU[u] = v;
+            return true;
+        }
+    dist[u] = 1e9;
+    return false;
 }
 
 //Busca un emparejamiento maximo.
@@ -73,7 +71,7 @@ int main() {
     ios_base::sync_with_stdio(0); cin.tie();
     cin >> U >> V >> E;
 
-    //Lee las aristas. Los vertices estan indexados en 1.
+    //Lee la informacion de las aristas. Los vertices estan indexados en 1.
     for (int i = 0; i < E; ++i) {
         int u, v;
         cin >> u >> v;
