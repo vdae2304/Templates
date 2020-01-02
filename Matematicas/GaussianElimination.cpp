@@ -56,5 +56,6 @@ int main() {
     		cout << AugMatrix[i][j + n] << ' ';
     	cout << '\n';
     }
+
     return 0;
 }
