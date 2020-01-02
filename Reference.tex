@@ -298,27 +298,23 @@ Complejidad: $O(V + E)$.
 
 \textbf{Desarreglos}
 
-Un desarreglo es una permutación donde ningún elemento aparece en su posición original. El número de desarreglos está dado por la fórmula recursiva 
-$$!n = (n - 1)(!(n - 1) + !(n - 2)), \qquad !0 = 1, \, !1 = 0$$ 
-y por la fórmula cerrada
-$$!n = n! \sum_{k=0}^n \frac{(-1)^k}{k!}.$$
+Un desarreglo es una permutación donde ningún elemento aparece en su posición original. El número de desarreglos está dado por
+$$!n = (n - 1)(!(n - 1) + !(n - 2)) = n! \sum_{k=0}^n \frac{(-1)^k}{k!}$$
+con $!0 = 1$ y $!1 = 0$.\medskip
 
 \textbf{Números de Catalán}
 
-Los números de Catalán cuentan: el número de expresiones con $n$ pares de paréntesis correctamente balanceados; el número de caminos distintos sobre una cuadrícula de $n \times n$ que empiezan en la esquina inferior izquierda y terminan en la esquina superior derecha, constan solamente de movimientos hacia arriba y hacia la derecha, y nunca cruzan la diagonal; el número de triangulaciones de un polígono convexo de $n + 2$ lados; entre otras cosas. Están dados por la fórmula recursiva
-$$C_{n+1} = \sum_{i=0}^n C_iC_{n-i}, \qquad C_0 = 1$$
-y por la fórmula cerrada
-$$C_n = \frac{1}{n + 1}\binom{2n}{n}.$$
+Los números de Catalán cuentan: el número de expresiones con $n$ pares de paréntesis correctamente balanceados; el número de caminos distintos sobre una cuadrícula de $n \times n$ que van de la esquina inferior izquierda a la esquina superior derecha, constan solamente de movimientos hacia arriba y hacia la derecha, y nunca cruzan la diagonal; el número de triangulaciones de un polígono convexo de $n + 2$ lados; entre otras cosas. Están dados por
+$$C_n = \sum_{k=0}^{n-1} C_kC_{n-k-1} = \frac{1}{n + 1}\binom{2n}{n}$$
+con $C_0 = 1$.\medskip
 
 \textbf{Números de Stirling}
 
-Los números de Stirling de primer tipo cuentan el número de permutaciones con exactamente $k$ ciclos disjuntos. Están dados por la fórmula recursiva
-$$c(n + 1, k) = nc(n, k) + c(n, k - 1), \qquad c(n, 0) =  0, \, c(n, n) = 1.$$
-
-Los números de Stirling de segundo tipo cuentan el número de particiones de un conjunto de tamaño $n$ en $k$ subconjuntos no vacíos. Están dados por la fórmula recursiva
-$$S(n + 1, k) = kS(n, k) + S(n, k - 1), \qquad S(n, 0) =  0, \, S(n, n) = 1$$
-y por la fórmula cerrada
-$$S(n, k) = \frac{1}{k!} \sum_{i=0}^k (-1)^i \binom{k}{i}(k - i)^n.$$
+Los números de Stirling de primer tipo cuentan el número de permutaciones de tamaño $n$ con exactamente $k$ ciclos disjuntos. Están dados por 
+$$S_1(n, k) = (n - 1)S_1(n - 1, k) + S_1(n - 1, k - 1).$$
+Los números de Stirling de segundo tipo cuentan el número de particiones de un conjunto de tamaño $n$ en $k$ subconjuntos no vacíos. Están dados por 
+$$S_2(n, k) = k \,S_2(n - 1, k) + S_2(n - 1, k - 1) = \frac{1}{k!} \sum_{i=0}^k (-1)^i \binom{k}{i}(k - i)^n$$
+con $S_1(n, 0) = S_2(n, 0) =  0$ y $S_1(n, n) = S_2(n, n) = 1$.\medskip
 
 \textbf{Números de Grundy}
 
