@@ -13,7 +13,7 @@ using namespace std;
 int V, E;                //Numero de vertices y aristas.
 vector<int> graph[maxn]; //Aristas.
 
-bool cycle;         //Verifica que no haya ciclos.
+bool cycle;         //Verifica si el grafo tiene ciclos.
 vector<int> sorted; //Orden topologico.
 int vis[maxn];      //Visitado.
 
