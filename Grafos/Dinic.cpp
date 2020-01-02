@@ -21,7 +21,7 @@ int V, E;                 //Numero de vertices y aristas.
 vector<edge> graph[maxn]; //Aristas.
 
 int s, t;                   //Fuente y sumidero.
-int level[maxn], ptr[maxn]; //Distancia a s y numero de aristas visitadas.
+int level[maxn], ptr[maxn]; //Distancia desde s y numero de aristas visitadas.
 
 //Verifica si se puede enviar flujo de s a t.
 bool BFS() {
@@ -30,7 +30,7 @@ bool BFS() {
     level[s] = 0;
     Q.push(s);
 
-    while (!Q.empty()) {
+    while (!Q.empty() && level[t] == -1) {
         int curr = Q.front();
         Q.pop();
         for (edge e : graph[curr]) 
@@ -45,7 +45,7 @@ bool BFS() {
 
 //Envia flujo de s a t.
 int DFS(int curr, int flow) {
-    if (curr == t)
+    if (curr == t || flow == 0)
         return flow;
 
     for (; ptr[curr] < graph[curr].size(); ++ptr[curr]) {
