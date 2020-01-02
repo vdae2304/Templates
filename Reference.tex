@@ -1,4 +1,4 @@
-\documentclass[12pt, letterpaper, twoside]{article}
+\documentclass[11pt, letterpaper, twoside]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{amsmath, amsfonts, amssymb, amsthm}
@@ -17,7 +17,7 @@
 \renewcommand{\headrulewidth}{2 pt}
 
 %Imagenes
-\usepackage{graphicx}
+\usepackage{graphicx, multirow}
 
 %Estilo del codigo
 \usepackage{listings}
@@ -42,6 +42,10 @@
 \maketitle
 
 \tableofcontents
+
+\bigskip
+
+\noindent NOTA: En la mayoría de los casos, es necesario reiniciar las variables para poder reutilizar los algoritmos.
 
 \newpage
 
@@ -73,7 +77,7 @@ donde
 
 \item \texttt{Tag} especifica la estructura de datos a utilizar. Debe ser alguno de \texttt{rb\_tree\_tag} (red-black tree), \texttt{splay\_tree\_tag} (splay tree) o \texttt{ov\_tree\_tag} (ordered-vector tree).
 
-\item \texttt{node\_update} especifica como actualizar los invariantes de cada nodo. El valor por defecto, \texttt{null\_node\_update}, indica que los nodos no guardan información adicional.
+\item \texttt{node\_update} especifica como actualizar los invariantes de cada nodo. Por defecto, \texttt{null\_node\_update}, indica que los nodos no guardan información adicional.
 \end{itemize}
 
 \textbf{Split y join}
@@ -101,7 +105,7 @@ Podemos hacer la conversión entre iteradores convencionales e iteradores de nod
 it = *nd_it;
 nd_it = it.m_p_nd;
 \end{lstlisting}
-La primera línea regresa el \texttt{iterator} correspondiente a un \texttt{node\_iterator} mientras que la segunda realiza justamente lo contrario.\medskip
+La primera línea regresa el \texttt{iterator} correspondiente a un \texttt{node\_iterator} mientras que la segunda realiza lo contrario.\medskip
 
 \textbf{Actualización de nodos}
 
@@ -150,23 +154,19 @@ La función \texttt{find\_by\_order} regresa un iterador convencional que corres
 
 \lstinputlisting[firstline = 6]{Grafos/Dijkstra.cpp}
 
-\begin{tabular}{|p{7cm}|p{7cm}|}
+\begin{tabular}{|p{4cm}|p{4cm}|p{7.5cm}|}
 \hline
-\textbf{Entrada} & \textbf{Salida}\\ \hline
-6 7    & 0: -1 0\\
-0 1 4  & 1: 0 4\\
-1 3 10 & 2: 0 2\\
-3 5 11 & 3: 4 9\\
-1 2 5  & 4: 2 5\\
-2 0 2  & 5: 3 20\\
-2 4 3  & \\
-4 3 4  & \\
-0      & \\ \hline
+\textbf{Entrada} & \textbf{Salida} & \\ \hline
+6 7    & 0: -1 0 & \multirow{9}{*}{\includegraphics[width = 0.37\textwidth]{Grafos/Imagenes/ShortestPath.png}} \\
+0 1 4  & 1: 0 4  & \\
+1 3 10 & 2: 0 2  & \\
+3 5 11 & 3: 4 9  & \\
+1 2 5  & 4: 2 5  & \\
+2 0 2  & 5: 3 20 & \\
+2 4 3  & & \\
+4 3 4  & & \\
+0      & & \\ \hline
 \end{tabular}
-
-\begin{center}
-\includegraphics[width = 0.42\textwidth]{Grafos/Imagenes/ShortestPath.png}
-\end{center}
 
 \subsection{Árbol de expansión mínima.}
 
@@ -174,23 +174,19 @@ La función \texttt{find\_by\_order} regresa un iterador convencional que corres
 
 \lstinputlisting[firstline = 6]{Grafos/Kruskal.cpp}
 
-\begin{tabular}{|p{7cm}|p{7cm}|}
+\begin{tabular}{|p{4cm}|p{4cm}|p{7.5cm}|}
 \hline
-\textbf{Entrada} & \textbf{Salida}\\ \hline
-6 8    & Peso total: 18\\
-0 1 2  & 0 3 1\\
-0 3 1  & 3 5 1\\
-3 1 9  & 0 1 2\\
-4 1 10 & 3 4 3\\
-3 4 3  & 2 0 11\\
-2 0 11 & \\
-2 5 20 & \\
-3 5 1  & \\ \hline
+\textbf{Entrada} & \textbf{Salida} & \\ \hline
+6 8    & Peso total: 18 & \multirow{9}{*}{\includegraphics[width = 0.3\textwidth]{Grafos/Imagenes/MST.png}}\\
+0 1 2  & 0 3 1  &\\
+0 3 1  & 3 5 1  &\\
+3 1 9  & 0 1 2  &\\
+4 1 10 & 3 4 3  &\\
+3 4 3  & 2 0 11 &\\
+2 0 11 & & \\
+2 5 20 & & \\
+3 5 1  & & \\ \hline
 \end{tabular}
-
-\begin{center}
-\includegraphics[width = 0.34\textwidth]{Grafos/Imagenes/MST.png}
-\end{center}
 
 \subsection{Orden topológico.}
 
@@ -198,24 +194,20 @@ Complejidad: $O(V + E)$.
 
 \lstinputlisting[firstline = 6]{Grafos/TopoSort.cpp}
 
-\begin{tabular}{|p{7cm}|p{7cm}|}
+\begin{tabular}{|p{3.75cm}|p{3.75cm}|p{8cm}|}
 \hline
-\textbf{Entrada} & \textbf{Salida}\\ \hline
-7 9 & 6 0 1 2 5 4 3\\
-6 1 & \\
-6 5 & \\
-0 1 & \\
-1 5 & \\
-0 2 & \\
-1 2 & \\
-2 3 & \\
-5 3 & \\ 
-5 4 & \\ \hline
+\textbf{Entrada} & \textbf{Salida} & \\ \hline
+7 9 & 6 0 1 2 5 4 3 & \multirow{10}{*}{\includegraphics[width = 0.45\textwidth]{Grafos/Imagenes/TopoSort.png}} \\
+6 1 & & \\
+6 5 & & \\
+0 1 & & \\
+1 5 & & \\
+0 2 & & \\
+1 2 & & \\
+2 3 & & \\
+5 3 & & \\ 
+5 4 & & \\ \hline
 \end{tabular}
-
-\begin{center}
-\includegraphics[width = 0.55\textwidth]{Grafos/Imagenes/TopoSort.png}
-\end{center}
 
 \subsection{Componentes fuertemente conexas.}
 
@@ -223,23 +215,19 @@ Complejidad: $O(V + E)$.
 
 \lstinputlisting[firstline = 6]{Grafos/Tarjan.cpp}
 
-\begin{tabular}{|p{7cm}|p{7cm}|}
+\begin{tabular}{|p{4cm}|p{4cm}|p{7.5cm}|}
 \hline
-\textbf{Entrada} & \textbf{Salida}\\ \hline
-6 8 & 4 5\\
-0 1 & 2\\
-1 2 & 3 1 0\\
-1 4 & \\ 
-1 3 & \\
-3 0 & \\
-2 5 & \\
-4 5 & \\
-5 4 & \\ \hline
+\textbf{Entrada} & \textbf{Salida} & \\ \hline
+6 8 & 4 5 & \multirow{9}{*}{\includegraphics[width = 0.27\textwidth]{Grafos/Imagenes/StronglyConnected.png}} \\
+0 1 & 2 & \\
+1 2 & 3 1 0 & \\
+1 4 & & \\ 
+1 3 & & \\
+3 0 & & \\
+2 5 & & \\
+4 5 & & \\
+5 4 & & \\ \hline
 \end{tabular}
-
-\begin{center}
-\includegraphics[width = 0.32\textwidth]{Grafos/Imagenes/StronglyConnected.png}
-\end{center}
 
 \subsection{Puentes y puntos de articulación.}
 
@@ -247,23 +235,19 @@ Complejidad: $O(V + E)$.
 
 \lstinputlisting[firstline = 6]{Grafos/Bridge-Articulation.cpp}
 
-\begin{tabular}{|p{7cm}|p{7cm}|}
+\begin{tabular}{|p{4cm}|p{4cm}|p{7.5cm}|}
 \hline
-\textbf{Entrada} & \textbf{Salida}\\ \hline
-7 8 & Puntos de articulacion:\\
-0 2 & 1 2 3\\
-0 1 & Puentes:\\
-1 2 & 1 6\\ 
-1 6 & 2 3\\
-2 3 & \\
-3 4 & \\
-4 5 & \\
-3 5 & \\ \hline
+\textbf{Entrada} & \textbf{Salida} & \\ \hline
+7 8 & Puntos de articulacion: & \multirow{9}{*}{\includegraphics[width = 0.36\textwidth]{Grafos/Imagenes/Bridge-Articulation.png}} \\
+0 2 & 1 2 3 & \\
+0 1 & Puentes: &\\
+1 2 & 1 6 & \\ 
+1 6 & 2 3 & \\
+2 3 & & \\
+3 4 & & \\
+4 5 & & \\
+3 5 & & \\ \hline
 \end{tabular}
-
-\begin{center}
-\includegraphics[width = 0.42\textwidth]{Grafos/Imagenes/Bridge-Articulation.png}
-\end{center}
 
 \subsection{Flujo máximo.}
 
@@ -271,24 +255,20 @@ Complejidad: $O(V + E)$.
 
 \lstinputlisting[firstline = 6]{Grafos/Dinic.cpp}
 
-\begin{tabular}{|p{7cm}|p{7cm}|}
+\begin{tabular}{|p{4cm}|p{4cm}|p{7.5cm}|}
 \hline
-\textbf{Entrada} & \textbf{Salida}\\ \hline
-6 8    & Flujo maximo: 20\\
-0 5    & 0 1: 11/11\\ 
-0 1 11 & 0 2: 9/12\\
-0 2 12 & 1 3: 12/12\\
-1 3 12 & 2 1: 1/1\\
-2 1 1  & 2 4: 8/10\\
-2 4 10 & 3 5: 15/15\\
-4 3 7  & 4 3: 3/7\\
-3 5 15 & 4 5: 5/5\\
-4 5 5  & \\ \hline
+\textbf{Entrada} & \textbf{Salida} & \\ \hline
+6 8    & Flujo maximo: 20 & \multirow{10}{*}{\includegraphics[width = 0.33\textwidth]{Grafos/Imagenes/MaxFlow.png}} \\
+0 5    & 0 1: 11/11 & \\ 
+0 1 11 & 0 2: 9/12  & \\
+0 2 12 & 1 3: 12/12 & \\
+1 3 12 & 2 1: 1/1   & \\
+2 1 1  & 2 4: 8/10  & \\
+2 4 10 & 3 5: 15/15 & \\
+4 3 7  & 4 3: 3/7   & \\
+3 5 15 & 4 5: 5/5   & \\
+4 5 5  &            & \\ \hline
 \end{tabular}
-
-\begin{center}
-\includegraphics[width = 0.41\textwidth]{Grafos/Imagenes/MaxFlow.png}
-\end{center}
 
 \subsection{Emparejamiento máximo.}
 
@@ -296,23 +276,23 @@ Complejidad: $O(V + E)$.
 
 \lstinputlisting[firstline = 7]{Grafos/Hopcroft-Karp.cpp}
 
-\begin{tabular}{|p{7cm}|p{7cm}|}
+\begin{tabular}{|p{4cm}|p{4cm}|p{7.5cm}|}
 \hline
-\textbf{Entrada} & \textbf{Salida}\\ \hline
-5 4 8 & Emparejamiento: 3\\
-1 1   & 1 - 1\\
-2 1   & 2 - 3\\
-2 3   & 3 - 2\\
-3 2   & \\
-3 3   & \\
-3 4   & \\
-4 3   & \\
-5 3   & \\ \hline
+\textbf{Entrada} & \textbf{Salida} & \\ \hline
+5 4 8 & Emparejamiento: 3 & \multirow{13}{*}{\includegraphics[height = 0.24\textheight]{Grafos/Imagenes/MaxMatching.png}} \\
+1 1   & 1 - 1 & \\
+2 1   & 2 - 3 & \\
+2 3   & 3 - 2 & \\
+3 2   & & \\
+3 3   & & \\
+3 4   & & \\
+4 3   & & \\
+5 3   & & \\ 
+ & & \\
+ & & \\
+ & & \\ 
+ & & \\\hline
 \end{tabular}
-
-\begin{center}
-\includegraphics[height = 0.27\textheight]{Grafos/Imagenes/MaxMatching.png}	
-\end{center}
 
 \newpage
 
@@ -361,8 +341,8 @@ El \textbf{Teorema de Sprague-Grundy} afirma que todo juego normal e imparcial e
 \textbf{Entrada} & \textbf{Salida}\\ \hline
 1894821 & 1894821 + 589613 = 2484434\\
 589613  & 1894821 - 589613 = 1305208\\ 
-& 1894821 * 589613 = 1117211094273\\ 
-& 1894821 = 589613 * 3 + 125982\\ \hline
+        & 1894821 * 589613 = 1117211094273\\ 
+        & 1894821 = 589613 * 3 + 125982\\ \hline
 \end{tabular}\bigskip
 
 \subsection{Test de Primalidad.}
@@ -388,10 +368,10 @@ El \textbf{Teorema de Sprague-Grundy} afirma que todo juego normal e imparcial e
 \begin{tabular}{|p{7cm}|p{7cm}|}
 \hline
 \textbf{Entrada} & \textbf{Salida}\\ \hline
-180   & 2 2 3 3 5\\
-3500  & 2 2 5 5 5 7\\ 
+180       & 2 2 3 3 5\\
+3500      & 2 2 5 5 5 7\\ 
 123456789 & 3 3 3607 3803\\
-104729 & 104729\\ \hline
+104729    & 104729\\ \hline
 \end{tabular}\bigskip
 
 \subsection{Sistemas de Ecuaciones Lineales.}
@@ -439,7 +419,7 @@ El \textbf{Teorema de Sprague-Grundy} afirma que todo juego normal e imparcial e
 \textbf{Entrada} & \textbf{Salida}\\ \hline
 AABAACAADAABAABA & Patron encontrado en la posicion 0\\
 AABA             & Patron encontrado en la posicion 9\\
-& Patron encontrado en la posicion 12\\ \hline
+                 & Patron encontrado en la posicion 12\\ \hline
 \end{tabular}\bigskip
 
 \textbf{Aho Corasick.} Complejidad: $O(|T| + |P_1| + \ldots + |P_n| + \#Ocurrencias)$.
@@ -455,7 +435,7 @@ abc                 & abc aparece en la posicion 4\\
 ca                  & ca aparece en la posicion 7\\
 bcd                 & ef aparece en la posicion 13\\
 ef                  & abc aparece en la posicion 16\\ \hline
-\end{tabular}\bigskip
+\end{tabular}
 
 \subsection{Arreglo de sufijos.}
 
