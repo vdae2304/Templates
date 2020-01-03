@@ -78,7 +78,7 @@ point rotate_ccw(const point &P, double theta, bool radians = true) {
 
 //Regresa el area del triangulo con vertices A, B y C.
 double areaTriangle(const point &A, const point &B, const point &C) {
-    return crossProduct(B - A, C - A) / 2;
+    return fabs(crossProduct(B - A, C - A)) / 2;
 }
 
 //Regresa el area del poligono con vertices P[0], P[1], ... , P[n-1].
@@ -86,7 +86,7 @@ double areaPolygon(int n, const point P[]) {
     double area = P[n - 1].x * P[0].y - P[0].x * P[n - 1].y;
     for (int i = 0; i < n - 1; ++i)
         area += P[i].x * P[i + 1].y - P[i + 1].x * P[i].y;
-    return area / 2;
+    return fabs(area) / 2;
 }
 
 //Regresa la proyeccion del vector P sobre el vector Q.
@@ -115,6 +115,17 @@ point lineLineIntersection(const point &A, const point &B, const point &C, const
 point circumcenter(const point &A, const point &B, const point &C) {
     point MC = (A + B) / 2, MA = (B + C) / 2;
     return lineLineIntersection(MC, MC + rotate90ccw(A - B), MA, MA + rotate90ccw(C - B));
+}
+
+//Regresa true si el punto P esta en el interior del triangulo con vertices A, B y C.
+bool pointInTriangle(const point &P, const point &A, const point &B, const point &C) {
+    ;
+}
+
+//Regresa true si el punto P esta en el interior del poligono convexo con vertices P.
+//Para verificar si
+bool pointInPolygon(const point &P, int n, const point P[]) {
+    ;
 }
 
 int main() {
