@@ -39,13 +39,11 @@ void prime_factor() {
 int main() {
     ios_base::sync_with_stdio(0); cin.tie();
     find_primes();
-
     while (cin >> n) {
         prime_factor();
         for (long long p : factors)
             cout << p << ' ';
         cout << '\n';
     }
-
     return 0;
 }
