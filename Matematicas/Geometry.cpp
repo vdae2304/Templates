@@ -5,38 +5,38 @@
 #include <iostream>
 #include <cmath>
 using namespace std;
-
-#define PI 3.14159265358979323846 //20 primeros decimales.
+#define PI 3.14159265358979323846
 
 struct point {
     double x, y;
 
-    //Constructor.
-    point(double Px, double Py) {
-        x = Px;
-        y = Py;
-    }
-
-    //Regresa la suma de dos puntos.
-    point operator + (const point &P) {
-        return point(x + P.x, y + P.y);
-    }
-
-    //Regresa la resta de dos puntos.
-    point operator - (const point &P) {
-        return point(x - P.x, y - P.y);
-    }
-
-    //Regresa el producto por un escalar.
-    point operator * (double lambda) {
-        return point(x * lambda, y * lambda);
-    }
-
-    //Regresa el cociente entre un escalar.
-    point operator / (double lambda) {
-        return point(x / lambda, y / lambda);
-    }
+    point(double Px, double Py) : x(Px), y(Py) {} 
 };
+
+//Regresa la suma de dos puntos.
+point operator + (const point &P, const point &Q) {
+    return point(P.x + Q.x, P.y + Q.y);
+}
+
+//Regresa la resta de dos puntos.
+point operator - (const point &P, const point &Q) {
+    return point(P.x - Q.x, P.y - Q.y);
+}
+
+//Regresa el producto por un escalar.
+point operator * (const point &P, double lambda) {
+    return point(P.x * lambda, P.y * lambda);
+}
+
+//Regresa el cociente entre un escalar.
+point operator / (const point &P, double lambda) {
+    return point(P.x / lambda, P.y / lambda);
+}
+
+//Compara dos puntos y regresa true si son iguales.
+bool operator == (const point &P, const point &Q) {
+    return P.x == Q.x && P.y == Q.y;
+}
 
 //Regresa el producto punto de dos puntos.
 double dotProduct(const point &P, const point &Q) {
