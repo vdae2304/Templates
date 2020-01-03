@@ -45,10 +45,8 @@ long long ChineseRemainder() {
 int main() {
     ios_base::sync_with_stdio(0); cin.tie();
     cin >> n;
-
     for (int i = 0; i < n; ++i)
         cin >> coef[i] >> mod[i];
-
     cout << "x = " << ChineseRemainder() << " (mod " << MOD << ")\n";
     return 0;
 }
