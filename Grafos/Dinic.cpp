@@ -39,7 +39,6 @@ bool BFS() {
                 Q.push(e.to);
             }
     }
-
     return level[t] != -1;
 }
 
