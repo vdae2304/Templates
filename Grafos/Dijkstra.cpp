@@ -62,6 +62,6 @@ int main() {
     Dijkstra();
     for (int i = 0; i < V; ++i)
         cout << i << ": " << pred[i] << ' ' << dist[i] << '\n';
-
+    
     return 0;
 }

@@ -67,5 +67,6 @@ int main() {
     cout << "Peso total: " << Kruskal() << '\n';
     for (int i : MST)
         cout << graph[i].from << ' ' << graph[i].to << ' ' << graph[i].weight << '\n';
+    
     return 0;
 }

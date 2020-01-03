@@ -69,6 +69,6 @@ int main() {
     cout << "\nPuentes:\n";
     for (int i = 0; i < bridge.size(); ++i)
     	cout << bridge[i].first << ' ' << bridge[i].second << '\n';
-
+    
     return 0;
 }

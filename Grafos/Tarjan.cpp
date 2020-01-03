@@ -75,6 +75,6 @@ int main() {
             cout << u << ' ';
         cout << '\n';
     }
-
+    
     return 0;
 }

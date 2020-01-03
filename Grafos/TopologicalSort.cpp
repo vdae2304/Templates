@@ -51,12 +51,10 @@ int main() {
     //Imprime el orden topologico
     ToopologicalSort();
     if (cycle)
-        cout << "No es un DAG.\n";
-    else {
-        for (int u : sorted)
-            cout << u << ' ';
-        cout << '\n';
-    }
-
+        cout << "No es un DAG.";
+    else for (int u : sorted)
+        cout << u << ' ';
+    cout << '\n';
+    
     return 0;
 }
