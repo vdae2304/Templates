@@ -1,40 +1,61 @@
 /*********************************************************************************
-* Implementacion de funciones geometricas elementales                            *
+* Implementacion de funciones geometricas en el plano.                           *
 *********************************************************************************/
+
 #include <iostream>
 #include <cmath>
 using namespace std;
 
-typedef int T; //int o double
+typedef double T; //int o double
 
 struct point {
-	T x, y, z;
+    T x, y;
 
-	point(T _x, T _y, T _z = 0) {
-		x = _x;
-		y = _y;
-		z = _z;
-	}
+    //Constructor.
+    point(T _x, T _y) {
+        x = _x;
+        y = _y;
+    }
+
+    //Regresa la suma de dos puntos.
+    point operator + (const point &P) {
+        return point(x + P.x, y + P.y);
+    }
+
+    //Regresa la resta de dos puntos.
+    point operator - (const point &P) {
+        return point(x - P.x, y - P.y);
+    }
+
+    //Regresa el producto por un escalar.
+    point operator * (T lambda) {
+        return point(x * lambda, y * lambda);
+    }
+
+    //Regresa el cociente entre un escalar.
+    point operator / (T lambda) {
+        return point(x / lambda, y / lambda);
+    }
 };
 
-point operator + (point P, point Q) {
-	return point(P.x + Q.x, P.y + Q.y, P.z + Q.z);
+//Regresa el producto punto.
+T dotProduct(point P, point Q) {
+    return P.x*Q.x + P.y*Q.y;
 }
 
-point operator * (T lambda, point P) {
-	return point(lambda * P.x, lambda * P.y, lambda * P.z);
+//Regresa la norma al cuadrado de un vector.
+T norm2(point P) {
+    return dotProduct(P, P);
 }
 
-T DotProduct(point P, point Q) {
-	return P.x*Q.x + P.y*Q.y + P.z*Q.z;
+//Regresa la distancia al cuadrado entre dos puntos.
+T dist2(point P, point Q) {
+    return norm2(P - Q);
 }
 
-double norm(point P) {
-	return sqrt(DotProduct(P, P));
-}
-
+//Regresa el angulo entre dos vectores.
 double angle(point P, point Q) {
-	return acos(DotProduct(P, Q) / (norm(P) * norm(Q)));
+	return acos(dotProduct(P, Q) / sqrt(norm2(P) * norm2(Q)));
 }
 
 point CrossProduct(point P, point Q) {
