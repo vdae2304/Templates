@@ -13,12 +13,12 @@ struct point {
     point(double Px, double Py) : x(Px), y(Py) {} 
 };
 
-//Regresa la suma de dos puntos.
+//Regresa la suma de dos vectores.
 point operator + (const point &P, const point &Q) {
     return point(P.x + Q.x, P.y + Q.y);
 }
 
-//Regresa la resta de dos puntos.
+//Regresa la resta de dos vectores.
 point operator - (const point &P, const point &Q) {
     return point(P.x - Q.x, P.y - Q.y);
 }
@@ -38,12 +38,12 @@ bool operator == (const point &P, const point &Q) {
     return P.x == Q.x && P.y == Q.y;
 }
 
-//Regresa el producto punto de dos puntos.
+//Regresa el producto punto de dos vectores.
 double dotProduct(const point &P, const point &Q) {
     return P.x * Q.x + P.y * Q.y;
 }
 
-//Regresa la componente en z del producto cruz de dos puntos.
+//Regresa la componente en z del producto cruz de dos vectores.
 double crossProduct(const point &P, const point &Q) {
     return P.x * Q.y - P.y * Q.x;
 }
