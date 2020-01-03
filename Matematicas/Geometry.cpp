@@ -78,7 +78,7 @@ point rotate_ccw(const point &P, double theta, bool radians = true) {
 
 //Regresa la proyeccion del vector P sobre el vector Q.
 point projection(const point &P, const point &Q) {
-	return Q * (dotProduct(P, Q) / dotProduct(Q, Q));
+    return Q * (dotProduct(P, Q) / dotProduct(Q, Q));
 }
 
 //Regresa el area del triangulo con vertices A, B y C.
