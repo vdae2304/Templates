@@ -43,7 +43,6 @@ void RadixSort() {
 //Construye el arreglo de sufijos.
 void buildSA() {
     n = word.size();
-
     for (int i = 0; i < n; ++i) {
         SuffixArray[i] = i;
         rnk[i][0] = word[i];
