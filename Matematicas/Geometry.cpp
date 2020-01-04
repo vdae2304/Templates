@@ -11,32 +11,27 @@ struct point {
     double x, y;
 
     point(double Px, double Py) : x(Px), y(Py) {} 
+
+    //Regresa la suma de dos vectores.
+    point operator + (const point &P) const {
+        return point(x + P.x, y + P.y);
+    }
+
+    //Regresa la resta de dos vectores.
+    point operator - (const point &P) const {
+        return point(x - P.x, y - P.y);
+    }
+
+    //Regresa el producto por un escalar.
+    point operator * (double lambda) const {
+        return point(x * lambda, y * lambda);
+    }
+
+    //Regresa el cociente entre un escalar.
+    point operator / (double lambda) const {
+        return point(x / lambda, y / lambda);
+    }
 };
-
-//Regresa la suma de dos vectores.
-point operator + (const point &P, const point &Q) {
-    return point(P.x + Q.x, P.y + Q.y);
-}
-
-//Regresa la resta de dos vectores.
-point operator - (const point &P, const point &Q) {
-    return point(P.x - Q.x, P.y - Q.y);
-}
-
-//Regresa el producto por un escalar.
-point operator * (const point &P, double lambda) {
-    return point(P.x * lambda, P.y * lambda);
-}
-
-//Regresa el cociente entre un escalar.
-point operator / (const point &P, double lambda) {
-    return point(P.x / lambda, P.y / lambda);
-}
-
-//Compara dos puntos y regresa true si son iguales.
-bool operator == (const point &P, const point &Q) {
-    return P.x == Q.x && P.y == Q.y;
-}
 
 //Regresa el producto punto de dos vectores.
 double dotProduct(const point &P, const point &Q) {
@@ -122,9 +117,9 @@ bool pointInTriangle(const point &P, const point &A, const point &B, const point
     ;
 }
 
-//Regresa true si el punto P esta en el interior del poligono convexo con vertices P.
+//Regresa true si el punto Q esta en el interior del poligono convexo con vertices P.
 //Para verificar si
-bool pointInPolygon(const point &P, int n, const point P[]) {
+bool pointInPolygon(const point &Q, int n, const point P[]) {
     ;
 }
 
