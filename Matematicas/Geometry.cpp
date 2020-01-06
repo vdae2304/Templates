@@ -143,7 +143,7 @@ double areaPolygon(int n, const point P[]) {
 }
 
 //Regresa true si el poligono con vertices P es convexo.
-bool isConvexPolygon(int n, const point P) {
+bool isConvexPolygon(int n, const point P[]) {
     double orientation = crossProduct(P[1] - P[0], P[2] - P[1]);
     for (int i = 1; i < n; ++i) {
         int j = (i + 1) % n, k = (i + 2) % n;
