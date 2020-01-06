@@ -6,7 +6,6 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
-
 #define maxn 100000 //Longitud maxima de los strings.
 
 string text, pattern, str; //Texto, patron a buscar y string auxiliar.
@@ -20,7 +19,7 @@ void buildZ() {
         if (i <= r)
             Z[i] = min(r - i + 1, Z[i - l]);
         while (i + Z[i] < str.size() && str[Z[i]] == str[i + Z[i]])
-            ++Z[i];
+            Z[i]++;
         if (i + Z[i] - 1 > r) {
             l = i;
             r = i + Z[i] - 1;
@@ -32,13 +31,11 @@ int main() {
     ios_base::sync_with_stdio(0); cin.tie();
     //Lee el texto y los patrones.
     cin >> text >> pattern;
-    str = pattern + '$' + text;
-    
+    str = pattern + '$' + text;    
     //Imprime todas las ocurrencias.
     buildZ();
     for (int i = 0; i < text.size(); ++i)
         if (Z[i + pattern.size() + 1] == pattern.size())
             cout << "Patron encontrado en la posicion " << i << '\n';
-
     return 0;
 }
