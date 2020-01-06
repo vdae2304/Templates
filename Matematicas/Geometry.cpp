@@ -6,9 +6,7 @@
 #include <cmath>
 #include <vector>
 using namespace std;
-
-#define PI  3.14159265358979323846 //Primeros 20 decimales de pi.
-#define eps 1e-9                   //Precision.
+#define epsilon 1e-9 //Precision.
 
 struct point {
     double x, y;
@@ -89,7 +87,7 @@ bool lineSegmentIntersect(const point &A, const point &B, const point &C, const 
     return crossProduct(B - A, C - A) * crossProduct(B - A, D - A) < 0;
 }
 
-//Regresa el punto de interseccion de dos rectas distintas no paralelas AB y CD.
+//Regresa el punto de interseccion de dos rectas no paralelas AB y CD.
 point lineLineIntersection(const point &A, const point &B, const point &C, const point &D) {
     point v = B - A, w = D - C;
     return A + v * (crossProduct(C - A, w) / crossProduct(v, w));
@@ -101,19 +99,28 @@ point circumcenter(const point &A, const point &B, const point &C) {
     return lineLineIntersection(MC, MC + rotate90ccw(A - B), MA, MA + rotate90ccw(C - B));
 }
 
-//Regresa los puntos de interseccion de la recta que pasa por A y B con la circunferencia 
-//con centro O y radio r.
+//Regresa las intersecciones de la recta AB con la circunferencia con centro O y radio r.
 vector<point> lineCircleIntersection(const point &A, const point &B, const point &O, double r) {
     vector<point> ans;
     point v = B - A;
     double a = dotProduct(v, v), b = dotProduct(A, v), c = dotProduct(A, A) - r * r;
     double d = b * b - a * c;
-    if (d >= -eps)
+    if (d >= -epsilon)
         ans.push_back(A + v * ((-b + sqrt(d + eps)) / a));
-    if (d > eps)
+    if (d > epsilon)
         ans.push_back(A + v * ((-b - sqrt(d + eps)) / a));
     return ans;
 }
+
+//Regresa las intersecciones de las circunferencias con centros O1, O2 y radios r1, r2.
+vector<point> circleCircleIntersection(const point &O1, double r1, const point &O2, double r2) {
+    vector<point> ans;
+    double d = dist(O1, O2);
+    if (r1 + r2 < d || d + min(r1, r2) < max(r1, r2))
+        return ans;
+    return ans;
+}
+
 
 //Regresa el area del triangulo con vertices A, B y C.
 double areaTriangle(const point &A, const point &B, const point &C) {

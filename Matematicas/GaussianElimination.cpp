@@ -4,7 +4,6 @@
 *********************************************************************************/
 
 #include <iostream>
-#include <algorithm>
 #include <cmath>
 using namespace std;
 #define maxn 100 //Maximo numero de ecuaciones-incognitas.
