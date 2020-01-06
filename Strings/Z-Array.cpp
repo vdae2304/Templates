@@ -4,7 +4,6 @@
 *********************************************************************************/
 
 #include <iostream>
-#include <algorithm>
 using namespace std;
 #define maxn 100000 //Longitud maxima de los strings.
 
