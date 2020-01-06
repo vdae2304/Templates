@@ -11,6 +11,7 @@ using namespace std;
 struct point {
     double x, y;
 
+    //Constructor.
     point(double Px, double Py) : x(Px), y(Py) {} 
 
     //Regresa la suma de dos vectores.
@@ -106,9 +107,9 @@ vector<point> lineCircleIntersection(const point &A, const point &B, const point
     double a = dotProduct(v, v), b = dotProduct(A, v), c = dotProduct(A, A) - r * r;
     double d = b * b - a * c;
     if (d >= -epsilon)
-        ans.push_back(A + v * ((-b + sqrt(d + eps)) / a));
+        ans.push_back(A + v * ((-b + sqrt(d + epsilon)) / a));
     if (d > epsilon)
-        ans.push_back(A + v * ((-b - sqrt(d + eps)) / a));
+        ans.push_back(A + v * ((-b - sqrt(d + epsilon)) / a));
     return ans;
 }
 
@@ -116,11 +117,15 @@ vector<point> lineCircleIntersection(const point &A, const point &B, const point
 vector<point> circleCircleIntersection(const point &O1, double r1, const point &O2, double r2) {
     vector<point> ans;
     double d = dist(O1, O2);
-    if (r1 + r2 < d || d + min(r1, r2) < max(r1, r2))
-        return ans;
+    if (r1 + r2 >= d && d + min(r1, r2) >= max(r1, r2)) {
+        point v = (O2 - O1) / d;
+        double x = (d * d + r1 * r1 - r2 * r2) / (2 * d), y = sqrt(r1 * r1 - x * x);
+        ans.push_back(O1 + v * x + rotate90ccw(v) * y);
+        if (y > epsilon)
+            ans.push_back(O1 + v * x - rotate90ccw(v) * y);
+    }
     return ans;
 }
-
 
 //Regresa el area del triangulo con vertices A, B y C.
 double areaTriangle(const point &A, const point &B, const point &C) {
@@ -129,39 +134,22 @@ double areaTriangle(const point &A, const point &B, const point &C) {
 
 //Regresa el area del poligono con vertices P[0], P[1], ... , P[n-1].
 double areaPolygon(int n, const point P[]) {
-    double area = P[n - 1].x * P[0].y - P[0].x * P[n - 1].y;
-    for (int i = 0; i < n - 1; ++i)
-        area += P[i].x * P[i + 1].y - P[i + 1].x * P[i].y;
+    double area = 0;
+    for (int i = 0; i < n; ++i) {
+        int j = (i + 1) % n;
+        area += P[i].x * P[j].y - P[j].x * P[i].y;
+    }
     return fabs(area) / 2;
 }
 
-//Regresa true si el punto P esta en el interior del triangulo con vertices A, B y C.
-bool pointInTriangle(const point &P, const point &A, const point &B, const point &C) {
-    point G = (A + B + C) / 3;
-    return !lineSegmentIntersect(A, B, P, G) && !lineSegmentIntersect(B, C, P, G) && 
-           !lineSegmentIntersect(C, A, P, G);
-}
-
-//Regresa true si el poligono con vertices P (ordenados en el sentido de las manecillas del 
-//reloj) es convexo.
+//Regresa true si el poligono con vertices P es convexo.
 bool isConvexPolygon(int n, const point P) {
-    for (int i = 2; i < n; ++i) {
-        if (crossProduct(P[i] - P[i - 1], P[i] - P[i - 1]) < 0)
+    double orientation = crossProduct(P[1] - P[0], P[2] - P[1]);
+    for (int i = 1; i < n; ++i) {
+        int j = (i + 1) % n, k = (i + 2) % n;
+        if (orientation * crossProduct(P[j] - P[i], P[k] - P[j]) < 0)
             return false;
-    return true;
-}
-
-//Regresa true si el punto Q esta en el interior del poligono convexo con vertices P.
-//Un punto Q estara en el interior de un poligono no convexo si y solo cualquier rayo
-//con origen en Q intersecta al poligono (en aristas) un numero impar de veces.
-bool pointInConvexPolygon(const point &Q, int n, const point P[]) {
-    point G = P[0];
-    for (int i = 1; i < n; ++i)
-    	G = G + P[i];
-    G = G / n;
-    for (int i = 1; i < n; ++i)
-        if (lineSegmentIntersect(P[i - 1], P[i], Q, G))
-            return false;
+    }
     return true;
 }
 
