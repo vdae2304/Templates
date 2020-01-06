@@ -6,8 +6,7 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-
-#define maxn 10000000     //Raiz cuadrada del mayor numero a factorizar.
+#define maxn 10000000 //Raiz cuadrada del mayor numero a factorizar.
 
 long long n;               //Numero a factorizar.
 vector<long long> primes;  //Lista de primos.

@@ -11,7 +11,7 @@ using namespace std;
 typedef string BigInt;
 
 //Regresa el i-esimo digito de derecha a izquierda de un numero.
-int digit(const BigInt &num, int i) {
+unsigned int digit(const BigInt &num, unsigned int i) {
     if (i < num.size())
         return num[num.size() - 1 - i] - '0';
     return 0;
@@ -65,7 +65,7 @@ BigInt substract(const BigInt &a, const BigInt &b) {
 }
 
 //Regresa el producto de dos numeros (BigInt x int).
-BigInt multiply(const BigInt &a, int b) {
+BigInt multiply(const BigInt &a, unsigned int b) {
     if (b == 0)
         return "0";
     BigInt ans;
@@ -92,7 +92,7 @@ BigInt multiply(const BigInt &a, const BigInt &b) {
 }
 
 //Regresa el cociente y el residuo de la division (BigInt / int).
-pair<BigInt, int> divide(const BigInt &a, int b) {
+pair<BigInt, unsigned int> divide(const BigInt &a, unsigned int b) {
     pair<BigInt, int> ans;
     for (int i = a.size() - 1; i >= 0; --i) {
         ans.second = 10*ans.second + digit(a, i);

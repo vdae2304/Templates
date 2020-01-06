@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <cmath>
 using namespace std;
-
 #define maxn 100 //Maximo numero de ecuaciones-incognitas.
 
 int n, m;                     //Dimensiones.
@@ -22,7 +21,6 @@ double GaussianElimination() {
         for (int i = k + 1; i < n; ++i)
             if (fabs(AugMatrix[i][k]) > fabs(AugMatrix[r][k]))
                 r = i;
-
         if (fabs(AugMatrix[r][k]) < 1e-9)
             return 0;
         if (r != k) {
@@ -31,7 +29,6 @@ double GaussianElimination() {
             det *= -1;
         }
         det *= AugMatrix[k][k];
-
         for (int j = n + m - 1; j >= k; --j) {
             AugMatrix[k][j] /= AugMatrix[k][k];
             for (int i = 0; i < n; ++i)
@@ -45,17 +42,14 @@ double GaussianElimination() {
 int main() {
     ios_base::sync_with_stdio(0); cin.tie();
     cin >> n >> m;
-
     for (int i = 0; i < n; ++i)
     	for (int j = 0; j < n + m; ++j)
     		cin >> AugMatrix[i][j];
-    
     cout << "Determinante: " << GaussianElimination() << "\nSolucion:\n";
     for (int i = 0; i < n; ++i) {
     	for (int j = 0; j < m; ++j)
     		cout << AugMatrix[i][j + n] << ' ';
     	cout << '\n';
     }
-
     return 0;
 }

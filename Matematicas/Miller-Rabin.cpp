@@ -24,11 +24,9 @@ default_random_engine gen; //Generador de numeros aleatorios.
 //Regresa false si n es compuesto y true si es probablemente primo.
 bool MillerTest(long long n, long long d) {
     uniform_int_distribution<long long> Rand(2, n -  2);
-    
     __int128 x = power(Rand(gen), d, n);
     if (x == 1 || x == n - 1)
         return true;
-
     for (; d != n - 1; d *= 2) {
         x = (x * x) % n;
         if (x == 1)
@@ -45,11 +43,9 @@ bool isProbablePrime(long long n, int attemps) {
         return true;
     if (n == 1 || n == 4)
         return false;
-
     long long d = n - 1;
     while (d % 2 == 0)
         d /= 2;
-
     while (attemps--)
         if (!MillerTest(n, d))
             return false;

@@ -5,8 +5,7 @@
 
 #include <iostream>
 using namespace std;
-
-#define maxn 100000    //Maximo numero de ecuaciones.
+#define maxn 100000 //Maximo numero de ecuaciones.
 
 int n;                                //Numero de ecuaciones.
 long long MOD, coef[maxn], mod[maxn]; //Datos de las ecuaciones.
@@ -30,15 +29,12 @@ long long ChineseRemainder() {
     MOD = 1;
     for (int i = 0; i < n; ++i)
         MOD *= mod[i];
-
     long long x = 0;
     for (int i = 0; i < n; ++i) {
         long long N = MOD / mod[i], invN, invM;
         extendedEuclid(N, mod[i], invN, invM);
-        x = (x + coef[i] * N * invN) % MOD;
-        x = (x + MOD) % MOD;
+        x = (MOD + (x + coef[i] * N * invN) % MOD) % MOD;
     }
-
     return x;
 }
 
