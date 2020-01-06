@@ -8,8 +8,7 @@
 #include <vector>
 #include <utility>
 using namespace std;
-
-#define maxn 100000 //Maximo numero de vertices y aristas.
+#define maxv 100000 //Maximo numero de vertices y aristas.
 
 typedef pair<int, pair<int, int>> edge;
 #define weight first
@@ -17,9 +16,9 @@ typedef pair<int, pair<int, int>> edge;
 #define to     second.second
 
 int V, E;         //Numero de vertices y aristas.
-edge graph[maxn]; //Aristas.
+edge graph[maxv]; //Aristas.
 
-int parent[maxn], Rank[maxn]; //Union-Find por rango y compresion de camino.
+int parent[maxv], Rank[maxv]; //Union-Find por rango y compresion de camino.
 vector<int> MST;              //Arbol de expansion minima.
 
 int Find(int x) {
@@ -45,7 +44,6 @@ int Kruskal() {
     for (int i = 0; i < V; ++i)
         parent[i] = i;
     sort(graph, graph + E);
-    
     for (int i = 0; i < E; ++i)
         if (Find(graph[i].from) != Find(graph[i].to)) {
             Union(graph[i].from, graph[i].to);
@@ -58,15 +56,12 @@ int Kruskal() {
 int main() {
     ios_base::sync_with_stdio(0); cin.tie();
     cin >> V >> E;
-
     //Lee la informacion de las aristas.
     for (int i = 0; i < E; ++i)
         cin >> graph[i].from >> graph[i].to >> graph[i].weight;
-
     //Imprime la configuracion del arbol de expansion minima.
     cout << "Peso total: " << Kruskal() << '\n';
     for (int i : MST)
         cout << graph[i].from << ' ' << graph[i].to << ' ' << graph[i].weight << '\n';
-    
     return 0;
 }

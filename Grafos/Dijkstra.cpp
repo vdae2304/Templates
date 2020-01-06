@@ -9,34 +9,30 @@
 #include <queue>
 #include <utility>
 using namespace std;
-
-#define maxn 100000 //Maximo numero de vertices.
+#define maxv 100000 //Maximo numero de vertices.
 
 typedef pair<int, int> edge;
 #define length first
 #define to     second
 
 int V, E;                 //Numero de vertices y aristas.
-vector<edge> graph[maxn]; //Aristas.
+vector<edge> graph[maxv]; //Aristas.
 
 int s;                      //Vertice inicial.
-int dist[maxn], pred[maxn]; //Distancia desde s y predecesor en el camino.
-bool vis[maxn];             //Visitado.
+int dist[maxv], pred[maxv]; //Distancia desde s y predecesor en el camino.
+bool vis[maxv];             //Visitado.
 
 //Encuentra el camino mas corto desde un vertice a todos los demas.
 void Dijkstra() {   
     fill_n(dist, V, 1e9);
     fill_n(pred, V, -1);
     dist[s] = 0;
-
     priority_queue<edge> pq;
     pq.push(edge(dist[s], s));
-
     while (!pq.empty()) {
         int curr = pq.top().to;
         pq.pop();
         vis[curr] = true;
-
         for (edge e : graph[curr]) 
             if (!vis[e.to] && dist[curr] + e.length < dist[e.to]) {
                 dist[e.to] = dist[curr] + e.length;
@@ -49,7 +45,6 @@ void Dijkstra() {
 int main() {
     ios_base::sync_with_stdio(0); cin.tie();
     cin >> V >> E >> s;
-
     //Lee la informacion de las aristas.
     for (int i = 0; i < E; ++i) {
         int u, v, d;
@@ -57,11 +52,9 @@ int main() {
         graph[u].push_back(edge(d, v));
         graph[v].push_back(edge(d, u));
     }
-
     //Imprime la configuracion.
     Dijkstra();
     for (int i = 0; i < V; ++i)
         cout << i << ": " << pred[i] << ' ' << dist[i] << '\n';
-    
     return 0;
 }

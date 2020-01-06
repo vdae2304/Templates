@@ -7,17 +7,15 @@
 #include <algorithm>
 #include <vector>
 using namespace std;
-
-#define maxn 100000 //Maximo numero de vertices.
+#define maxv 100000 //Maximo numero de vertices.
 
 int V, E;                //Numero de vertices y aristas.
-vector<int> graph[maxn]; //Aristas.
+vector<int> graph[maxv]; //Aristas.
 
-bool cycle;         //Verifica si el grafo tiene ciclos.
-vector<int> sorted; //Orden topologico.
-int vis[maxn];      //Visitado.
+bool cycle;           //Verifica si el grafo tiene ciclos.
+vector<int> toposort; //Orden topologico.
+int vis[maxv];        //Visitado.
 
-//Encuentra el orden topologico iniciando en un vertice dado.
 void DFS(int u) {
     if (vis[u] == 1)
         cycle = true;
@@ -26,7 +24,7 @@ void DFS(int u) {
         for (int v : graph[u])
             DFS(v);
         vis[u] = -1;
-        sorted.push_back(u);
+        toposort.push_back(u);
     }
 }
 
@@ -34,27 +32,24 @@ void DFS(int u) {
 void ToopologicalSort() {
     for (int u = 0; u < V; ++u)
         DFS(u);
-    reverse(sorted.begin(), sorted.end());
+    reverse(toposort.begin(), toposort.end());
 }
 
 int main() {
     ios_base::sync_with_stdio(0); cin.tie();
     cin >> V >> E;
-
     //Lee la informacion de las aristas.
     for (int i = 0; i < E; ++i) {
         int from, to;
         cin >> from >> to;
         graph[from].push_back(to);
     }
-
     //Imprime el orden topologico
     ToopologicalSort();
     if (cycle)
         cout << "No es un DAG.";
-    else for (int u : sorted)
+    else for (int u : toposort)
         cout << u << ' ';
     cout << '\n';
-    
     return 0;
 }
