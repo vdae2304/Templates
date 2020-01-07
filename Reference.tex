@@ -389,6 +389,34 @@ Complejidad: $O\left(\pi\left(\sqrt{n}\right)\right)$ donde $\pi(x)$ es el núme
 
 %\newpage
 
+\section{Geometría}
+
+\subsection{Geometría 2D.}
+
+\lstinputlisting[firstline = 6, lastline = 152]{Matematicas/Geometry.cpp}
+
+\subsection{Envolvente conexa.}
+
+\textbf{Algoritmo de Graham-Scan.} Complejidad: $O(n \log n)$.
+
+\lstinputlisting[firstline = 6]{Matematicas/Convex-Hull.cpp}
+
+\begin{tabular}{|p{7cm}|p{7cm}|}
+\hline
+\textbf{Entrada} & \textbf{Salida}\\ \hline
+8   & (0, 0) \\
+0 3 & (3, 1) \\
+1 1 & (4, 4) \\
+2 2 & (0, 3) \\
+4 4 & \\
+0 0 & \\
+1 2 & \\
+3 1 & \\
+3 3 & \\ \hline
+\end{tabular}
+
+%\newpage
+
 \section{Strings}
 
 \subsection{Búsqueda de patrones.}
@@ -438,11 +466,5 @@ banana & 5 a\\
 \end{tabular}
 
 %\newpage
-
-\section{Geometría}
-
-\subsection{Geometría 2D}
-
-\lstinputlisting[firstline = 6, lastline = 154]{Matematicas/Geometry.cpp}
 
 \end{document}
