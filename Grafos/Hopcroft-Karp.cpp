@@ -5,6 +5,7 @@
 *********************************************************************************/
 
 #include <iostream>
+#include <algorithm>
 #include <vector>
 #include <queue>
 using namespace std;
@@ -17,15 +18,12 @@ int pairU[maxv], pairV[maxv], dist[maxv]; //Pares de vertices en el emparejamien
 
 bool BFS() {
     queue<int> Q;
-    for (int u = 1; u <= U; ++u) {
+    fill_n(dist, U + 1, 1e9);
+    for (int u = 1; u <= U; ++u)
         if (!pairU[u]) {
             dist[u] = 0;
             Q.push(u);
         }
-        else
-            dist[u] = 1e9;
-    }
-    dist[0] = 1e9;
     while (!Q.empty()) {
         int u = Q.front();
         Q.pop();
