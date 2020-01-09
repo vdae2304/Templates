@@ -113,7 +113,7 @@ vector<point> circleCircleIntersection(cpoint &O1, double r1, cpoint &O2, double
     return ans;
 }
 
-//Regresa 1, 0, -1 dependiendo si el punto Q esta fuera, sobre o dentro del poligono 
+//Regresa 1, 0, -1 dependiendo si el punto Q esta dentro, sobre o fuera del poligono 
 //(posiblemente no convexo) con vertices P.
 int pointInPolygon(cpoint &Q, int n, cpoint P[]) {
     int numCrossings = 0;
@@ -151,40 +151,5 @@ ostream& operator << (ostream &out, cpoint &P) {
 }
 
 int main() {
-    //Datos de ejemplo.
-    point P(3, 2), Q(-1, 4), A(-2, 1), B(2, 5), C(7, -2);
-    double lambda = 2, theta = 3.1415926535 / 4, r1 = 4, r2 = 3;
-    point convex[] = {point(-1,3), point(2,4), point(4,-1), point(-2,0)};
-    point nonconvex[] = {point(-1,3), point(0,1), point(4,-1), point(-2,0)};
-    //Imprime la norma y la distancia.
-    cout << '|' << P << "| = " << norm(P) << '\n';
-    cout << "dist(" << P << ", " << Q << ") = " << dist(P, Q) << "\n\n";
-    //Imprime el angulo y el vector rotado 90 y 45 grados.
-    cout << "<(" << P << ", " << Q << ") = " << angle(P, Q) << '\n';
-    cout << "rotar90" << P << " = " << rotate90ccw(P) << '\n';
-    cout << "rotar(" << P << ", " << theta << ") = " << rotateCCW(P, theta) << "\n\n";
-    //Imprime la proyeccion y la distancia punto-recta.
-    cout << "proy(" << P << ", " << Q << ") = " << projection(P, Q) << '\n';
-    cout << "dist(" << P << ", l(" << A << ',' << B << ")) = " << distPointLine(P, A, B) << "\n\n";
-    //Interseccion recta-segmento y recta-recta.
-    cout << "Interseccion(l(" << A << ',' << B << "), s(" << P << ',' << Q << ")) = " << (lineSegmentIntersect(A, B, P, Q) ? "Si" : "No") << '\n';
-    cout << "Interseccion(l(" << B << ',' << C << "), s(" << P << ',' << Q << ")) = " << (lineSegmentIntersect(B, C, P, Q) ? "Si" : "No") << '\n';
-    cout << "Interseccion(l(" << A << ',' << B << "), l(" << P << ',' << Q << ")) = " << lineLineIntersection(A, B, P, Q) << "\n\n";
-    //Circuncentro.
-    cout << "Circuncentro(" << A << ", " << B << ", " << C << ") = " << circumcenter(A, B, C) << "\n\n";
-    //Interseccion recta-circulo y circulo-circulo.
-    cout << "Interseccion(l(" << A << ',' << B << "), C(" << P << ',' << r1 << ")) : ";
-    for (point x : lineCircleIntersection(A, B, P, r1))
-        cout << x << ' ';
-    cout << "\nInterseccion(C(" << P << ',' << r1 << "), C(" << Q << ',' << r2 << ")) : ";
-    for (point x : circleCircleIntersection(P, r1, Q, r2))
-        cout << x << ' ';
-    //Area de triangulo y poligono.
-    cout << "\n\nArea(" << A << ", " << B << ", " << C << ") = " << areaTriangle(A, B, C) << '\n';
-    cout << "Area(" << convex[0] << ", " << convex[1] << ", " << convex[2] << ", " << convex[3] << ") = " << areaPolygon(4, convex) << '\n';
-    cout << "Area(" << nonconvex[0] << ", " << nonconvex[1] << ", " << nonconvex[2] << ", " << nonconvex[3] << ") = " << areaPolygon(4, nonconvex) << "\n\n";
-    //Verifica si es convexo o no.
-    cout << "Es convexo(" << convex[0] << ", " << convex[1] << ", " << convex[2] << ", " << convex[3] << ") = " << (isConvexPolygon(4, convex) ? "Si" : "No") << '\n';
-    cout << "Es convexo(" << nonconvex[0] << ", " << nonconvex[1] << ", " << nonconvex[2] << ", " << nonconvex[3] << ") = " << (isConvexPolygon(4, nonconvex) ? "Si" : "No") << '\n';
     return 0;
 }
