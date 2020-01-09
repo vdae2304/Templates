@@ -39,7 +39,7 @@ double cross(cpoint &P, cpoint &Q) {
     return P.x * Q.y - P.y * Q.x;
 }
 
-//Regresa la distancia euclidiana al origen de un punto.
+//Regresa la distancia euclidiana de un punto al origen.
 double norm(cpoint &P) {
     return sqrt(dot(P, P));
 }
@@ -153,8 +153,11 @@ int main() {
     point poly1[] = {{0.0,0.0}, {-2.0,1.0}, {0.0,2.0}, {1.0,4.0}, {2.0,1.0}};  
     point poly2[] = {{0.0,0.0}, {-2.0,1.0}, {-2.0,3.0}, {1.0,4.0}, {2.0,1.0}}; 
     //lineLineIntersection test.
-    point plli = lineLineIntersection({0.0,2.0}, {2.0,3.0}, {0.0,3.0}, {2.0,0.0});
-    cout << '(' << plli.x << ',' << plli.y << ")\n"; //(0.5,2.25);
+    point p = lineLineIntersection({0.0,2.0}, {2.0,3.0}, {0.0,3.0}, {2.0,0.0});
+    cout << '(' << p.x << ',' << p.y << ")\n"; //(0.5,2.25);
+    //circumcenter test.
+    p = circumcenter({0.0,0.0}, {1.0,3.0}, {4.0,1.0});
+    cout << '(' << p.x << ',' << p.y << ")\n"; //(1.86,1.05);
     //lineCircleIntersection test.
     for (point p : lineCircleIntersection({0.0,5.0}, {5.0,1.0}, {1.0,1.0}, 3.0))
         cout << '(' << p.x << ',' << p.y << ") "; //(1.26,3.99) (3.86,1.91)
