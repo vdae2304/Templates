@@ -37,7 +37,8 @@ void GrahamScan() {
     swap(P[0], P[leftbottom]);
     sort(P, P + n, compareByAngle);
     for (int i = 0; i < n; ++i) {
-        while (hull.size() > 1 && cross(hull[hull.size() - 1] - hull[hull.size() - 2], P[i] - hull[hull.size() - 2]) < 0)
+        while (hull.size() > 1 && cross(hull[hull.size()-1] - hull[hull.size()-2], 
+               P[i] - hull[hull.size()-2]) < 0)
             hull.pop_back();
         hull.push_back(P[i]);
     }
