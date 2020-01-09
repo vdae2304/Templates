@@ -119,8 +119,7 @@ int pointInPolygon(cpoint &Q, int n, cpoint P[]) {
     int numCrossings = 0;
     for (int i = 0; i < n; ++i) {
         int j = (i + 1) % n;
-        if (distPointLine(Q, P[i], P[j]) < epsilon && 
-            fabs(dist(P[i], Q) + dist(Q, P[j]) - dist(P[i], P[j])) < epsilon)
+        if (fabs(dist(P[i], Q) + dist(Q, P[j]) - dist(P[i], P[j])) < epsilon)
             return 0;
         if (cross(P[i] - Q, P[j] - Q) * ((Q.y <= P[j].y) - (Q.y <= P[i].y)) > 0)
             numCrossings++;

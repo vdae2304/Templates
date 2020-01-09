@@ -17,7 +17,8 @@ unsigned int digit(const BigInt &num, unsigned int i) {
     return 0;
 }
 
-//Compara dos numeros y regresa: 1 si el primero es mayor; 0 si son iguales; -1 si el segundo es mayor.
+//Compara dos numeros y regresa: 1 si el primero es mayor; 0 si son iguales; -1 si el 
+//segundo es mayor.
 int compareTo(const BigInt &a, const BigInt &b) {
     for (int i = max(a.size(), b.size()) - 1; i >= 0; --i) {
         if (digit(a, i) > digit(b, i))
@@ -43,7 +44,7 @@ BigInt sum(const BigInt &a, const BigInt &b) {
     return ans;
 }
 
-//Regresa la diferencia de dos numeros. El primer numero debe ser mayor o igual que el segundo.
+//Regresa la diferencia de dos numeros. El primero debe ser mayor o igual que el segundo.
 BigInt substract(const BigInt &a, const BigInt &b) {
     BigInt ans;
     int carry = 0;
