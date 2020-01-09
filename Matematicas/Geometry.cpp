@@ -151,5 +151,43 @@ ostream& operator << (ostream &out, cpoint &P) {
 }
 
 int main() {
+    point poly1[] = {{0.0,0.0}, {-2.0,1.0}, {0.0,2.0}, {1.0,4.0}, {2.0,1.0}};  
+    point poly2[] = {{0.0,0.0}, {-2.0,1.0}, {-2.0,3.0}, {1.0,4.0}, {2.0,1.0}}; 
+    //lineLineIntersection test.
+    point plli = lineLineIntersection({0.0,2.0}, {2.0,3.0}, {0.0,3.0}, {2.0,0.0});
+    cout << '(' << plli.x << ',' << plli.y << ")\n"; //(0.5,2.25);
+    //lineCircleIntersection test.
+    for (point p : lineCircleIntersection({0.0,5.0}, {5.0,1.0}, {1.0,1.0}, 3.0))
+        cout << '(' << p.x << ',' << p.y << ") "; //(1.26,3.99) (3.86,1.91)
+    cout << '\n';
+    for (point p : lineCircleIntersection({0.0,4.0}, {2.0,4.0}, {1.0,1.0}, 3.0))
+        cout << '(' << p.x << ',' << p.y << ") "; //(1,4)
+    cout << '\n';
+    for (point p : lineCircleIntersection({0.0,5.0}, {4.0,4.0}, {1.0,1.0}, 3.0))
+        cout << '(' << p.x << ',' << p.y << ") "; //No hay intersecciones.
+    cout << '\n';
+    //circleCircleIntersection test.
+    for (point p : circleCircleIntersection({1.0,1.0}, 3.0, {4.0,3.0}, 2.0))
+        cout << '(' << p.x << ',' << p.y << ") "; //(2.15, 3.77) (4, 1)
+    cout << '\n';
+    for (point p : circleCircleIntersection({1.0,1.0}, 3.0, {-3.0,1.0}, 1.0))
+        cout << '(' << p.x << ',' << p.y << ") "; //(-2, 1)
+    cout << '\n';
+    for (point p : circleCircleIntersection({1.0,1.0}, 3.0, {1.5,1.5}, 2.0))
+        cout << '(' << p.x << ',' << p.y << ") "; //No hay intersecciones
+    cout << '\n';
+    //pointInPolygon test.
+    cout << pointInPolygon({0.0,1.0}, 5, poly1) << ' ';  //1
+    cout << pointInPolygon({2.0,0.0}, 5, poly1) << ' ';  //-1
+    cout << pointInPolygon({0.5,3.0}, 5, poly1) << '\n'; //0
+    cout << pointInPolygon({0.0,1.0}, 5, poly2) << ' ';       //1
+    cout << pointInPolygon({2.0,0.0}, 5, poly2) << ' ';       //-1
+    cout << pointInPolygon({0.0,11.0/3.0}, 5, poly2) << '\n'; //0
+    //areaPolygon test.
+    cout << areaPolygon(5, poly1) << ' ';  //-6.5
+    cout << areaPolygon(5, poly2) << '\n'; //-11
+    //isConvexPolygon test.
+    cout << isConvexPolygon(5, poly1) << ' ';  //false
+    cout << isConvexPolygon(5, poly2) << '\n'; //true
     return 0;
 }
