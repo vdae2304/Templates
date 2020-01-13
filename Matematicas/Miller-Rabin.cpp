@@ -22,8 +22,9 @@ long long power(__int128 base, long long expo, long long mod) {
 default_random_engine gen; //Generador de numeros aleatorios.
 
 //Regresa false si n es compuesto y true si es probablemente primo.
-bool MillerTest(long long n, long long d) {
+bool MillerTest(long long n) {
     uniform_int_distribution<long long> Rand(2, n -  2);
+    long long d = (n - 1) / ((n - 1) & (1 - n));
     __int128 x = power(Rand(gen), d, n);
     if (x == 1 || x == n - 1)
         return true;
@@ -39,15 +40,10 @@ bool MillerTest(long long n, long long d) {
 
 //Ejecuta el Test de Miller-Rabin varias veces.
 bool isProbablePrime(long long n, int attemps) {
-    if (n == 2 || n == 3)
-        return true;
-    if (n == 1 || n == 4)
-        return false;
-    long long d = n - 1;
-    while (d % 2 == 0)
-        d /= 2;
+    if (n <= 4)
+        return n == 2 || n == 3;
     while (attemps--)
-        if (!MillerTest(n, d))
+        if (!MillerTest(n))
             return false;
     return true;
 }

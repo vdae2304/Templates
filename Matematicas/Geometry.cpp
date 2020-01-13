@@ -144,20 +144,20 @@ bool isConvexPolygon(int n, cpoint P[]) {
     return true;
 }
 
-//Imprime las coordenadas de un punto.
-ostream& operator << (ostream &out, cpoint &P) {
-    return out << '(' << P.x << ',' << P.y << ')';
-}
-
 int main() {
     point poly1[] = {{0.0,0.0}, {-2.0,1.0}, {0.0,2.0}, {1.0,4.0}, {2.0,1.0}};  
     point poly2[] = {{0.0,0.0}, {-2.0,1.0}, {-2.0,3.0}, {1.0,4.0}, {2.0,1.0}}; 
+    //distPointLine test.
+    cout << distPointLine({0.0,3.0}, {0.0,2.0}, {2.0,3.0}) << '\n'; //0.89
+    //lineSegmentIntersection test.
+    cout << lineSegmentIntersection({0.0,2.0}, {2.0,3.0}, {0.0,3.0}, {2.0,0.0}) << ' ';   //true
+    cout << lineSegmentIntersection({0.0,2.0}, {2.0,3.0}, {-1.0,5.0}, {2.0,4.0}) << '\n'; //false
     //lineLineIntersection test.
     point p = lineLineIntersection({0.0,2.0}, {2.0,3.0}, {0.0,3.0}, {2.0,0.0});
-    cout << '(' << p.x << ',' << p.y << ")\n"; //(0.5,2.25);
+    cout << '(' << p.x << ',' << p.y << ")\n"; //(0.5,2.25)
     //circumcenter test.
     p = circumcenter({0.0,0.0}, {1.0,3.0}, {4.0,1.0});
-    cout << '(' << p.x << ',' << p.y << ")\n"; //(1.86,1.05);
+    cout << '(' << p.x << ',' << p.y << ")\n"; //(1.86,1.05)
     //lineCircleIntersection test.
     for (point p : lineCircleIntersection({0.0,5.0}, {5.0,1.0}, {1.0,1.0}, 3.0))
         cout << '(' << p.x << ',' << p.y << ") "; //(1.26,3.99) (3.86,1.91)
@@ -176,7 +176,7 @@ int main() {
         cout << '(' << p.x << ',' << p.y << ") "; //(-2, 1)
     cout << '\n';
     for (point p : circleCircleIntersection({1.0,1.0}, 3.0, {1.5,1.5}, 2.0))
-        cout << '(' << p.x << ',' << p.y << ") "; //No hay intersecciones
+        cout << '(' << p.x << ',' << p.y << ") "; //No hay intersecciones.
     cout << '\n';
     //pointInPolygon test.
     cout << pointInPolygon({0.0,1.0}, 5, poly1) << ' ';  //1
