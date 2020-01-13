@@ -14,7 +14,6 @@ int Z[maxn];               //Arreglo Z.
 void buildZ() {
     int l = 0, r = 0;
     for (int i = 1; i < str.size(); ++i) {
-        Z[i] = 0;
         if (i <= r)
             Z[i] = min(r - i + 1, Z[i - l]);
         while (i + Z[i] < str.size() && str[Z[i]] == str[i + Z[i]])
