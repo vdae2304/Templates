@@ -28,29 +28,31 @@ int Find(int x) {
 }
 
 void Union(int x, int y) {
-    int a = Find(x), b = Find(y);
-    if (Rank[a] < Rank[b])
-        parent[a] = b;
+    if (Rank[x] < Rank[y])
+        parent[x] = y;
     else {
-        parent[b] = a;
-        if (Rank[a] == Rank[b])
-            Rank[a]++;
+        parent[y] = x;
+        if (Rank[x] == Rank[y])
+            Rank[x]++;
     }
 }
 
 //Encuentra el arbol de expansion minima.
 int Kruskal() {
-    int W = 0;
-    for (int i = 0; i < V; ++i)
+    int cost = 0;
+    MST.clear();
+    for (int i = 0; i < V; ++i) {
         parent[i] = i;
+        Rank[i] = 0;
+    }
     sort(graph, graph + E);
     for (int i = 0; i < E; ++i)
         if (Find(graph[i].from) != Find(graph[i].to)) {
-            Union(graph[i].from, graph[i].to);
-            W += graph[i].weight;
+            cost += graph[i].weight;
+            Union(Find(graph[i].from), Find(graph[i].to));
             MST.push_back(i);
         }
-    return W;
+    return cost;
 }
 
 int main() {

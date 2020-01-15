@@ -12,9 +12,8 @@ using namespace std;
 int V, E;                //Numero de vertices y aristas.
 vector<int> graph[maxv]; //Aristas.
 
-bool cycle;           //Verifica si el grafo tiene ciclos.
 vector<int> toposort; //Orden topologico.
-int vis[maxv];        //Visitado.
+int cycle, vis[maxv]; //Verifica si hay ciclos, visitados.
 
 void DFS(int u) {
     if (vis[u] == 1)
@@ -30,6 +29,9 @@ void DFS(int u) {
 
 //Encuentra el orden topologico.
 void ToopologicalSort() {
+    cycle = false;
+    toposort.clear();
+    fill_n(vis, V, false);
     for (int u = 0; u < V; ++u)
         DFS(u);
     reverse(toposort.begin(), toposort.end());

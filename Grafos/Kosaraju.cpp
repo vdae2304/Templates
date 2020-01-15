@@ -4,6 +4,7 @@
 *********************************************************************************/
 
 #include <iostream>
+#include <algorithm>
 #include <vector>
 #include <stack>
 using namespace std;
@@ -18,7 +19,6 @@ bool vis[maxv];      //Visitado.
 
 void DFS(int u) {
     if (!vis[u]) {
-        component[u] = -1;
         vis[u] = true;
         for (int v : graph[u]) 
             DFS(v);
@@ -36,8 +36,10 @@ void Assign(int u, int root) {
 
 //Algoritmo de Kosaraju para encontrar las componentes fuertemente conexas.
 void Kosaraju() {
+    fill_n(vis, V, false);
     for (int u = 0; u < V; ++u)
         DFS(u);
+    fill_n(component, V, -1);
     while (!S.empty()) {
         Assign(S.top(), S.top());
         S.pop();

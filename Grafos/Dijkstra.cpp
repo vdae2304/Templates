@@ -1,5 +1,5 @@
 /*********************************************************************************
-* Algoritmo de Dijktra para encontrar el camino mas corto.                       *
+* Algoritmo de Dijktra para encontrar el camino mas corto desde un veritce.      *
 * Complejidad: O((E + V)log V)                                                   *
 *********************************************************************************/
 
@@ -18,9 +18,7 @@ typedef pair<int, int> edge;
 int V, E;                 //Numero de vertices y aristas.
 vector<edge> graph[maxv]; //Aristas.
 
-int s;                      //Vertice inicial.
-int dist[maxv], pred[maxv]; //Distancia desde s y predecesor en el camino.
-bool vis[maxv];             //Visitado.
+int s, dist[maxv], pred[maxv]; //Vertice inicial, distancia mas corta y predecesor.
 
 //Encuentra el camino mas corto desde un vertice a todos los demas.
 void Dijkstra() {   
@@ -30,11 +28,12 @@ void Dijkstra() {
     priority_queue<edge> pq;
     pq.push(edge(dist[s], s));
     while (!pq.empty()) {
-        int curr = pq.top().to;
+        int curr = pq.top().to, dcurr = -pq.top().length;
         pq.pop();
-        vis[curr] = true;
+        if (dist[curr] != dcurr)
+            continue;
         for (edge e : graph[curr]) 
-            if (!vis[e.to] && dist[curr] + e.length < dist[e.to]) {
+            if (dist[curr] + e.length < dist[e.to]) {
                 dist[e.to] = dist[curr] + e.length;
                 pred[e.to] = curr;
                 pq.push(edge(-dist[e.to], e.to));

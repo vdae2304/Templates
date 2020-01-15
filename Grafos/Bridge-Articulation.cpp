@@ -4,6 +4,7 @@
 *********************************************************************************/
 
 #include <iostream>
+#include <algorithm>
 #include <vector>
 #include <utility>
 using namespace std;
@@ -14,14 +15,13 @@ vector<int> graph[maxv]; //Aristas.
 
 bool artpoint[maxv];              //Puntos de articulacion.
 vector<pair<int, int>> bridge;    //Puentes.
-int idx[maxv], low[maxv], lst_id; //Indice de los vertices, menor vertice alcanzable.
+int lst_id, idx[maxv], low[maxv]; //Indice de los vertices, menor vertice alcanzable.
 
-//Enumera los vertices con una DFS.
 void DFS(int u, int pred) {
-    idx[u] = low[u] = ++lst_id;
+    idx[u] = low[u] = lst_id++;
     int children = 0;
     for (int v : graph[u]) {
-        if(!idx[v]) {
+        if(idx[v] == -1) {
             DFS(v, u);
             low[u] = min(low[u], low[v]);
             children++;
@@ -37,8 +37,13 @@ void DFS(int u, int pred) {
 
 //Algoritmo de Tarjan.
 void Tarjan() {
+    fill_n(artpoint, V, false);
+    bridge.clear();
+    lst_id = 0;
+    fill_n(idx, V, -1);
+    fill_n(low, V, -1);
     for (int u = 0; u < V; ++u)
-        if (!idx[u])
+        if (idx[u] == -1)
             DFS(u, -1);
 }
 

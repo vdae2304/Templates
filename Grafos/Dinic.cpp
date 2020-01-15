@@ -44,11 +44,11 @@ int DFS(int curr, int flow) {
     if (curr == t || !flow)
         return flow;
     for (int &i = ptr[curr]; i < graph[curr].size(); ++i) {
-        edge &e = graph[curr][i];
+        edge &e = graph[curr][i], &re = graph[e.to][e.rev];
         if (level[e.to] == level[curr] + 1)
             if (int currflow = DFS(e.to, min(flow, e.capacity - e.flow))) {
                 e.flow += currflow;
-                graph[e.to][e.rev].flow -= currflow;
+                re.flow -= currflow;
                 return currflow;
             }
     }
