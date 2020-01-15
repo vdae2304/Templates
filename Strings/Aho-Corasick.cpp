@@ -5,6 +5,7 @@
 *********************************************************************************/
 
 #include <iostream>
+#include <cstring>
 #include <queue>
 using namespace std;
 #define maxc 26     //Longitud del alfabeto.
@@ -20,11 +21,10 @@ struct node {
     bool isEnd[maxn];       //Es nodo terminal de algun patron.
 } Trie[maxs];               //Nodos del Trie.
 
-//Retorna el nodo siguiente.
 node *nextNode(node *curr, char c) {
-    if (curr == NULL)
+    if (!curr)
         return Trie;
-    if (curr->nxt[c] == NULL)
+    if (!curr->nxt[c])
         return nextNode(curr->link, c);
     return curr->nxt[c];
 }
@@ -37,8 +37,7 @@ void buildLink() {
         node *curr = Q.front();
         Q.pop();
         for (char c = 0; c < maxc; ++c)
-            if (curr->nxt[c] != NULL) {
-                node *nxt = curr->nxt[c];
+            if (node *nxt = curr->nxt[c]) {
                 nxt->link = nextNode(curr->link, c);
                 for (int i = 0; i < n; ++i)
                     if (nxt->link->isEnd[i])
@@ -50,11 +49,13 @@ void buildLink() {
 
 //Construye el Trie de patrones.
 void buildTrie() {
+    nnodes = 0;
+    memset(Trie, 0, sizeof(Trie));
     for (int i = 0; i < n; ++i) {
         node *curr = Trie;
         for (int j = 0; j < pattern[i].size(); ++j) {
             char c = pattern[i][j] - 'a';
-            if (curr->nxt[c] == NULL)
+            if (!curr->nxt[c])
                 curr->nxt[c] = Trie + (++nnodes);
             curr = curr->nxt[c];
         }

@@ -5,35 +5,32 @@
 
 #include <iostream>
 #include <algorithm>
+#include <utility>
 using namespace std;
 #define maxn 100000 //Longitud maxima del string.
 
 string word;              //String.
 int n, SuffixArray[maxn]; //Arreglo de sufijos.
 
-int rnk[maxn][2], bucket[maxn];    //Rango (SuffixArray) y Cubeta (RaxixSort).
-int tempSA[maxn], tempRA[maxn][2]; //Arreglos temporales.
+int bucket[maxn], tempSA[maxn];         //Cubeta (RadixSort).
+pair<int, int> rnk[maxn], tempRA[maxn]; //Rango (SuffixArray).
 
 //Ordena de acuerdo a los rangos.
 void RadixSort() {
-    int M = max(n, 256);
-    for (int k = 1; k >= 0; --k) {
+    int M = max(n + 1, 256);
+    for (int k = 0; k < 2; ++k) {
         fill_n(bucket, M, 0);
         for (int i = 0; i < n; ++i)
-            bucket[rnk[i][k]]++;
+            bucket[k ? rnk[i].first : rnk[i].second]++;
         for (int i = 1; i < M; ++i)
             bucket[i] += bucket[i - 1];
         for (int i = n - 1; i >= 0; --i) {
-            int nxt_id = --bucket[rnk[i][k]];
+            int nxt_id = --bucket[k ? rnk[i].first : rnk[i].second];
             tempSA[nxt_id] = SuffixArray[i];
-            tempRA[nxt_id][0] = rnk[i][0];
-            tempRA[nxt_id][1] = rnk[i][1];
+            tempRA[nxt_id] = rnk[i];
         }
-        for (int i = 0; i < n; ++i) {
-            SuffixArray[i] = tempSA[i];
-            rnk[i][0] = tempRA[i][0];
-            rnk[i][1] = tempRA[i][1];
-        }
+        copy(tempSA, tempSA + n, SuffixArray);
+        copy(tempRA, tempRA + n, rnk);
     }
 }
 
@@ -42,23 +39,21 @@ void buildSA() {
     n = word.size();
     for (int i = 0; i < n; ++i) {
         SuffixArray[i] = i;
-        rnk[i][0] = word[i];
+        rnk[i] = make_pair(word[i], (i + 1 < n) ? word[i + 1] : 0);
     }
     RadixSort();
-    for (int k = 1; k < n; k *= 2) {
-        int curr = 0, prev = rnk[0][0];
-        rnk[0][0] = curr;
-        tempSA[SuffixArray[0]] = 0;
-        for (int i = 1; i < n; ++i) {
-            if (rnk[i][0] != prev || rnk[i][1] != rnk[i - 1][1])
+    for (int k = 2; k < n; k *= 2) {
+        int curr = 0, prev = -1;
+        for (int i = 0; i < n; ++i) {
+            if (rnk[i].first != prev || rnk[i].second != rnk[i - 1].second)
                 curr++;
-            prev = rnk[i][0];
-            rnk[i][0] = curr;
+            prev = rnk[i].first;
+            rnk[i].first = curr;
             tempSA[SuffixArray[i]] = i;
         }
         for (int i = 0; i < n; ++i) {
             int nxt_id = SuffixArray[i] + k;
-            rnk[i][1] = (nxt_id < n) ? rnk[tempSA[nxt_id]][0] : 0;
+            rnk[i].second = (nxt_id < n) ? rnk[tempSA[nxt_id]].first : 0;
         }
         RadixSort();
     }
