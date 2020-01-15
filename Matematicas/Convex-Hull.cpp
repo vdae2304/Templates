@@ -30,6 +30,7 @@ void GrahamScan() {
         if (P[i].y < P[first].y || (P[i].y == P[first].y && P[i].x < P[first].x))
             first = i;
     swap(P[0], P[first]);
+    hull.clear();
     sort(P, P + n, compareByAngle);
     for (int i = 0; i < n; ++i) {
         while (hull.size() > 1 && (conj(hull[hull.size()-1] - hull[hull.size()-2]) * 

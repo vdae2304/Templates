@@ -8,9 +8,7 @@
 using namespace std;
 #define maxn 10000000 //Raiz cuadrada del mayor numero a factorizar.
 
-long long n;               //Numero a factorizar.
 vector<long long> primes;  //Lista de primos.
-vector<long long> factors; //Lista de factores primos de n.
 
 //Encuentra con la Criba de Eratostenes los primos menores que maxn.
 void find_primes() {
@@ -24,8 +22,8 @@ void find_primes() {
 }
 
 //Prueba por division.
-void prime_factor() {
-    factors.clear();
+vector<long long> prime_factor(long long n) {
+    vector<long long> factors;
     for (int i = 0; primes[i] * primes[i] <= n; ++i)
         while (n % primes[i] == 0) {
             factors.push_back(primes[i]);
@@ -33,14 +31,15 @@ void prime_factor() {
         }
     if (n != 1)
         factors.push_back(n);
+    return factors;
 }
 
 int main() {
     ios_base::sync_with_stdio(0); cin.tie();
+    long long n;
     find_primes();
     while (cin >> n) {
-        prime_factor();
-        for (long long p : factors)
+        for (long long p : prime_factor(n))
             cout << p << ' ';
         cout << '\n';
     }

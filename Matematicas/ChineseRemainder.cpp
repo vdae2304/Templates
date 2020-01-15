@@ -4,45 +4,45 @@
 *********************************************************************************/
 
 #include <iostream>
+#include <utility>
 using namespace std;
 #define maxn 100000 //Maximo numero de ecuaciones.
-
-int n;                                //Numero de ecuaciones.
-long long MOD, coef[maxn], mod[maxn]; //Datos de las ecuaciones.
 
 //Algoritmo extendido de Euclides.
 long long extendedEuclid(long long a, long long b, long long &x, long long &y) {
     if (b == 0) {
-        x = 1; 
-        y = 0; 
+        x = 1; y = 0; 
         return a;
     }
-    else {
-        long long gcd = extendedEuclid(b, a % b, y, x);
-        y -= (a / b) * x;
-        return gcd;
-    }
+    long long gcd = extendedEuclid(b, a % b, y, x);
+    y -= (a / b) * x;
+    return gcd;
 }
 
-//Teorema Chino del Residuo.
-long long ChineseRemainder() {
-    MOD = 1;
+//Teorema Chino del Residuo. Regresa el residuo y el modulo.
+pair<long long, long long> ChineseRemainder(int n, long long coef[], long long mod[]) {
+    pair<long long, long long> ans(0, 1);
     for (int i = 0; i < n; ++i)
-        MOD *= mod[i];
-    long long x = 0;
+        ans.second *= mod[i];
     for (int i = 0; i < n; ++i) {
-        long long N = MOD / mod[i], invN, invM;
-        extendedEuclid(N, mod[i], invN, invM);
-        x = (MOD + (x + coef[i] * N * invN) % MOD) % MOD;
+        long long a = ans.second / mod[i], x, y;
+        extendedEuclid(a, mod[i], x, y);
+        long long tmp = (a * (x + ans.second)) % ans.second;
+        ans.first = (ans.first + coef[i] * tmp) % ans.second;
     }
-    return x;
+    return ans;
 }
 
 int main() {
     ios_base::sync_with_stdio(0); cin.tie();
+    int n;
+    long long coef[maxn], mod[maxn];
+    //Lee los datos de las ecuaciones.
     cin >> n;
     for (int i = 0; i < n; ++i)
         cin >> coef[i] >> mod[i];
-    cout << "x = " << ChineseRemainder() << " (mod " << MOD << ")\n";
+    //Imprime la solucion.
+    pair<long long, long long> ans = ChineseRemainder(n, coef, mod);
+    cout << "x = " << ans.second << "k + " << ans.first << '\n';
     return 0;
 }

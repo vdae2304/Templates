@@ -11,6 +11,7 @@ using namespace std;
 struct point {
     double x, y;
 };
+
 typedef const point cpoint;
 
 point operator + (cpoint &P, cpoint &Q) {

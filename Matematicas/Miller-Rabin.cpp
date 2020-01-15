@@ -4,7 +4,7 @@
 *********************************************************************************/
 
 #include <iostream>
-#include <random> 
+#include <cstdlib> 
 using namespace std;
 
 //Regresa base^expo % mod.
@@ -19,19 +19,13 @@ long long power(__int128 base, long long expo, long long mod) {
     }
 }
 
-default_random_engine gen; //Generador de numeros aleatorios.
-
-//Regresa false si n es compuesto y true si es probablemente primo.
-bool MillerTest(long long n) {
-    uniform_int_distribution<long long> Rand(2, n -  2);
-    long long d = (n - 1) / ((n - 1) & (1 - n));
-    __int128 x = power(Rand(gen), d, n);
+//Regresa false si n es compuesto y true si probablemente es primo.
+bool MillerTest(long long n, long long a, int s, long long d) {
+    __int128 x = power(a, d, n);
     if (x == 1 || x == n - 1)
         return true;
-    for (; d != n - 1; d *= 2) {
+    for (int r = 0; r < s - 1; ++r) {
         x = (x * x) % n;
-        if (x == 1)
-            return false;
         if (x == n - 1)
             return true;
     }
@@ -42,8 +36,11 @@ bool MillerTest(long long n) {
 bool isProbablePrime(long long n, int attemps) {
     if (n <= 4)
         return n == 2 || n == 3;
+    long long s, d = n - 1;
+    for (s = 0; d % 2 == 0; ++s) 
+        d /= 2;
     while (attemps--)
-        if (!MillerTest(n))
+        if (!MillerTest(n, 2 + rand() % (n - 3), s, d))
             return false;
     return true;
 }
@@ -52,7 +49,7 @@ int main() {
     ios_base::sync_with_stdio(0); cin.tie();
     long long n;
     while (cin >> n) {
-        if (isProbablePrime(n, 10))
+        if (isProbablePrime(n, 5))
             cout << "Probablemente es primo.\n";
         else
             cout << "No es primo.\n";
