@@ -12,29 +12,28 @@ using namespace std;
 int V, E;                //Numero de vertices y aristas.
 vector<int> graph[maxv]; //Aristas.
 
+int vis[maxv];        //Visitados.
 vector<int> toposort; //Orden topologico.
-int cycle, vis[maxv]; //Verifica si hay ciclos, visitados.
 
-void DFS(int u) {
-    if (vis[u] == 1)
-        cycle = true;
-    else if (!vis[u]) {
-        vis[u] = 1;
-        for (int v : graph[u])
-            DFS(v);
-        vis[u] = -1;
-        toposort.push_back(u);
-    }
+bool DFS(int u) {
+    vis[u] = 1;
+    for (int v : graph[u])
+        if (vis[v] == 1 || (!vis[v] && !DFS(v)))
+            return false;
+    vis[u] = -1;
+    toposort.push_back(u);
+    return true;
 }
 
-//Encuentra el orden topologico.
-void ToopologicalSort() {
-    cycle = false;
+//Encuentra el orden topologico. Regresa false si no existe.
+bool TopologicalSort() {
     toposort.clear();
     fill_n(vis, V, false);
     for (int u = 0; u < V; ++u)
-        DFS(u);
+        if (vis[u] == 1 || (!vis[u] && !DFS(u)))
+            return false;
     reverse(toposort.begin(), toposort.end());
+    return true;
 }
 
 int main() {
@@ -47,9 +46,8 @@ int main() {
         graph[from].push_back(to);
     }
     //Imprime el orden topologico
-    ToopologicalSort();
-    if (cycle)
-        cout << "No es un DAG.";
+    if (!TopologicalSort())
+        cout << "El grafo tiene ciclos.";
     else for (int u : toposort)
         cout << u << ' ';
     cout << '\n';

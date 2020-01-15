@@ -37,11 +37,10 @@ void DFS(int u, int pred) {
 
 //Algoritmo de Tarjan.
 void Tarjan() {
+    lst_id = 0;
     fill_n(artpoint, V, false);
     bridge.clear();
-    lst_id = 0;
     fill_n(idx, V, -1);
-    fill_n(low, V, -1);
     for (int u = 0; u < V; ++u)
         if (idx[u] == -1)
             DFS(u, -1);
