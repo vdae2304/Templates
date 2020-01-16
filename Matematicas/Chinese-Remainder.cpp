@@ -10,13 +10,14 @@ using namespace std;
 //Algoritmo extendido de Euclides.
 long long extendedEuclid(long long a, long long b, long long &x, long long &y) {
     if (b == 0) {
-        x = 1; 
-        y = 0; 
+        x = 1; y = 0; 
         return a;
+    } 
+    else {
+        long long gcd = extendedEuclid(b, a % b, y, x);
+        y -= (a / b) * x;
+        return gcd;
     }
-    long long gcd = extendedEuclid(b, a % b, y, x);
-    y -= (a / b) * x;
-    return gcd;
 }
 
 //Teorema Chino del Residuo. Regresa el residuo y el modulo.
