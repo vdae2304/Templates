@@ -65,11 +65,8 @@ int main() {
     cin >> word;
     buildSA();
     //Imprime los sufijos en orden lexicografico.
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < n; ++i) 
         cout << SuffixArray[i] << ' ';
-        for (int j = SuffixArray[i]; j < n; ++j)
-            cout << word[j];
-        cout << '\n';
-    }
+    cout << '\n';
     return 0;
 }

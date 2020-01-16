@@ -53,11 +53,10 @@ void buildTrie() {
     memset(Trie, 0, sizeof(Trie));
     for (int i = 0; i < n; ++i) {
         node *curr = Trie;
-        for (int j = 0; j < pattern[i].size(); ++j) {
-            char c = pattern[i][j] - 'a';
-            if (!curr->nxt[c])
-                curr->nxt[c] = Trie + (++nnodes);
-            curr = curr->nxt[c];
+        for (char c : pattern[i]) {
+            if (!curr->nxt[c - 'a'])
+                curr->nxt[c - 'a'] = Trie + (++nnodes);
+            curr = curr->nxt[c - 'a'];
         }
         curr->isEnd[i] = true;
     }
