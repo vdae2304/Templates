@@ -6,7 +6,6 @@
 #include <iostream>
 #include <utility>
 using namespace std;
-#define maxn 100000 //Maximo numero de ecuaciones.
 
 //Algoritmo extendido de Euclides.
 long long extendedEuclid(long long a, long long b, long long &x, long long &y) {
@@ -36,9 +35,9 @@ pair<long long, long long> ChineseRemainder(int n, long long coef[], long long m
 int main() {
     ios_base::sync_with_stdio(0); cin.tie();
     int n;
-    long long coef[maxn], mod[maxn];
-    //Lee los datos de las ecuaciones.
     cin >> n;
+    //Lee los datos de las ecuaciones.
+    long long coef[n], mod[n];
     for (int i = 0; i < n; ++i)
         cin >> coef[i] >> mod[i];
     //Imprime la solucion.
