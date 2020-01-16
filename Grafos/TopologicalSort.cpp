@@ -30,7 +30,7 @@ bool TopologicalSort() {
     toposort.clear();
     fill_n(vis, V, false);
     for (int u = 0; u < V; ++u)
-        if (vis[u] == 1 || (!vis[u] && !DFS(u)))
+        if (!vis[u] && !DFS(u))
             return false;
     reverse(toposort.begin(), toposort.end());
     return true;
