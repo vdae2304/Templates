@@ -22,7 +22,7 @@ int dist[maxv], pred[maxv]; //Distancia al arbol y padre en el arbol.
 
 //Encuentra el arbol de expansion minima.
 int Prim() {
-	int cost = 0;
+    int cost = 0;
     fill_n(dist, V, 1e9);
     fill_n(pred, V, -1);
     dist[0] = 0;
