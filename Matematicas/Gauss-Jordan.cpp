@@ -10,7 +10,7 @@ using namespace std;
 
 //Encuentra la forma escalonada reducida de la matriz A de m x n.
 void GaussJordan(int m, int n, double matrix[][maxn]) {
-    for (int r = 0, c = 0; c < n; ++c) {
+    for (int r = 0, c = 0; r < m && c < n; ++c) {
         int pivot = r;
         for (int i = r + 1; i < m; ++i)
             if (fabs(matrix[pivot][c]) < fabs(matrix[i][c]))
