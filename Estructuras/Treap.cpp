@@ -41,18 +41,6 @@ void split(node *root, T key, node *&left, node *&right) {
     }
 }
 
-//Inserta un nuevo elemento en el treap.
-void insert(node *&root, node *item) {
-    if (!root)
-        root = item;
-    if (item->priority > root->priority) {
-        split(root, item->key, item->left, item->right);
-        update(root = item);
-    }
-    else
-        insert(item->key < root->key ? root->left : root->right, item);
-}
-
 //Combina dos treaps en uno en el orden dado.
 void merge(node *&root, node *left, node *right) {
     if (!left || !right)
@@ -65,17 +53,6 @@ void merge(node *&root, node *left, node *right) {
         merge(right->left, left, right->left);
         update(root = right);
     }
-}
-
-//Elimina una llave dada del treap.
-void erase(node *&root, T key) {
-    if (root->key == key) {
-        node *tmp = root;
-        merge(root, root->left, root->right);
-        delete tmp;
-    }
-    else
-        erase(key < root->key ? root->left : root->right, key);
 }
 
 //Regesa el k-esimo elemento (indexado en 0) del treap.
