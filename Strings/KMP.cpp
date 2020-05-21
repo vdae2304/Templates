@@ -37,7 +37,7 @@ void kmp_search() {
 
 int main() {
     ios_base::sync_with_stdio(false); cin.tie();
-    cin >> txt >> pattern;
+    cin >> text >> pattern;
     kmp_preprocess();
     kmp_search();
     return 0;
