@@ -54,100 +54,11 @@
 
 \section{Estructuras de datos.}
 
-\subsection{Policy Based Data Structures.}
+\subsection{Treap.}
 
-La STL de GNU C++ implementa algunos contenedores adicionales basados en árboles. Para utilizarlos debemos añadir las siguientes librerías:
+Complejidad promedio por operación: $O(\log n)$
 
-\begin{lstlisting}
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
-\end{lstlisting}
-
-Estos contenedores tienen la siguiente declaración:
-
-\begin{lstlisting}
-tree<Key, Mapped, Cmp_Fn = std::less<Key>, Tag = rb_tree_tag, node_update = null_node_update, Allocator = std::allocator<char> >
-\end{lstlisting}
-
-donde
-\begin{itemize}
-\item \texttt{Key} es el tipo de las llaves.
-
-\item \texttt{Mapped} es el tipo de los datos mapeados (\texttt{map}) o en su defecto \texttt{null\_type} (\texttt{set}).
-
-\item \texttt{Cmp\_Fn} es una función de comparación de llaves, declarada como \texttt{struct} con el operador \texttt{()} sobrecargado.
-
-\item \texttt{Tag} debe ser alguno de \texttt{rb\_tree\_tag}, \texttt{splay\_tree\_tag} o \texttt{ov\_tree\_tag}.
-
-\item \texttt{node\_update} indica la información adicional de cada nodo, o en su defecto, \texttt{null\_node\_update}.
-\end{itemize}
-
-\textbf{Split y join}
-
-Estos contenedores soportan las mismas funciones que \texttt{set} y \texttt{map}, junto con dos funciones nuevas: 
-
-\begin{lstlisting}
-A.split(T key, Tree B);
-A.join(Tree B);
-\end{lstlisting}
-
-La función \texttt{split} mueve todos los nodos con llaves mayores que \texttt{key} del árbol \texttt{A} al árbol \texttt{B}. La función \texttt{join}, por el contrario, mueve todos los nodos del árbol \texttt{B} al árbol \texttt{A}, siempre y cuando los rangos no se traslapen. En el caso de árboles rojo-negro, ambas funciones tienen complejidad poli-logarítmica.\medskip
-
-\textbf{Iteradores de nodo}
-
-Además del clásico \texttt{Tree::iterator}, los contenedores basados en árboles implementan un tipo de iterador adicional, \texttt{node\_iterator}, el cual nos permite recorrer el árbol. Así por ejemplo, las funciones
-\begin{lstlisting}
-Tree::node_iterator root = A.node_begin();
-Tree::node_iterator nil = A.node_end();
-\end{lstlisting}
-regresan un iterador de nodo correspondiente a la raíz y nodos nulos del árbol. Cada iterador de nodo incluye dos funciones miembro \texttt{get\_l\_child()} y \texttt{get\_r\_child()} que regresan los iteradores de nodos correspondientes a los hijos izquierdo y derecho.
-
-Podemos hacer la conversión entre iteradores convencionales e iteradores de nodo de la siguiente manera:
-\begin{lstlisting}
-it = *nd_it;
-nd_it = it.m_p_nd;
-\end{lstlisting}
-La primera línea regresa el \texttt{iterator} correspondiente a un \texttt{node\_iterator} y la segunda línea realiza lo contrario.\medskip
-
-\textbf{Actualización de nodos}
-
-Recordemos que \texttt{node\_update} especifica la información adicional que guardará cada nodo así como la forma en que se actualiza. Este debe declararse en forma de \texttt{struct}, definiendo en su interior el tipo del dato adicional como \texttt{metadata\_type}, y sobrecargando el operador \texttt{()} que indique cómo se actualizará cada nodo. 
-
-El operador \texttt{()} será llamado automáticamente, recibiendo como parámetros el nodo a actualizar y el nodo nulo. Las llamadas siempre se realizarán desde las hojas hasta la raíz. De esta manera, al actualizar la información de un nodo, la información de sus hijos ya está actualizada.
-
-Cada iterador de nodo tiene una función miembro \texttt{get\_metadata()} que regresa una referencia constante al dato adicional de ese nodo. Para modificarlo, debemos hacer antes un \texttt{const\_cast<metadata\_type \&>}.
-
-Por ejemplo, si queremos que cada nodo guarde el tamaño del sub-árbol correspondiente, podemos definir la etiqueta \texttt{size\_node\_update} de la siguiente manera:
-
-\begin{lstlisting}
-template<typename node_const_iterator, typename node_iterator, typename Cmp_Fn, typename Allocator>
-\end{lstlisting}
-\begin{lstlisting}[firstnumber = 2]
-struct size_node_update {
-    typedef int metadata_type;
-
-    void operator() (node_iterator nd_it, node_const_iterator nil) {
-        int lsize = 0, rsize = 0;
-        if (nd_it.get_l_child() != nil)
-            lsize = nd_it.get_l_child().get_metadata();
-        if (nd_it.get_r_child() != nil)
-            rsize = nd_it.get_r_child().get_metadata();
-        const_cast<int &>(nd_it.get_metadata()) = lsize + rsize + 1;
-    }
-};
-\end{lstlisting}
-
-\textbf{Árbol de Estadísticos de Orden}
-
-La STL incluye una etiqueta \texttt{tree\_order\_statistics\_node\_update}, que le indica a cada nodo que guarde el tamaño del sub-árbol correspondiente. Esta etiqueta incorpora dos funciones nuevas:
-\begin{lstlisting}
-A.find_by_order(unsigned int k);
-A.order_of_key(T key);
-\end{lstlisting}
-La función \texttt{find\_by\_order} regresa un iterador convencional que corresponde al $k$-ésimo elemento de \texttt{A} (indexado en 0). La función \texttt{order\_of\_key}, por su parte, regresa un entero que representa el número de elementos menores que \texttt{key}. Ambas funciones tienen complejidad logarítmica.
-
-\lstinputlisting[firstline = 6]{Estructuras/PolicyBased.cpp} \medskip
+\lstinputlisting[firstline = 9, lastline = 93]{Estructuras/Treap.cpp} \medskip
 
 %\newpage
 
@@ -185,43 +96,19 @@ Complejidad: $O(V + E)$.
 
 \subsection{Flujo máximo.}
 
-\textbf{Algoritmo de Dinic.} Complejidad: $O(V^2 E)$ ($O(\sqrt{V} E)$ para emparejamientos bipartitos).
+\textbf{Algoritmo de Dinic.} Complejidad: $O(V^2 E)$.
 
 \lstinputlisting[firstline = 6]{Grafos/Dinic.cpp}
+
+\subsection{Emparejamiento máximo.}
+
+\textbf{Algoritmo de Hopcroft-Karp.} Complejidad: $O(\sqrt{V}E)$.
+
+\lstinputlisting[firstline = 7]{Grafos/Hopcroft-Karp.cpp}
 
 %\newpage
 
 \section{Matemáticas.}
-
-%\subsection{Fórmulas importantes.}
-%
-%\textbf{Desarreglos}
-%
-%Un desarreglo es una permutación donde ningún elemento aparece en su posición original. El número de desarreglos está dado por
-%$$!n = (n - 1)(!(n - 1) + !(n - 2)) = n! \sum_{k=0}^n \frac{(-1)^k}{k!}$$
-%con $!0 = 1$ y $!1 = 0$.\medskip
-%
-%\textbf{Números de Catalán}
-%
-%Los números de Catalán cuentan: el número de expresiones con $n$ pares de paréntesis correctamente balanceados; el número de caminos distintos sobre una cuadrícula de $n \times n$ que van de la esquina inferior izquierda a la esquina superior derecha, constan solamente de movimientos hacia arriba y hacia la derecha, y nunca cruzan la diagonal; el número de triangulaciones de un polígono convexo de $n + 2$ lados; entre otras cosas. Están dados por
-%$$C_n = \sum_{k=0}^{n-1} C_kC_{n-k-1} = \frac{1}{n + 1}\binom{2n}{n}$$
-%con $C_0 = 1$.\medskip
-%
-%\textbf{Números de Stirling}
-%
-%Los números de Stirling de primer tipo cuentan el número de permutaciones de tamaño $n$ con exactamente $k$ ciclos disjuntos. Están dados por 
-%$$S_1(n, k) = (n - 1)S_1(n - 1, k) + S_1(n - 1, k - 1).$$
-%Los números de Stirling de segundo tipo cuentan el número de particiones de un conjunto de tamaño $n$ en $k$ subconjuntos no vacíos. Están dados por 
-%$$S_2(n, k) = k \,S_2(n - 1, k) + S_2(n - 1, k - 1) = \frac{1}{k!} \sum_{i=0}^k (-1)^i \binom{k}{i}(k - i)^n$$
-%con $S_1(n, 0) = S_2(n, 0) =  0$ y $S_1(n, n) = S_2(n, n) = 1$.\medskip
-%
-%\textbf{Números de Grundy}
-%
-%Un juego por turnos entre dos jugadores es \textit{normal} si el jugador que no pueda mover pierde, y es \textit{imparcial} si en todo momento ambos jugadores disponen del mismo conjunto de movimientos.
-%
-%El juego de \textit{Nim} es un juego normal e imparcial en donde cada jugador debe escoger una pila y eliminar al menos un objeto de esa pila. Sean $P_1, \ldots, P_n$ los tamaños de cada pila. El jugador en turno tiene estrategia ganadora si y sólo si $P_1 \text{ xor } \ldots \text{ xor } P_n \neq 0$.
-%
-%El \textbf{Teorema de Sprague-Grundy} afirma que todo juego normal e imparcial es equivalente a un juego de Nim.
 
 \subsection{Big Numbers.}
 
@@ -269,9 +156,9 @@ Complejidad: $O\left(\pi\left(\sqrt{n}\right)\right)$ donde $\pi(x)$ es el núme
 
 \subsection{Búsqueda de patrones.}
 
-\textbf{Arreglo Z.} Complejidad: $O(|P| + |T|)$.
+\textbf{Algoritmo de KMP.} Complejidad: $O(|P| + |T|)$.
 
-\lstinputlisting[firstline = 6]{Strings/Z-Array.cpp}
+\lstinputlisting[firstline = 6]{Strings/KMP.cpp}
 
 \bigskip
 
