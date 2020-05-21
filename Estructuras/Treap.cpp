@@ -9,19 +9,19 @@ using namespace std;
 typedef int T;          //Tipo de las llaves.
 struct node {
     T key;              //Llave.
-    int size, priority; //Tamaño, prioridad.
+    int size, priority; //Tamano, prioridad.
     node *left, *right; //Hijos izquierdo y derecho.
 
     //Constructor.
     node(T key, int priority) : key(key), size(1), priority(priority), left(NULL), right(NULL) {};
 };
 
-//Regresa el tamaño de un treap.
+//Regresa el tamano de un treap.
 int size(node *root) {
     return root ? root->size : 0;
 }
 
-//Actualiza el tamaño de un treap y demas informacion adicional.
+//Actualiza el tamano de un treap y demas informacion adicional.
 void update(node *root) {
     if (root)
         root->size = size(root->left) + size(root->right) + 1;
