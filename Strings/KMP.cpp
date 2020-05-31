@@ -24,7 +24,7 @@ void kmp_preprocess() {
 
 //Imprime todas las ocurrencias de pattern en text.
 void kmp_search() {
-	kmp_preprocess();
+    kmp_preprocess();
     for (int i = 0, j = 0; i < text.size(); ++i) {
         while (j > 0 && text[i] != pattern[j])
             j = lps[j - 1];
