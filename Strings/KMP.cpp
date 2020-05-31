@@ -22,14 +22,16 @@ void kmp_preprocess() {
     }
 }
 
+//Imprime todas las ocurrencias de pattern en text.
 void kmp_search() {
+	kmp_preprocess();
     for (int i = 0, j = 0; i < text.size(); ++i) {
         while (j > 0 && text[i] != pattern[j])
             j = lps[j - 1];
         if (text[i] == pattern[j])
             j++;
         if (j == pattern.size()) {
-            cout << "Match found at " << i - j + 1 << '\n';
+            cout << "Ocurrencia en la posicion " << i - j + 1 << '\n';
             j = lps[j - 1];
         }
     }
@@ -38,7 +40,6 @@ void kmp_search() {
 int main() {
     ios_base::sync_with_stdio(false); cin.tie();
     cin >> text >> pattern;
-    kmp_preprocess();
     kmp_search();
     return 0;
 }

@@ -1,5 +1,5 @@
 /*********************************************************************************
-* Suffix Array.                                                                  *
+* Suffix Array + LCP Array.                                                      *
 * Complejidad: O(n log n)                                                        *
 *********************************************************************************/
 
@@ -9,53 +9,67 @@
 using namespace std;
 #define maxn 100000 //Longitud maxima del string.
 
-string word;              //String.
-int n, SuffixArray[maxn]; //Arreglo de sufijos.
+string word;                         //String.
+int n, suffixArray[maxn], lcp[maxn]; //Arreglo de sufijos y arreglo de mayor prefijo comun.
 
-int bucket[maxn], tempSA[maxn];         //Cubeta (RadixSort).
-pair<int, int> rnk[maxn], tempRA[maxn]; //Rango (SuffixArray).
+pair<pair<int, int>, int> rnk[maxn], tmp[maxn];
+int bucket[maxn];
 
-//Ordena de acuerdo a los rangos.
+//Ordena los rangos. Otra opcion es usar sort(), pero la complejidad sera O(n log^2 n).
 void RadixSort() {
-    int M = max(n + 1, 256);
+    int M = max(n, 256);
     for (int k = 0; k < 2; ++k) {
-        fill_n(bucket, M, 0);
+        fill(bucket, bucket + M, 0);
         for (int i = 0; i < n; ++i)
-            bucket[k ? rnk[i].first : rnk[i].second]++;
+            bucket[k ? rnk[i].first.first : rnk[i].first.second]++;
         for (int i = 1; i < M; ++i)
             bucket[i] += bucket[i - 1];
-        for (int i = n - 1; i >= 0; --i) {
-            int nxt_id = --bucket[k ? rnk[i].first : rnk[i].second];
-            tempSA[nxt_id] = SuffixArray[i];
-            tempRA[nxt_id] = rnk[i];
-        }
-        copy(tempSA, tempSA + n, SuffixArray);
-        copy(tempRA, tempRA + n, rnk);
+        for (int i = n - 1; i >= 0; --i) 
+            tmp[--bucket[k ? rnk[i].first.first : rnk[i].first.second]] = rnk[i];
+        copy(tmp, tmp + n, rnk);
     }
 }
 
 //Construye el arreglo de sufijos.
 void buildSA() {
     n = word.size();
-    for (int i = 0; i < n; ++i) {
-        SuffixArray[i] = i;
-        rnk[i] = make_pair(word[i], (i + 1 < n) ? word[i + 1] : 0);
-    }
+    for (int i = 0; i < n; ++i)
+        rnk[i] = make_pair(make_pair(word[i], word[min(i + 1, n - 1)]), i);
     RadixSort();
     for (int k = 2; k < n; k *= 2) {
         int curr = 0, prev = -1;
         for (int i = 0; i < n; ++i) {
-            if (rnk[i].first != prev || rnk[i].second != rnk[i - 1].second)
+            if (rnk[i].first != make_pair(prev, rnk[i - 1].first.second))
                 curr++;
-            prev = rnk[i].first;
-            rnk[i].first = curr;
-            tempSA[SuffixArray[i]] = i;
+            prev = rnk[i].first.first;
+            rnk[i].first.first = curr;
+            suffixArray[rnk[i].second] = i;
         }
         for (int i = 0; i < n; ++i) {
-            int nxt_id = SuffixArray[i] + k;
-            rnk[i].second = (nxt_id < n) ? rnk[tempSA[nxt_id]].first : 0;
+            int j = min(rnk[i].second + k, n - 1);
+            rnk[i].first.second = rnk[suffixArray[j]].first.first;
         }
         RadixSort();
+    }
+    for (int i = 0; i < n; ++i)
+        suffixArray[i] = rnk[i].second;
+}
+
+//Construye el arreglo de mayor prefijo comun.
+void buildLCP() {
+    for (int i = 0; i < n; ++i)
+        bucket[suffixArray[i]] = i;
+    for (int i = 0, k = 0; i < n; ++i) {
+        if (bucket[i] == n - 1) 
+            k = 0;
+        else {
+            int j = suffixArray[bucket[i] + 1];
+            while (i + k < n && j + k < n && word[i + k] == word[j + k])
+                k++;
+            lcp[bucket[i]] = k;
+            if (k > 0)
+                k--;
+        }
     }
 }
 
@@ -63,10 +77,11 @@ int main() {
     ios_base::sync_with_stdio(0); cin.tie();
     //Lee la palabra.
     cin >> word;
+    word.push_back('$');
+    //Imprime el arreglo de sufijos y lcp.
     buildSA();
-    //Imprime los sufijos en orden lexicografico.
-    for (int i = 0; i < n; ++i) 
-        cout << SuffixArray[i] << ' ';
-    cout << '\n';
+    buildLCP();
+    for (int i = 0; i < n; ++i)
+        cout << suffixArray[i] << ' ' << lcp[i] << ": " << word.substr(suffixArray[i]) << '\n';
     return 0;
 }
